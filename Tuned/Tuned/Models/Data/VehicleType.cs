@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace Tuned.Models.Data
 {
-    public class Collection
+    public class VehicleType
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public int UserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        public string VehicleTypeName { get; set; }
     }
 }

@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Tuned.Models.Data
 {
-    public class Collection
+    public class CarImage
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public int UserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        public int CarId { get; set; }
+        public Car Car { get; set; }
+        public string ImagePath { get; set; }
     }
 }
