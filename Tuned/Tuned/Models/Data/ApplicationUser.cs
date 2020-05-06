@@ -15,5 +15,10 @@ namespace Tuned.Models.Data
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string StreetAddress { get; set; }
+        public string ProfilePicturePath { get; set; }
+        public string ProfileBackgroundPicturePath { get; set; }
+        public string Description { get; set; }
+        public string ProfileHeader { get; set; }
+
     }
 }

@@ -27,6 +27,11 @@ function App() {
           path="/register"
           render={() => (getUser() ? <Redirect to="/" /> : <Register />)}
         />
+        <Route
+          exact
+          path="/profile"
+          render={() => (getUser() ? <Redirect to="/Profile" /> : <Profile />)}
+        />
       </Router>
     </div>
   );
