@@ -15,6 +15,7 @@ namespace Tuned.Models.Data
         public int ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         public int VehicleTypeId { get; set; }
+        public VehicleType VehicleType { get; set; }
         public string CarPageCoverUrl { get; set; }
         public string CarDescription { get; set; }
     }
