@@ -16,10 +16,13 @@ namespace Tuned.Data
         }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<RefreshToken> RefreshToken { get; set; }
-        public DbSet<Car> Cars { get; set; }
-        public DbSet<Collection> Collections { get; set; }
-        public DbSet<Event> Events { get; set; }
-        public DbSet<CarImage> CarImages { get; set; }
-        public DbSet<VehicleType> VehicleTypes { get; set; }
+        public DbSet<Car> Car { get; set; }
+        public DbSet<Collection> Collection { get; set; }
+        public DbSet<Event> Event { get; set; }
+        public DbSet<CarImage> CarImage { get; set; }
+        public DbSet<VehicleType> VehicleType { get; set; }
+        public DbSet<VehicleType> CarCollection { get; set; }
+        public DbSet<VehicleType> UserEvent { get; set; }
+        public DbSet<VehicleType> LikedCar { get; set; }
     }
 }

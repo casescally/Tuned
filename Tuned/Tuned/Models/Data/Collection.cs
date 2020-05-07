@@ -9,7 +9,7 @@ namespace Tuned.Models.Data
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int UserId { get; set; }
+        public String UserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace Tuned.Models.Data
         public DateTime Expires { get; set; }
         public bool Used { get; set; }
         public bool Invalidated { get; set; }
-        public string UserId { get; set; }
+        public String UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
         public virtual ApplicationUser User { get; set; }

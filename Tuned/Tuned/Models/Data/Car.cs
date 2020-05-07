@@ -13,7 +13,7 @@ namespace Tuned.Models.Data
         public string Model { get; set; }
         public int Year { get; set; }
         public int Url { get; set; }
-        public int ApplicationUserId { get; set; }
+        public String ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         public int VehicleTypeId { get; set; }
         public VehicleType VehicleType { get; set; }

@@ -12,7 +12,7 @@ namespace Tuned.Models.Data
         public string Location { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
-        public int AdminUserId { get; set; }
+        public String AdminUserId { get; set; }
         public ApplicationUser AdminUser { get; set; }
         public string ImagePath { get; set; }
     }

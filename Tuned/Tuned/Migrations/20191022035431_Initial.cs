@@ -178,163 +178,6 @@ namespace Tuned.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-                migrationBuilder.CreateTable(
-                name: "Cars",
-                columns: table => new
-                {
-                    CarId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Make = table.Column<String>(nullable: false),
-                    Model = table.Column<DateTime>(nullable: false),
-                    Year = table.Column<int>(nullable: false),
-                    Url = table.Column<bool>(nullable: false),
-                    UserId = table.Column<bool>(nullable: false),
-                    VehicleTypeId = table.Column<string>(nullable: true),
-                    CarPageCoverUrl = table.Column<string>(nullable: true),
-                    CarDescription = table.Column<string>(nullable: true),
-                    ForSale = table.Column<Boolean>(nullable: true),
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cars", x => x.CarId);
-                    table.ForeignKey(
-                        name: "FK_Cars_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Cars_AspNetUsers_VehicleTypeId",
-                        column: x => x.VehicleTypeId,
-                        principalTable: "VehicleTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-               migrationBuilder.CreateTable(
-                name: "Events",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Location = table.Column<string>(nullable: true),
-                    Date = table.Column<DateTime>(nullable: true),
-                    Description = table.Column<String>(nullable: true),
-                    AdminUserId = table.Column<int>(nullable: true),
-                    ImagePath = table.Column<String>(nullable: true),
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Events", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Events_AspNetUsers_UserId",
-                        column: x => x.AdminUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-                migrationBuilder.CreateTable(
-                name: "UserEvents",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: true),
-                    EventId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserEvents", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserEvents_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CarCollection",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false),
-                    CarId = table.Column<int>(nullable: true),
-                    CollectionId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CarCollection", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CarCollection_Cars_CarId",
-                        column: x => x.CarId,
-                        principalTable: "Cars",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-   
-            migrationBuilder.CreateTable(
-                name: "Collections",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false),
-                    Name = table.Column<int>(nullable: true),
-                    UserId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Collections", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CarCollection_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-              migrationBuilder.CreateTable(
-                name: "LikedCars",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false),
-                    CarId = table.Column<int>(nullable: true),
-                    UserId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LikedCars", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_LikedCars_Cars_CarId",
-                        column: x => x.CarId,
-                        principalTable: "Cars",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_LikedCars_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-
-                });
-             migrationBuilder.CreateTable(
-                name: "CarImages",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false),
-                    CarId = table.Column<int>(nullable: true),
-                    ImagePath = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CarImages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CarImages_Cars_CarId",
-                        column: x => x.CarId,
-                        principalTable: "Cars",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -378,16 +221,6 @@ namespace Tuned.Migrations
                 name: "IX_RefreshToken_UserId",
                 table: "RefreshToken",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cars_CarId",
-                table: "Cars",
-                column: "CarId");
-
-           migrationBuilder.CreateIndex(
-                name: "IX_UserEvents_Id",
-                table: "UserEvents",
-                column: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -415,27 +248,6 @@ namespace Tuned.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Cars");
-
-            migrationBuilder.DropTable(
-                name: "UserEvents");
-
-            migrationBuilder.DropTable(
-                name: "Events");
-
-            migrationBuilder.DropTable(
-                name: "CarCollection");
-
-            migrationBuilder.DropTable(
-                name: "Collections");
-
-            migrationBuilder.DropTable(
-                name: "LikedCars");
-            
-            migrationBuilder.DropTable(
-                name: "CarImages");
         }
     }
 }
