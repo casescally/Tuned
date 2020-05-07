@@ -11,6 +11,7 @@ namespace Tuned.Models.Data
         public string Name { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
+        public int Year { get; set; }
         public int Url { get; set; }
         public int ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
