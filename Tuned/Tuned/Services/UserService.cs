@@ -226,7 +226,14 @@ namespace Tuned.Services
                     new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim("id", user.Id)
+                    new Claim("id", user.Id),
+                    new Claim("firstName", user.FirstName),
+                    new Claim("LastName", user.LastName),
+                    new Claim("StreetAddress", user.StreetAddress),
+                    new Claim("profilePicturePath", user.ProfilePicturePath),
+                    new Claim("profileBackgroundPicturePath", user.ProfileBackgroundPicturePath),
+                    new Claim("description", user.Description),
+                    new Claim("profileHeader", user.ProfileHeader)
                 }),
                 Expires = DateTime.UtcNow.Add(_jwtSettings.TokenLifetime),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

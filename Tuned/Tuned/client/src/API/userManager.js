@@ -51,6 +51,13 @@ const handleAuthResponse = (authResponse) => {
     id: id,
     email: email,
     username: sub,
+    firstName: firstName,
+    lastName: lastName,
+    StreetAddress: StreetAddress,
+    profilePicturePath: profilePicturePath,
+    profileBackgroundPicturePath: profileBackgroundPicturePath,
+    description: description,
+    profileHeader: profileHeader
   };
   localStorage.setItem("user", JSON.stringify(user));
   return user;
