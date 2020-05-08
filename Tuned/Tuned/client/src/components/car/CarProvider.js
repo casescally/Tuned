@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from "react"
+import { createAuthHeaders } from "../../API/userManager"
 
 /*
 
@@ -22,8 +23,11 @@ export const CarProvider = (props) => {
     const [cars, setCars] = useState([])
 
     const getCars = () => {
+        const authHeader = createAuthHeaders();
+        return fetch("http://localhost:5001/api/cars", {
 
-        return fetch("http://localhost:5000/cars")
+            headers: authHeader
+        })
 
             .then(res => res.json())
 
@@ -32,13 +36,14 @@ export const CarProvider = (props) => {
     }
 
     const addCar = car => {
+        const authHeader = createAuthHeaders();
+        return fetch("http://localhost:5001/api/cars", {
 
-        return fetch("http://localhost:5000/cars", {
 
             method: "POST",
 
             headers: {
-
+                authHeader,
                 "Content-Type": "application/json"
 
             },
@@ -52,9 +57,10 @@ export const CarProvider = (props) => {
     }
 
     const deleteCar = car => {
+        const authHeader = createAuthHeaders();
+        return fetch(`http://localhost:5001/api/cars/${car.id}`, {
 
-        return fetch(`http://localhost:5000/cars/${car.id}`, {
-
+            authHeader,
             method: "DELETE"
 
         })
@@ -64,13 +70,13 @@ export const CarProvider = (props) => {
     }
 
     const updateCar = car => {
-
-        return fetch(`http://localhost:5000/cars/${car.id}`, {
+        const authHeader = createAuthHeaders();
+        return fetch(`http://localhost:5001/api/cars/${car.id}`, {
 
             method: "PUT",
 
             headers: {
-
+                authHeader,
                 "Content-Type": "application/json"
 
             },

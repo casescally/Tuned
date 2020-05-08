@@ -22,7 +22,7 @@ export const LikedCarProvider = (props) => {
 
     const getLikedCars = () => {
 
-        return fetch("http://localhost:5000/LikedCars")
+        return fetch("http://localhost:5001/api/LikedCars")
 
             .then(res => res.json())
 
@@ -34,7 +34,7 @@ export const LikedCarProvider = (props) => {
 
     const addLikedCar = likedCar => {
 
-        return fetch("http://localhost:5000/LikedCars", {
+        return fetch("http://localhost:5001/api/LikedCars", {
 
             method: "POST",
 
@@ -56,7 +56,7 @@ export const LikedCarProvider = (props) => {
 
     const deleteLikedCar = likedCar => {
 
-        return fetch(`http://localhost:5000/LikedCars/${likedCar.id}`, {
+        return fetch(`http://localhost:5001/api/LikedCars/${likedCar.id}`, {
 
             method: "DELETE"
 
@@ -68,7 +68,7 @@ export const LikedCarProvider = (props) => {
 
     const updateLikedCar = likedCar => {
 
-        return fetch(`http://localhost:5000/LikedCars/${likedCar.id}`, {
+        return fetch(`http://localhost:5001/api/LikedCars/${likedCar.id}`, {
 
             method: "PUT",
 

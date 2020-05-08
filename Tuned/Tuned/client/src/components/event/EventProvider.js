@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from "react"
+import { createAuthHeaders } from "../../API/userManager"
 
 /*
 
@@ -22,9 +22,10 @@ export const EventProvider = (props) => {
     const [events, setEvents] = useState([])
 
     const getEvents = () => {
-
-        return fetch("http://localhost:5000/events")
-
+        const authHeader = createAuthHeaders();
+        return fetch("http://localhost:5001/api/events", {
+            headers: authHeader
+        })
             .then(res => res.json())
 
             .then(setEvents)
@@ -32,13 +33,13 @@ export const EventProvider = (props) => {
     }
 
     const addEvent = event => {
-
-        return fetch("http://localhost:5000/events", {
+        const authHeader = createAuthHeaders();
+        return fetch("http://localhost:5001/api/events", {
 
             method: "POST",
 
             headers: {
-
+                authHeader,
                 "Content-Type": "application/json"
 
             },
@@ -52,9 +53,9 @@ export const EventProvider = (props) => {
     }
 
     const deleteEvent = event => {
-
-        return fetch(`http://localhost:5000/events/${event.id}`, {
-
+        const authHeader = createAuthHeaders();
+        return fetch(`http://localhost:5001/api/events/${event.id}`, {
+            headers: authHeader,
             method: "DELETE"
 
         })
@@ -64,13 +65,13 @@ export const EventProvider = (props) => {
     }
 
     const updateEvent = event => {
-
-        return fetch(`http://localhost:5000/events/${event.id}`, {
+        const authHeader = createAuthHeaders();
+        return fetch(`http://localhost:5001/api/events/${event.id}`, {
 
             method: "PUT",
 
             headers: {
-
+                authHeader,
                 "Content-Type": "application/json"
 
             },

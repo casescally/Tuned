@@ -13,17 +13,18 @@ function Home() {
       .then(setValues);
   }, []);
 
-  
-    return (
-      <>
-        <h1>Welcome to my app</h1>
-        <ul>
-          {
-            values.map((value, index) => <li key={index}>{value}</li>)
-          }
-        </ul>
-      </>
-    )
+
+  return (
+    <>
+      <h1>Welcome to my app</h1>
+      <div>Hi</div>
+      <ul>
+        {
+          values.map((value, index) => <li key={index}>{value}</li>)
+        }
+      </ul>
+    </>
+  )
 }
 
 export default Home;

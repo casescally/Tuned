@@ -17,7 +17,7 @@ export default (props) => {
 
             <li className="navbar__item searchBar">
 
-               <input type="search" placeholder="Search"></input>
+                <input type="search" placeholder="Search"></input>
 
             </li>
 
@@ -29,7 +29,7 @@ export default (props) => {
 
             <li className="navbar__item upload">
 
-                <button className="navBarUploadButton" onClick={() => props.history.push("/songs/create")}>
+                <button className="navBarUploadButton" onClick={() => props.history.push("/cars/create")}>
 
                     Add Vehicle
 
