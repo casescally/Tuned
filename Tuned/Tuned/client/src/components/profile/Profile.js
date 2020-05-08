@@ -3,8 +3,8 @@ import { CarContext } from "../car/CarProvider"
 import Car from "../car/Car"
 //import "../car/Cars.css"
 import { UserContext } from "../user/UserProvider"
-//import { LikeContext } from "../likes/LikesProvider"
-//import Like from "../likes/Like"
+import { LikedCarContext } from "../likes/LikesProvider"
+import LikedCar from "../likedCar/LikedCar"
 import "./Profiles.css"
 
 export default (props) => {
@@ -12,7 +12,7 @@ export default (props) => {
     const { cars } = useContext(CarContext)
     const { users } = useContext(UserContext)
     const chosenUserId = parseInt(props.match.params.userId, 10)
-    const { likes } = useContext(LikeContext)
+    const { likes } = useContext(LikedCarContext)
     const profilesArray = []
     let editProfileMode = Boolean
 
@@ -111,7 +111,7 @@ export default (props) => {
 
                             <h3>Liked Cars</h3>
 
-                            {currentUsersLikes.map(like => <Like key={like.id} like={like} {...props} />)}
+                            {currentUsersLikes.map(like => <LikedCar key={like.id} like={like} {...props} />)}
 
                         </article>
                     </div>
