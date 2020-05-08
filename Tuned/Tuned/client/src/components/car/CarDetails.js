@@ -2,18 +2,18 @@ import React, { useContext, useState } from "react"
 
 import { Link } from "react-router-dom"
 
-import { LikeContext } from "../likedcars/LikedCarsProvider"
+import { LikedCarContext } from "../likedCar/LikedCarProvider"
 
 import { UserContext } from "../user/UserProvider"
 
-import "./Cars.css"
+//import "./Cars.css"
 
 
 export default ({ car }) => {
 
     const { users } = useContext(UserContext)
 
-    const { likedcars, addLike, deleteLike } = useContext(LikeContext)
+    const { likedcars, addLike, deleteLike } = useContext(LikedCarContext)
 
     const user = users.find(u => u.id === car.userId) || {}
 

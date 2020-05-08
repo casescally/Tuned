@@ -1,6 +1,6 @@
 import React, { useContext, useReducer } from "react"
 import { Link } from "react-router-dom"
-import { LikedCarContext } from "../likedcars/LikedCarsProvider"
+import { LikedCarContext } from "../likedCar/LikedCarProvider"
 import { UserContext } from "../user/UserProvider"
 import "../car/Cars.css"
 
@@ -16,7 +16,7 @@ export default ({ likedcar }) => {
 
     const constructNewLikedCar = (currentCar) => {
 
-        const alreadyLikedCar = likedcars.find(likedcar => likedcar.carId === currentcar.id && likedcar.userId === parseInt(localStorage.getItem("currentUser")))
+        const alreadyLikedCar = likedcars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === parseInt(localStorage.getItem("currentUser")))
 
         const user = users.find(u => u.id === likedcar.userId) || {}
 

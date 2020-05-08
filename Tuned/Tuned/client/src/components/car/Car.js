@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react"
 
 import { Link } from "react-router-dom"
 
-import { LikedCarContext } from "../likedcars/LikedCarsProvider"
+import { LikedCarContext } from "../likedCar/LikedCarProvider"
 
 import { UserContext } from "../user/UserProvider"
 

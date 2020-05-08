@@ -3,7 +3,7 @@ import { CarContext } from "../car/CarProvider"
 import Car from "../car/Car"
 //import "../car/Cars.css"
 import { UserContext } from "../user/UserProvider"
-import { LikedCarContext } from "../likes/LikesProvider"
+import { LikedCarContext } from "../likedCar/LikedCarProvider"
 import LikedCar from "../likedCar/LikedCar"
 import "./Profiles.css"
 
