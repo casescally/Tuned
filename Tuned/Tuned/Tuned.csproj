@@ -12,6 +12,12 @@
     <Compile Remove="Migrations\20200507025741_Models.Designer.cs" />
     <Compile Remove="Migrations\20200507170048_Models.cs" />
     <Compile Remove="Migrations\20200507170048_Models.Designer.cs" />
+    <Compile Remove="Migrations\20200507174740_Models.cs" />
+    <Compile Remove="Migrations\20200507174740_Models.Designer.cs" />
+    <Compile Remove="Migrations\20200508170420_Models.cs" />
+    <Compile Remove="Migrations\20200508170420_Models.Designer.cs" />
+    <Compile Remove="Migrations\20200508170901_Models.cs" />
+    <Compile Remove="Migrations\20200508170901_Models.Designer.cs" />
   </ItemGroup>
 
 

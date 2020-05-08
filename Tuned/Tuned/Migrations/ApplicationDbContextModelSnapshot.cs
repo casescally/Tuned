@@ -280,7 +280,7 @@ namespace Tuned.Migrations
 
                     b.HasIndex("VehicleTypeId");
 
-                    b.ToTable("Car");
+                    b.ToTable("Cars");
                 });
 
             modelBuilder.Entity("Tuned.Models.Data.CarImage", b =>
@@ -300,7 +300,7 @@ namespace Tuned.Migrations
 
                     b.HasIndex("CarId");
 
-                    b.ToTable("CarImage");
+                    b.ToTable("CarImages");
                 });
 
             modelBuilder.Entity("Tuned.Models.Data.Collection", b =>
@@ -323,7 +323,7 @@ namespace Tuned.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Collection");
+                    b.ToTable("Collections");
                 });
 
             modelBuilder.Entity("Tuned.Models.Data.Event", b =>
@@ -355,7 +355,32 @@ namespace Tuned.Migrations
 
                     b.HasIndex("AdminUserId");
 
-                    b.ToTable("Event");
+                    b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("Tuned.Models.Data.LikedCar", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CarId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("LikedCars");
                 });
 
             modelBuilder.Entity("Tuned.Models.Data.RefreshToken", b =>
@@ -401,7 +426,7 @@ namespace Tuned.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("VehicleType");
+                    b.ToTable("VehicleTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -489,6 +514,19 @@ namespace Tuned.Migrations
                     b.HasOne("Tuned.Models.Data.ApplicationUser", "AdminUser")
                         .WithMany()
                         .HasForeignKey("AdminUserId");
+                });
+
+            modelBuilder.Entity("Tuned.Models.Data.LikedCar", b =>
+                {
+                    b.HasOne("Tuned.Models.Data.Car", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tuned.Models.Data.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Tuned.Models.Data.RefreshToken", b =>

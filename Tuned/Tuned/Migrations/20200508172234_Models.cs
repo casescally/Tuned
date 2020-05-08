@@ -28,7 +28,7 @@ namespace Tuned.Migrations
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "Collection",
+                name: "Collections",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -39,9 +39,9 @@ namespace Tuned.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Collection", x => x.Id);
+                    table.PrimaryKey("PK_Collections", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Collection_AspNetUsers_ApplicationUserId",
+                        name: "FK_Collections_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -49,7 +49,7 @@ namespace Tuned.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Event",
+                name: "Events",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -63,9 +63,9 @@ namespace Tuned.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Event", x => x.Id);
+                    table.PrimaryKey("PK_Events", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Event_AspNetUsers_AdminUserId",
+                        name: "FK_Events_AspNetUsers_AdminUserId",
                         column: x => x.AdminUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -73,7 +73,7 @@ namespace Tuned.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "VehicleType",
+                name: "VehicleTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -82,11 +82,11 @@ namespace Tuned.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VehicleType", x => x.Id);
+                    table.PrimaryKey("PK_VehicleTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Car",
+                name: "Cars",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -103,23 +103,23 @@ namespace Tuned.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Car", x => x.Id);
+                    table.PrimaryKey("PK_Cars", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Car_AspNetUsers_ApplicationUserId",
+                        name: "FK_Cars_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Car_VehicleType_VehicleTypeId",
+                        name: "FK_Cars_VehicleTypes_VehicleTypeId",
                         column: x => x.VehicleTypeId,
-                        principalTable: "VehicleType",
+                        principalTable: "VehicleTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CarImage",
+                name: "CarImages",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -129,57 +129,97 @@ namespace Tuned.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CarImage", x => x.Id);
+                    table.PrimaryKey("PK_CarImages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CarImage_Car_CarId",
+                        name: "FK_CarImages_Cars_CarId",
                         column: x => x.CarId,
-                        principalTable: "Car",
+                        principalTable: "Cars",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Car_ApplicationUserId",
-                table: "Car",
-                column: "ApplicationUserId");
+            migrationBuilder.CreateTable(
+                name: "LikedCars",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(nullable: false),
+                    UserId1 = table.Column<string>(nullable: true),
+                    CarId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LikedCars", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LikedCars_Cars_CarId",
+                        column: x => x.CarId,
+                        principalTable: "Cars",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LikedCars_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Car_VehicleTypeId",
-                table: "Car",
-                column: "VehicleTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CarImage_CarId",
-                table: "CarImage",
+                name: "IX_CarImages_CarId",
+                table: "CarImages",
                 column: "CarId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Collection_ApplicationUserId",
-                table: "Collection",
+                name: "IX_Cars_ApplicationUserId",
+                table: "Cars",
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Event_AdminUserId",
-                table: "Event",
+                name: "IX_Cars_VehicleTypeId",
+                table: "Cars",
+                column: "VehicleTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Collections_ApplicationUserId",
+                table: "Collections",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_AdminUserId",
+                table: "Events",
                 column: "AdminUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LikedCars_CarId",
+                table: "LikedCars",
+                column: "CarId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LikedCars_UserId1",
+                table: "LikedCars",
+                column: "UserId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CarImage");
+                name: "CarImages");
 
             migrationBuilder.DropTable(
-                name: "Collection");
+                name: "Collections");
 
             migrationBuilder.DropTable(
-                name: "Event");
+                name: "Events");
 
             migrationBuilder.DropTable(
-                name: "Car");
+                name: "LikedCars");
 
             migrationBuilder.DropTable(
-                name: "VehicleType");
+                name: "Cars");
+
+            migrationBuilder.DropTable(
+                name: "VehicleTypes");
 
             migrationBuilder.DropColumn(
                 name: "Description",
