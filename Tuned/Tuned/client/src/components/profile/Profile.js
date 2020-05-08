@@ -1,10 +1,10 @@
 import React, { useContext } from "react"
 import { CarContext } from "../car/CarProvider"
 import Car from "../car/Car"
-import "../song/Songs.css"
+//import "../car/Cars.css"
 import { UserContext } from "../user/UserProvider"
-import { LikeContext } from "../likes/LikesProvider"
-import Like from "../likes/Like"
+//import { LikeContext } from "../likes/LikesProvider"
+//import Like from "../likes/Like"
 import "./Profiles.css"
 
 export default (props) => {
@@ -69,52 +69,52 @@ export default (props) => {
                     maxwidth: '100%'
                 }}>
 
-                <span id="profileInfo">
+                    <span id="profileInfo">
 
-                <img id="profilePicture" className="profilePicture" alt={`${currentProfile.name}'s profile picture`} src={currentProfile.profilePicture}></img>
+                        <img id="profilePicture" className="profilePicture" alt={`${currentProfile.name}'s profile picture`} src={currentProfile.profilePicture}></img>
 
                         {<h1 className="currentProfileName">{currentProfile.name}</h1>}
 
                         {/* <img id="backgroundCover" className="backgroundCover" alt={`${currentProfile.name}'s background cover`} src={currentProfile.backgroundCover}></img> */}
 
                         {/* <button className="followButton" value="Follow">Follow</button> */}
-                                    if (editProfileMode) {        
-                        <button className="followButton" onClick={evt => {
-        
+                                    if (editProfileMode) {
+                            <button className="followButton" onClick={evt => {
+
                                 evt.preventDefault()
                                 props.history.push(`edit/${currentProfileId}`)
 
-                        }}>{editProfileMode ? "Edit" : "Follow"}
-                        
-                        </button>}
+                            }}>{editProfileMode ? "Edit" : "Follow"}
+
+                            </button>}
                     </span>
                 </div>
 
 
 
-            <div className="mainProfileSection">
-                <article className="profileSongList">
-                    <h3>Songs: {currentUserSongs.length}</h3>
+                <div className="mainProfileSection">
+                    <article className="profileCarList">
+                        <h3>Cars: {currentUserCars.length}</h3>
 
-                    {currentUserSongs.map(song => <Song key={song.id} song={song} {...props} />)}
-
-                </article>
-
-            <div className="profileSidebar">
-
-                    <article id="profileCarCollections">
-
+                        {currentUserCars.map(car => <Car key={car.id} car={car} {...props} />)}
 
                     </article>
 
-                <article id="likedCars" className="profileLikesList">
+                    <div className="profileSidebar">
 
-                    <h3>Liked Cars</h3>
+                        <article id="profileCarCollections">
 
-                    {currentUsersLikes.map(like => <Like key={like.id} like={like} {...props} />)}
 
-                </article>
-</div>
+                        </article>
+
+                        <article id="likedCars" className="profileLikesList">
+
+                            <h3>Liked Cars</h3>
+
+                            {currentUsersLikes.map(like => <Like key={like.id} like={like} {...props} />)}
+
+                        </article>
+                    </div>
 
                 </div>
             </section>
