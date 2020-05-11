@@ -94,7 +94,7 @@ namespace Tuned.Controllers.V1
                     cmd.CommandText = @"
                                         SELECT Id, Name, Location, Date, Description, ImagePath, UserId
                                         FROM Events
-                                        WHERE Id = @id AND Active = 1";
+                                        WHERE Id = @id";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -133,7 +133,7 @@ namespace Tuned.Controllers.V1
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
-                using (SqlCommand cmd = Connection.CreateCommand())
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"INSERT INTO Events (Name, Location, Date, Description, ImagePath)
                                         OUTPUT INSERTED.Id
@@ -142,8 +142,8 @@ namespace Tuned.Controllers.V1
                     cmd.Parameters.Add(new SqlParameter("@name", newEvent.Name));
                     cmd.Parameters.Add(new SqlParameter("@location", newEvent.Location));
                     cmd.Parameters.Add(new SqlParameter("@date", newEvent.Date));
-                    cmd.Parameters.Add(new SqlParameter("@date", newEvent.Description));
-                    cmd.Parameters.Add(new SqlParameter("@date", newEvent.ImagePath));
+                    cmd.Parameters.Add(new SqlParameter("@description", newEvent.Description));
+                    cmd.Parameters.Add(new SqlParameter("@imagePath", newEvent.ImagePath));
 
                     int newId = (int)cmd.ExecuteScalar();
                     newEvent.Id = newId;
