@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Tuned.Data;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using Tuned.Models.Data;
+using Tuned.Models.ViewModels;
 
 namespace Tuned.Controllers.V1
 {
@@ -14,97 +16,136 @@ namespace Tuned.Controllers.V1
     [ApiController]
     public class EventsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
 
-        public EventsController(ApplicationDbContext context)
+        private readonly IConfiguration _config;
+
+        public EventsController(IConfiguration config)
+
         {
-            _context = context;
+            _config = config;
+        }
+
+        public SqlConnection Connection
+
+        {
+            get
+            {
+                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+            }
         }
 
         // GET: api/Events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
+        public async Task<IActionResult> Get()
         {
-            return await _context.Events.ToListAsync();
+            
+            using (SqlConnection conn = Connection)
+
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText =
+                        @"SELECT * FROM Events";
+                
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                    List<Event> events = new List<Event>();
+
+                    try { 
+                    while (reader.Read())
+                    {
+                            Event foundEvent = new Event
+
+                            {
+
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            Location = reader.GetString(reader.GetOrdinal("Location")),
+                            Date = reader.GetDateTime(reader.GetOrdinal("Date")),
+                            Description = reader.GetString(reader.GetOrdinal("Description")),
+                            ImagePath = reader.GetString(reader.GetOrdinal("ImagePath")),
+                            //Admin user
+                            UserId = reader.GetString(reader.GetOrdinal("UserId")),
+
+                        };
+
+                            events.Add(foundEvent);
+                    }
+                    } catch (Exception ex) { }
+                       
+                    reader.Close();
+
+                    return Ok(events);
+                    
+                }
+            }
         }
 
         // GET: api/Events/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Event>> GetEvent(int id)
+        [HttpGet("{id}", Name = "Get")]
+        public string Get(int id)
         {
-            var @event = await _context.Events.FindAsync(id);
-
-            if (@event == null)
-            {
-                return NotFound();
-            }
-
-            return @event;
-        }
-
-        // PUT: api/Events/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEvent(int id, Event @event)
-        {
-            if (id != @event.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(@event).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EventExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return "value";
         }
 
         // POST: api/Events
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Event>> PostEvent(Event @event)
+        public async Task<IActionResult> Post([FromBody] Event event)
         {
-            _context.Events.Add(@event);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetEvent", new { id = @event.Id }, @event);
-        }
-
-        // DELETE: api/Events/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Event>> DeleteEvent(int id)
-        {
-            var @event = await _context.Events.FindAsync(id);
-            if (@event == null)
+            using (SqlConnection conn = Connection)
             {
-                return NotFound();
+                conn.Open();
+                using (SqlCommand cmd = Connection.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Events (Name, Location, Date, Description, ImagePath)
+                                        OUTPUT INSERTED.Id
+                                        VALUES (@name, @location, @date, @description, @imagePath)";
+
+                    cmd.Parameters.Add(new SqlParameter("@name", Event.Name));
+                    cmd.Parameters.Add(new SqlParameter("@location", Event.Location));
+                    cmd.Parameters.Add(new SqlParameter("@date", Event.Date));
+                    cmd.Parameters.Add(new SqlParameter("@date", Event.Description));
+                    cmd.Parameters.Add(new SqlParameter("@date", Event.ImagePath));
+
+                    int newId = (int)SqlClientMetaDataCollectionNames.ExecuteScalar();
+                    Event.Id = newId;
+                    return CreatedAtRoute("GetEvent", new { id = newId}, event);
+                }
             }
-
-            _context.Events.Remove(@event);
-            await _context.SaveChangesAsync();
-
-            return @event;
         }
 
-        private bool EventExists(int id)
+        // PUT: api/Events/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
         {
-            return _context.Events.Any(e => e.Id == id);
         }
+
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+        }
+
+
+         private bool EventExists(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT Id, Name
+                        FROM Event
+                        WHERE Id = @id";
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    return reader.Read();
+                }
+            }
+        }
+
     }
 }

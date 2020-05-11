@@ -238,6 +238,65 @@ namespace Tuned.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "00000000-ffff-ffff-ffff-ffffffffffff",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "5aac903e-2767-4a58-a95b-6173999e08b5",
+                            Email = "caseScally@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Case",
+                            LastName = "Scally",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "CASESCALLY@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDGrqRVI7nvRK1t8+78fUYunKbgrd9Hrxtkhxpo7wjvG5PS4y8R7LAz337zDCoSgGA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
+                            StreetAddress = "123 Infinity Way",
+                            TwoFactorEnabled = false,
+                            UserName = "caseScally@gmail.com"
+                        },
+                        new
+                        {
+                            Id = "e4356622-ec1e-4b02-b5b9-762e4916c2ff",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "09c292a4-217e-436a-99f7-3c049d79d1b7",
+                            Email = "caseScally@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Molly",
+                            LastName = "Scally",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MOSCALLY@GMAIL.COM",
+                            NormalizedUserName = "MOSCALLY@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHBQo5+G5rDpGZ0iSxz7LVvMWsuIcI9MYBMs8voUDxPQ+0WmnofnyPP/8uUNc972CA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794578",
+                            StreetAddress = "123 Infinity Way",
+                            TwoFactorEnabled = false,
+                            UserName = "moScally@gmail.com"
+                        },
+                        new
+                        {
+                            Id = "f5d1aaa8-b80a-4649-bea7-bbc0226c9866",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e3123dfa-a70f-4bf4-9895-7d8b5c3c1f02",
+                            Email = "hunter@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Hunter",
+                            LastName = "K",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "HUNTER@GMAIL.COM",
+                            NormalizedUserName = "HUNTER@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEXcQLdm1Hsbp+17Mdc0dJgGW8a4LeCB/QJTnPGBuPZD9a2ChNjsAcDoHgl4KY+PBQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794579",
+                            StreetAddress = "249 Brentwood Place",
+                            TwoFactorEnabled = false,
+                            UserName = "hunter@gmail.com"
+                        });
                 });
 
             modelBuilder.Entity("Tuned.Models.Data.Car", b =>
@@ -281,6 +340,47 @@ namespace Tuned.Migrations
                     b.HasIndex("VehicleTypeId");
 
                     b.ToTable("Cars");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ApplicationUserId = "00000000-ffff-ffff-ffff-ffffffffffff",
+                            CarDescription = "My car",
+                            CarPageCoverUrl = "testUrl",
+                            Make = "Infiniti",
+                            Model = "G37",
+                            Name = "G",
+                            Url = 1,
+                            VehicleTypeId = 1,
+                            Year = 2012
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ApplicationUserId = "e4356622-ec1e-4b02-b5b9-762e4916c2ff",
+                            CarDescription = "Molly's Car",
+                            CarPageCoverUrl = "testUrl2",
+                            Make = "Infiniti",
+                            Model = "G37",
+                            Name = "Genisis",
+                            Url = 2,
+                            VehicleTypeId = 1,
+                            Year = 2009
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ApplicationUserId = "f5d1aaa8-b80a-4649-bea7-bbc0226c9866",
+                            CarDescription = "Hunterz car",
+                            CarPageCoverUrl = "testUrl3",
+                            Make = "Lexus",
+                            Model = "IS250",
+                            Name = "Lex",
+                            Url = 3,
+                            VehicleTypeId = 1,
+                            Year = 2007
+                        });
                 });
 
             modelBuilder.Entity("Tuned.Models.Data.CarImage", b =>
@@ -324,6 +424,14 @@ namespace Tuned.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Collections");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Cars in my driveway",
+                            UserId = "1"
+                        });
                 });
 
             modelBuilder.Entity("Tuned.Models.Data.Event", b =>
@@ -351,11 +459,36 @@ namespace Tuned.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AdminUserId");
 
                     b.ToTable("Events");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Date = new DateTime(2020, 5, 11, 10, 4, 13, 136, DateTimeKind.Local).AddTicks(8724),
+                            Description = "Casual meet",
+                            ImagePath = "SomeTestUrl",
+                            Location = "Church Street",
+                            Name = "Cars and Coffee",
+                            UserId = "1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Date = new DateTime(2020, 5, 11, 10, 4, 13, 137, DateTimeKind.Local).AddTicks(6999),
+                            Description = "Imports only",
+                            ImagePath = "SomeOtherTestUrl",
+                            Location = "Atlanta",
+                            Name = "Import Alliance",
+                            UserId = "3"
+                        });
                 });
 
             modelBuilder.Entity("Tuned.Models.Data.LikedCar", b =>
@@ -381,6 +514,14 @@ namespace Tuned.Migrations
                     b.HasIndex("UserId1");
 
                     b.ToTable("LikedCars");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CarId = 3,
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("Tuned.Models.Data.RefreshToken", b =>
@@ -427,6 +568,107 @@ namespace Tuned.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("VehicleTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            VehicleTypeName = "Sports Car"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            VehicleTypeName = "Utility Vehicle"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            VehicleTypeName = "Sport Utility Vehicle"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            VehicleTypeName = "Sedan"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            VehicleTypeName = "Truck"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            VehicleTypeName = "Hatchback"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            VehicleTypeName = "Coupe"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            VehicleTypeName = "Minivan"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            VehicleTypeName = "Convertible"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            VehicleTypeName = "Compact Car"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            VehicleTypeName = "Subcompact Car"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            VehicleTypeName = "Crossover"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            VehicleTypeName = "Station Wagon"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            VehicleTypeName = "Van"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            VehicleTypeName = "Motorcycle"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            VehicleTypeName = "Supercar"
+                        });
+                });
+
+            modelBuilder.Entity("Tuned.Models.ViewModels.ApplicationUserViewModel", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ApplicationUserViewModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -511,7 +753,7 @@ namespace Tuned.Migrations
 
             modelBuilder.Entity("Tuned.Models.Data.Event", b =>
                 {
-                    b.HasOne("Tuned.Models.Data.ApplicationUser", "AdminUser")
+                    b.HasOne("Tuned.Models.ViewModels.ApplicationUserViewModel", "AdminUser")
                         .WithMany()
                         .HasForeignKey("AdminUserId");
                 });
