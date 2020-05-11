@@ -83,10 +83,47 @@ namespace Tuned.Controllers.V1
         }
 
         // GET: api/Events/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "GetEvent")]
+        public async Task<IActionResult> Get([FromRoute] int id)
         {
-            return "value";
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        SELECT Id, Name, Location, Date, Description, ImagePath, UserId
+                                        FROM Events
+                                        WHERE Id = @id AND Active = 1";
+
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    Event individualEvent = null;
+
+                    if (reader.Read())
+                    {
+                        individualEvent = new Event
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            Location = reader.GetString(reader.GetOrdinal("Location")),
+                            Date = reader.GetDateTime(reader.GetOrdinal("Date")),
+                            Description = reader.GetString(reader.GetOrdinal("Description")),
+                            ImagePath = reader.GetString(reader.GetOrdinal("ImagePath")),
+                            //Admin user
+                            UserId = reader.GetString(reader.GetOrdinal("UserId")),
+                        };
+                        reader.Close();
+
+                        return Ok(individualEvent);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                }
+            }
         }
 
         // POST: api/Events
