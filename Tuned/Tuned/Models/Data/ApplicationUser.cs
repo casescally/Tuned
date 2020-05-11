@@ -19,6 +19,7 @@ namespace Tuned.Models.Data
         public string ProfileBackgroundPicturePath { get; set; }
         public string Description { get; set; }
         public string ProfileHeader { get; set; }
+        public bool ActiveUser { get; set; }
 
     }
 }
