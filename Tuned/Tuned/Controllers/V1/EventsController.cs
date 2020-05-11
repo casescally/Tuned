@@ -91,7 +91,7 @@ namespace Tuned.Controllers.V1
 
         // POST: api/Events
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Event event)
+        public async Task<IActionResult> Post([FromBody] Event newEvent)
         {
             using (SqlConnection conn = Connection)
             {
@@ -102,23 +102,65 @@ namespace Tuned.Controllers.V1
                                         OUTPUT INSERTED.Id
                                         VALUES (@name, @location, @date, @description, @imagePath)";
 
-                    cmd.Parameters.Add(new SqlParameter("@name", Event.Name));
-                    cmd.Parameters.Add(new SqlParameter("@location", Event.Location));
-                    cmd.Parameters.Add(new SqlParameter("@date", Event.Date));
-                    cmd.Parameters.Add(new SqlParameter("@date", Event.Description));
-                    cmd.Parameters.Add(new SqlParameter("@date", Event.ImagePath));
+                    cmd.Parameters.Add(new SqlParameter("@name", newEvent.Name));
+                    cmd.Parameters.Add(new SqlParameter("@location", newEvent.Location));
+                    cmd.Parameters.Add(new SqlParameter("@date", newEvent.Date));
+                    cmd.Parameters.Add(new SqlParameter("@date", newEvent.Description));
+                    cmd.Parameters.Add(new SqlParameter("@date", newEvent.ImagePath));
 
-                    int newId = (int)SqlClientMetaDataCollectionNames.ExecuteScalar();
-                    Event.Id = newId;
-                    return CreatedAtRoute("GetEvent", new { id = newId}, event);
+                    int newId = (int)cmd.ExecuteScalar();
+                    newEvent.Id = newId;
+                    return CreatedAtRoute("GetEvent", new { id = newId}, newEvent);
                 }
             }
         }
 
         // PUT: api/Events/5
+        //Update an event
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult>Put([FromRoute]int id, [FromBody] Event updatedEvent)
         {
+            try
+            {
+                using (SqlConnection conn = Connection)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"UPDATE Events
+                                            SET Name = @Name,
+                                            Location = @Location,
+                                            Date = @Date,
+                                            Description = @Description,
+                                            ImagePath = @ImagePath,
+                                            UserId = @UserId
+                                            WHERE id = @id";
+
+                    cmd.Parameters.Add(new SqlParameter("@name", updatedEvent.Name));
+                    cmd.Parameters.Add(new SqlParameter("@location", updatedEvent.Location));
+                    cmd.Parameters.Add(new SqlParameter("@date", updatedEvent.Date));
+                    cmd.Parameters.Add(new SqlParameter("@date", updatedEvent.Description));
+                    cmd.Parameters.Add(new SqlParameter("@date", updatedEvent.ImagePath));
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            return new StatusCodeResult(StatusCodes.Status204NoContent);
+                        }
+                        throw new Exception("No rows affected");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                if (!EventExists(id))
+                { 
+                    return NotFound();
+                    } else
+                {
+                    throw;
+                }
+            }
         }
 
         // DELETE: api/ApiWithActions/5
