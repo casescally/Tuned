@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tuned.Data;
 
 namespace Tuned.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200511211316_UserEventsSeed")]
+    partial class UserEventsSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -244,7 +246,7 @@ namespace Tuned.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "11555deb-e735-4eee-8f50-a14b3cfcda5e",
+                            ConcurrencyStamp = "2cf224c6-f862-4332-830b-6eb79c676778",
                             Email = "caseScally@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Case",
@@ -252,7 +254,7 @@ namespace Tuned.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "CASESCALLY@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAUD8/zfFFU02MZ7SN+c4uhzpGbpAPmBpcoEEn1yJ63huVC+BzGVlhQxIR2Ch6Ud7Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF2YQx8wG56ujpJzUhIvEjaZcvWFFuWPcVLbBTWsLOPbYzmp5nBeVvYhF9KbXQRueg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             StreetAddress = "123 Infinity Way",
@@ -263,7 +265,7 @@ namespace Tuned.Migrations
                         {
                             Id = "e4356622-ec1e-4b02-b5b9-762e4916c2ff",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "43b694ff-b9ee-4631-8745-1a2a152eeb09",
+                            ConcurrencyStamp = "17640f99-c211-4683-9fde-fb2b8d06d45d",
                             Email = "caseScally@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Molly",
@@ -271,7 +273,7 @@ namespace Tuned.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MOSCALLY@GMAIL.COM",
                             NormalizedUserName = "MOSCALLY@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAENuq0Tdct38L+pheE4aopqWQMzFXcH5rQqE8HjzXyizBiXEDsqpss4Q3U2gytso+UA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMwyDPqPJ3xNPAoyc457+5xSgYoOIYVNTP31UBqul6ablXQuB/zFe5gHVvHxkL4msQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794578",
                             StreetAddress = "123 Infinity Way",
@@ -282,7 +284,7 @@ namespace Tuned.Migrations
                         {
                             Id = "f5d1aaa8-b80a-4649-bea7-bbc0226c9866",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d5e95ed2-3917-422d-90f9-c9673e2bc476",
+                            ConcurrencyStamp = "c4c0cb5b-f85f-4959-b257-43640e751de5",
                             Email = "hunter@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Hunter",
@@ -290,7 +292,7 @@ namespace Tuned.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "HUNTER@GMAIL.COM",
                             NormalizedUserName = "HUNTER@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMwKHdKCynd4weGA7ZL6NCb9GOzlkWRj6EfFywVme+Ln1Tpt88zi3FUYgZ/E8Y8NSw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI5/HGPOsqLhkD8tQS1RTKV01O4Hp3CP6SN1onek0kBbSqx0ZUlfgzTJHkHx/4bQjA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794579",
                             StreetAddress = "249 Brentwood Place",
@@ -441,9 +443,6 @@ namespace Tuned.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AdminUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -464,15 +463,13 @@ namespace Tuned.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdminUserId");
-
                     b.ToTable("Events");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2020, 5, 11, 14, 41, 11, 819, DateTimeKind.Local).AddTicks(9282),
+                            Date = new DateTime(2020, 5, 11, 14, 13, 16, 63, DateTimeKind.Local).AddTicks(751),
                             Description = "Casual meet",
                             ImagePath = "SomeTestUrl",
                             Location = "Church Street",
@@ -482,7 +479,7 @@ namespace Tuned.Migrations
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2020, 5, 11, 14, 41, 11, 820, DateTimeKind.Local).AddTicks(8705),
+                            Date = new DateTime(2020, 5, 11, 14, 13, 16, 63, DateTimeKind.Local).AddTicks(9026),
                             Description = "Imports only",
                             ImagePath = "SomeOtherTestUrl",
                             Location = "Atlanta",
@@ -565,8 +562,8 @@ namespace Tuned.Migrations
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -577,13 +574,13 @@ namespace Tuned.Migrations
                         {
                             Id = 1,
                             EventId = 1,
-                            UserId = "00000000-ffff-ffff-ffff-ffffffffffff"
+                            UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             EventId = 2,
-                            UserId = "f5d1aaa8-b80a-4649-bea7-bbc0226c9866"
+                            UserId = 3
                         });
                 });
 
@@ -684,25 +681,6 @@ namespace Tuned.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Tuned.Models.ViewModels.ApplicationUserViewModel", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ApplicationUserViewModel");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -781,13 +759,6 @@ namespace Tuned.Migrations
                     b.HasOne("Tuned.Models.Data.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("Tuned.Models.Data.Event", b =>
-                {
-                    b.HasOne("Tuned.Models.ViewModels.ApplicationUserViewModel", "AdminUser")
-                        .WithMany()
-                        .HasForeignKey("AdminUserId");
                 });
 
             modelBuilder.Entity("Tuned.Models.Data.LikedCar", b =>

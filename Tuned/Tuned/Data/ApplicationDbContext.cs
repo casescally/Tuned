@@ -19,6 +19,7 @@ namespace Tuned.Data
         public DbSet<Car> Cars { get; set; }
         public DbSet<Collection> Collections { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<UserEvent> UserEvent { get; set; }
         public DbSet<CarImage> CarImages { get; set; }
         public DbSet<VehicleType> VehicleTypes { get; set; }
         public DbSet<LikedCar> LikedCars { get; set; }
@@ -298,6 +299,23 @@ namespace Tuned.Data
         }
         );
 
+        modelBuilder.Entity<UserEvent>().HasData(
+        new UserEvent
+        {
+            Id = 1,
+            UserId = "00000000-ffff-ffff-ffff-ffffffffffff",
+            EventId = 1
+        }
+        );
+
+        modelBuilder.Entity<UserEvent>().HasData(
+        new UserEvent
+        {
+            Id = 2,
+            UserId = "f5d1aaa8-b80a-4649-bea7-bbc0226c9866",
+            EventId = 2
+        }
+        );
         }
     }
 }

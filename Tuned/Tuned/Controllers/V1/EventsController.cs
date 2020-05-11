@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -18,11 +19,13 @@ namespace Tuned.Controllers.V1
     {
 
         private readonly IConfiguration _config;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public EventsController(IConfiguration config)
+        public EventsController(IConfiguration config, UserManager<ApplicationUser> userManager)
 
         {
             _config = config;
+            _userManager = userManager;
         }
 
         public SqlConnection Connection
@@ -46,13 +49,18 @@ namespace Tuned.Controllers.V1
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText =
-                        @"SELECT * FROM Events";
+
+                        @"SELECT e.Id, e.Name, e.Location, e.Date, e.Description, e.ImagePath, e.UserId, a.Id AS AdminId, a.UserName, a.FirstName, a.LastName
+                          FROM Events e
+                          INNER JOIN AspNetUsers a
+                          ON e.UserId = a.Id";
                 
                 SqlDataReader reader = cmd.ExecuteReader();
 
                     List<Event> events = new List<Event>();
 
-                    try { 
+                    try {
+
                     while (reader.Read())
                     {
                             Event foundEvent = new Event
@@ -65,9 +73,20 @@ namespace Tuned.Controllers.V1
                             Date = reader.GetDateTime(reader.GetOrdinal("Date")),
                             Description = reader.GetString(reader.GetOrdinal("Description")),
                             ImagePath = reader.GetString(reader.GetOrdinal("ImagePath")),
+
                             //Admin user
                             UserId = reader.GetString(reader.GetOrdinal("UserId")),
 
+                        };        
+                            if (!reader.IsDBNull(reader.GetOrdinal("UserId")))
+                        {
+                            foundEvent.AdminUser = new ApplicationUserViewModel { 
+
+                                Id = reader.GetString(reader.GetOrdinal("AdminId")),
+                                Username = reader.GetString(reader.GetOrdinal("UserName")),
+                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                            };
                         };
 
                             events.Add(foundEvent);
