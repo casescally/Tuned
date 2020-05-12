@@ -92,11 +92,11 @@ namespace Tuned.Controllers.V1
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"
-                                        SELECT c.Id, c.Name, c.Make, c.Model, c.Year, c.Url, c.ApplicationUserId, c.VehicleTypeId, c.CarPageCoverUrl, c.CarDescription, c.ActiveCar
+                    cmd.CommandText = @"SELECT c.Id, c.Name, c.Make, c.Model, c.Year, c.Url, c.ApplicationUserId, c.VehicleTypeId, c.CarPageCoverUrl, c.CarDescription, c.ActiveCar, a.FirstName, a.LastName, a.StreetAddress, a.ProfilePicturePath, a.ProfileBackgroundPicturePath, a.Description, a.ProfileHeader, a.ActiveUser
                                         FROM Cars c
-                                        LEFT JOIN Asp
-                                        WHERE Id = @id";
+                                        LEFT JOIN AspNetUsers a
+                                        ON c.ApplicationUserId = a.Id
+                                        WHERE c.Id = @id";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
                     SqlDataReader reader = cmd.ExecuteReader();
