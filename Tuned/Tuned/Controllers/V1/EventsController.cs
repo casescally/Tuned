@@ -189,14 +189,18 @@ namespace Tuned.Controllers.V1
                                             Date = @Date,
                                             Description = @Description,
                                             ImagePath = @ImagePath,
+                                            ActiveEvent = @activeEvent,
                                             UserId = @UserId
-                                            WHERE id = @id";
+                                            WHERE Id = @id";
 
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
                     cmd.Parameters.Add(new SqlParameter("@name", updatedEvent.Name));
                     cmd.Parameters.Add(new SqlParameter("@location", updatedEvent.Location));
                     cmd.Parameters.Add(new SqlParameter("@date", updatedEvent.Date));
-                    cmd.Parameters.Add(new SqlParameter("@date", updatedEvent.Description));
-                    cmd.Parameters.Add(new SqlParameter("@date", updatedEvent.ImagePath));
+                    cmd.Parameters.Add(new SqlParameter("@description", updatedEvent.Description));
+                    cmd.Parameters.Add(new SqlParameter("@imagePath", updatedEvent.ImagePath));
+                    cmd.Parameters.Add(new SqlParameter("@activeEvent", updatedEvent.ActiveEvent));
+                    cmd.Parameters.Add(new SqlParameter("@userId", updatedEvent.UserId));
 
                         int rowsAffected = cmd.ExecuteNonQuery();
                         if (rowsAffected > 0)
@@ -234,6 +238,7 @@ namespace Tuned.Controllers.V1
                         cmd.CommandText = @"UPDATE Events
                                             SET ActiveEvent = 1
                                             WHERE Id = @id";
+
                         cmd.Parameters.Add(new SqlParameter("@id", id));
                         int rowsAffected = cmd.ExecuteNonQuery();
                         if (rowsAffected > 0)
