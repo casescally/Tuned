@@ -93,8 +93,9 @@ namespace Tuned.Controllers.V1
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                        SELECT Id, Name, Location, Date, Description, ImagePath, UserId
-                                        FROM Cars
+                                        SELECT c.Id, c.Name, c.Make, c.Model, c.Year, c.Url, c.ApplicationUserId, c.VehicleTypeId, c.CarPageCoverUrl, c.CarDescription, c.ActiveCar
+                                        FROM Cars c
+                                        LEFT JOIN Asp
                                         WHERE Id = @id";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
@@ -172,7 +173,7 @@ namespace Tuned.Controllers.V1
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = @"UPDATE Cars
-                                            SET Name = @Name,
+                                            SET Name = @name,
                                             Make = @make,
                                             Model = @model,
                                             Year = @year,
@@ -181,8 +182,10 @@ namespace Tuned.Controllers.V1
                                             VehicleTypeId = @vehicleTypeId,
                                             CarPageCoverUrl = @carPageCoverUrl,
                                             CarDescription = @carDescription,
-                                            WHERE id = @id";
+                                            ActiveCar = @activeCar
+                                            WHERE Id = @id";
 
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
                     cmd.Parameters.Add(new SqlParameter("@name", updatedCar.Name));
                     cmd.Parameters.Add(new SqlParameter("@make", updatedCar.Make));
                     cmd.Parameters.Add(new SqlParameter("@model", updatedCar.Model));
@@ -192,6 +195,7 @@ namespace Tuned.Controllers.V1
                     cmd.Parameters.Add(new SqlParameter("@vehicleTypeId", updatedCar.VehicleTypeId));
                     cmd.Parameters.Add(new SqlParameter("@carPageCoverUrl", updatedCar.CarPageCoverUrl));
                     cmd.Parameters.Add(new SqlParameter("@carDescription", updatedCar.CarDescription));
+                    cmd.Parameters.Add(new SqlParameter("@activeCar", updatedCar.ActiveCar));
 
                         int rowsAffected = cmd.ExecuteNonQuery();
                         if (rowsAffected > 0)
@@ -202,7 +206,7 @@ namespace Tuned.Controllers.V1
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 if (!CarExists(id))
                 { 
