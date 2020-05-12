@@ -1,277 +1,310 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Linq.Expressions;
-//using System.Threading.Tasks;
-//using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Identity;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.Data.SqlClient;
-//using Microsoft.Extensions.Configuration;
-//using Tuned.Models.Data;
-//using Tuned.Models.ViewModels;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using Tuned.Models.Data;
+using Tuned.Models.ViewModels;
 
-//namespace Tuned.Controllers.V1
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    public class LikedCarsController : ControllerBase
-//    {
+namespace Tuned.Controllers.V1
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class LikedCarsController : ControllerBase
+    {
 
-//        private readonly IConfiguration _config;
-//        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IConfiguration _config;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-//        public LikedCarsController(IConfiguration config, UserManager<ApplicationUser> userManager)
+        public LikedCarsController(IConfiguration config, UserManager<ApplicationUser> userManager)
 
-//        {
-//            _config = config;
-//            _userManager = userManager;
-//        }
+        {
+            _config = config;
+            _userManager = userManager;
+        }
 
-//        public SqlConnection Connection
+        public SqlConnection Connection
 
-//        {
-//            get
-//            {
-//                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-//            }
-//        }
+        {
+            get
+            {
+                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+            }
+        }
 
-//        // GET: api/LikedCars
-//        [HttpGet]
-//        public async Task<IActionResult> Get()
-//        {
+        // GET: api/LikedCars
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
             
-//            using (SqlConnection conn = Connection)
+            using (SqlConnection conn = Connection)
 
-//            {
-//                conn.Open();
-//                using (SqlCommand cmd = conn.CreateCommand())
-//                {
-//                    cmd.CommandText =
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText =
 
-//                        @"SELECT e.Id, e.Name, e.Location, e.Date, e.Description, e.ImagePath, e.UserId, a.Id AS AdminId, a.UserName, a.FirstName, a.LastName
-//                          FROM LikedCars e
-//                          INNER JOIN AspNetUsers a
-//                          ON e.UserId = a.Id";
+                        @"SELECT lc.Id, lc.UserId, lc.CarId, a.Id, a.FirstName, a.LastName, a.StreetAddress, a.ProfilePicturePath, a.ProfileBackgroundPicturePath, a.Description, a.ProfileHeader
+                          FROM LikedCars lc
+                          LEFT JOIN AspNetUsers a
+                          ON lc.UserId = a.Id
+                          LEFT JOIN Cars c
+                          ON lc.CarId = c.Id";
                 
-//                SqlDataReader reader = cmd.ExecuteReader();
+                SqlDataReader reader = cmd.ExecuteReader();
 
-//                    List<Event> events = new List<Event>();
+                    List<LikedCar> likedCars = new List<LikedCar>();
 
-//                    try {
+                    try {
 
-//                    while (reader.Read())
-//                    {
-//                            Event foundEvent = new Event
+                    while (reader.Read())
+                    {
+                            LikedCar foundLikedCar = new LikedCar
 
-//                            {
+                            {
 
-//                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-//                            Name = reader.GetString(reader.GetOrdinal("Name")),
-//                            Location = reader.GetString(reader.GetOrdinal("Location")),
-//                            Date = reader.GetDateTime(reader.GetOrdinal("Date")),
-//                            Description = reader.GetString(reader.GetOrdinal("Description")),
-//                            ImagePath = reader.GetString(reader.GetOrdinal("ImagePath")),
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            UserId = reader.GetString(reader.GetOrdinal("UserId")),
 
-//                            //Admin user
-//                            UserId = reader.GetString(reader.GetOrdinal("UserId")),
+                        };        
 
-//                        };        
-//                            if (!reader.IsDBNull(reader.GetOrdinal("UserId")))
-//                        {
-//                            foundEvent.AdminUser = new ApplicationUserViewModel { 
+                            foundLikedCar.User = new ApplicationUserViewModel { 
 
-//                                Id = reader.GetString(reader.GetOrdinal("AdminId")),
-//                                Username = reader.GetString(reader.GetOrdinal("UserName")),
-//                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-//                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
-//                            };
-//                        };
+                                Id = reader.GetString(reader.GetOrdinal("AdminId")),
+                                Username = reader.GetString(reader.GetOrdinal("UserName")),
+                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
 
-//                            events.Add(foundEvent);
-//                    }
-//                    } catch (Exception ex) { }
+                        };
+
+                            foundLikedCar.Car = new Car 
+                            
+                            {
+
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            Make = reader.GetString(reader.GetOrdinal("Make")),
+                            Model = reader.GetString(reader.GetOrdinal("Model")),
+                            Year = reader.GetInt32(reader.GetOrdinal("Year")),
+                            Url = reader.GetInt32(reader.GetOrdinal("Url")),
+                            ApplicationUserId = reader.GetString(reader.GetOrdinal("ApplicationUserId")),
+                            VehicleTypeId = reader.GetInt32(reader.GetOrdinal("VehicleTypeId")),
+                            CarPageCoverUrl = reader.GetString(reader.GetOrdinal("CarPageCoverUrl")),
+                            CarDescription = reader.GetString(reader.GetOrdinal("CarDescription"))
+                        };
+
+                            likedCars.Add(foundLikedCar);
+                    }
+                    } catch (Exception ex) { }
                        
-//                    reader.Close();
+                    reader.Close();
 
-//                    return Ok(events);
+                    return Ok(likedCars);
                     
-//                }
-//            }
-//        }
+                }
+            }
+        }
 
-//        // GET: api/LikedCars/5
-//        [HttpGet("{id}", Name = "GetCar")]
-//        public async Task<IActionResult> Get([FromRoute] int id)
-//        {
-//            using (SqlConnection conn = Connection)
-//            {
-//                conn.Open();
-//                using (SqlCommand cmd = conn.CreateCommand())
-//                {
-//                    cmd.CommandText = @"
-//                                        SELECT Id, Name, Location, Date, Description, ImagePath, UserId
-//                                        FROM LikedCars
-//                                        WHERE Id = @id";
+        // GET: api/LikedCars/5
+        [HttpGet("{id}", Name = "GetLikedCar")]
+        public async Task<IActionResult> Get([FromRoute] int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT lc.Id, lc.UserId, lc.CarId, a.Id, a.FirstName, a.LastName, a.StreetAddress, a.ProfilePicturePath, a.ProfileBackgroundPicturePath, a.Description, a.ProfileHeader
+                                        FROM LikedCars lc
+                                        LEFT JOIN AspNetUsers a
+                                        ON lc.UserId = a.Id
+                                        LEFT JOIN Cars c
+                                        ON lc.CarId = c.Id";
 
-//                    cmd.Parameters.Add(new SqlParameter("@id", id));
-//                    SqlDataReader reader = cmd.ExecuteReader();
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-//                    Event individualEvent = null;
+                    LikedCar individualLikedCar = null;
 
-//                    if (reader.Read())
-//                    {
-//                        individualEvent = new Event
-//                        {
-//                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-//                            Name = reader.GetString(reader.GetOrdinal("Name")),
-//                            Location = reader.GetString(reader.GetOrdinal("Location")),
-//                            Date = reader.GetDateTime(reader.GetOrdinal("Date")),
-//                            Description = reader.GetString(reader.GetOrdinal("Description")),
-//                            ImagePath = reader.GetString(reader.GetOrdinal("ImagePath")),
-//                            //Admin user
-//                            UserId = reader.GetString(reader.GetOrdinal("UserId")),
-//                        };
-//                        reader.Close();
+                    if (reader.Read())
+                    {
+                    
+                        individualLikedCar = new LikedCar
 
-//                        return Ok(individualEvent);
-//                    }
-//                    else
-//                    {
-//                        return NotFound();
-//                    }
-//                }
-//            }
-//        }
+                            {
 
-//        // POST: api/LikedCars
-//        [HttpPost]
-//        public async Task<IActionResult> Post([FromBody] Event newEvent)
-//        {
-//            using (SqlConnection conn = Connection)
-//            {
-//                conn.Open();
-//                using (SqlCommand cmd = conn.CreateCommand())
-//                {
-//                    cmd.CommandText = @"INSERT INTO LikedCars (Name, Location, Date, Description, ImagePath)
-//                                        OUTPUT INSERTED.Id
-//                                        VALUES (@name, @location, @date, @description, @imagePath)";
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            UserId = reader.GetString(reader.GetOrdinal("UserId")),
 
-//                    cmd.Parameters.Add(new SqlParameter("@name", newEvent.Name));
-//                    cmd.Parameters.Add(new SqlParameter("@location", newEvent.Location));
-//                    cmd.Parameters.Add(new SqlParameter("@date", newEvent.Date));
-//                    cmd.Parameters.Add(new SqlParameter("@description", newEvent.Description));
-//                    cmd.Parameters.Add(new SqlParameter("@imagePath", newEvent.ImagePath));
+                        };        
 
-//                    int newId = (int)cmd.ExecuteScalar();
-//                    newEvent.Id = newId;
-//                    return CreatedAtRoute("GetEvent", new { id = newId}, newEvent);
-//                }
-//            }
-//        }
+                            individualLikedCar.User = new ApplicationUserViewModel { 
 
-//        // PUT: api/LikedCars/5
-//        //Update a liked car
-//        [HttpPut("{id}")]
-//        public async Task<IActionResult>Put([FromRoute]int id, [FromBody] Event updatedEvent)
-//        {
-//            try
-//            {
-//                using (SqlConnection conn = Connection)
-//                {
-//                    conn.Open();
-//                    using (SqlCommand cmd = conn.CreateCommand())
-//                    {
-//                        cmd.CommandText = @"UPDATE LikedCars
-//                                            UserId = @UserId,
-//                                            CarId = @CarId
-//                                            WHERE id = @id";
+                                Id = reader.GetString(reader.GetOrdinal("AdminId")),
+                                Username = reader.GetString(reader.GetOrdinal("UserName")),
+                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
 
-//                    cmd.Parameters.Add(new SqlParameter("@name", updatedEvent.Name));
-//                    cmd.Parameters.Add(new SqlParameter("@location", updatedEvent.Location));
-//                    cmd.Parameters.Add(new SqlParameter("@date", updatedEvent.Date));
-//                    cmd.Parameters.Add(new SqlParameter("@date", updatedEvent.Description));
-//                    cmd.Parameters.Add(new SqlParameter("@date", updatedEvent.ImagePath));
+                        };
 
-//                        int rowsAffected = cmd.ExecuteNonQuery();
-//                        if (rowsAffected > 0)
-//                        {
-//                            return new StatusCodeResult(StatusCodes.Status204NoContent);
-//                        }
-//                        throw new Exception("No rows affected");
-//                    }
-//                }
-//            }
-//            catch (Exception)
-//            {
-//                if (!EventExists(id))
-//                { 
-//                    return NotFound();
-//                    } else
-//                {
-//                    throw;
-//                }
-//            }
-//        }
+                            individualLikedCar.Car = new Car 
+                            
+                            {
 
-//        // DELETE: api/ApiWithActions/5
-//        // Soft delete
-//        [HttpDelete("{id}")]
-//        public async Task<IActionResult>Delete([FromRoute] int id)
-//        {
-//            try
-//            {
-//                using (SqlConnection conn = Connection)
-//                {
-//                    conn.Open();
-//                    using (SqlCommand cmd = conn.CreateCommand())
-//                    {
-//                        cmd.CommandText = @"UPDATE LikedCars
-//                                            SET ActiveLikedCar = 1
-//                                            WHERE Id = @id";
-//                        cmd.Parameters.Add(new SqlParameter("@id", id));
-//                        int rowsAffected = cmd.ExecuteNonQuery();
-//                        if (rowsAffected > 0)
-//                        {
-//                             return new StatusCodeResult(StatusCodes.Status204NoContent);
-//                        }
-//                        throw new Exception("No rows affected");
-//                    }
-//                }
-//            }
-//                        catch (Exception)
-//            {
-//                if (!EventExists(id))
-//                {
-//                    return NotFound();
-//                }
-//                else
-//                {
-//                    throw;
-//                }
-//            }
-//        }
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            Make = reader.GetString(reader.GetOrdinal("Make")),
+                            Model = reader.GetString(reader.GetOrdinal("Model")),
+                            Year = reader.GetInt32(reader.GetOrdinal("Year")),
+                            Url = reader.GetInt32(reader.GetOrdinal("Url")),
+                            ApplicationUserId = reader.GetString(reader.GetOrdinal("ApplicationUserId")),
+                            VehicleTypeId = reader.GetInt32(reader.GetOrdinal("VehicleTypeId")),
+                            CarPageCoverUrl = reader.GetString(reader.GetOrdinal("CarPageCoverUrl")),
+                            CarDescription = reader.GetString(reader.GetOrdinal("CarDescription"))
+                        };
+                        reader.Close();
+
+                        return Ok(individualLikedCar);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                }
+            }
+        }
+
+        // POST: api/LikedCars
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] LikedCar newLikedCar)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO LikedCars (UserId, CarId)
+                                        OUTPUT INSERTED.Id
+                                        VALUES (@userId, @carId)";
+
+                    cmd.Parameters.Add(new SqlParameter("@name", newLikedCar.UserId));
+                    cmd.Parameters.Add(new SqlParameter("@location", newLikedCar.CarId));
+
+                    int newId = (int)cmd.ExecuteScalar();
+                    newLikedCar.Id = newId;
+                    return CreatedAtRoute("GetLikedCar", new { id = newId}, newLikedCar);
+                }
+            }
+        }
+
+        // PUT: api/LikedCars/5
+        //Update an event
+        [HttpPut("{id}")]
+        public async Task<IActionResult>Put([FromRoute]int id, [FromBody] LikedCar updatedLikedCar)
+        {
+            try
+            {
+                using (SqlConnection conn = Connection)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"UPDATE LikedCars
+                                            SET Name = @Name,
+                                            Location = @Location,
+                                            Date = @Date,
+                                            Description = @Description,
+                                            ImagePath = @ImagePath,
+                                            ActiveLikedCar = @activeLikedCar,
+                                            UserId = @UserId
+                                            WHERE Id = @id";
+
+                    cmd.Parameters.Add(new SqlParameter("@name", updatedLikedCar.UserId));
+                    cmd.Parameters.Add(new SqlParameter("@location", updatedLikedCar.CarId));
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            return new StatusCodeResult(StatusCodes.Status204NoContent);
+                        }
+                        throw new Exception("No rows affected");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                if (!LikedCarExists(id))
+                { 
+                    return NotFound();
+                    } else
+                {
+                    throw;
+                }
+            }
+        }
+
+        // DELETE: api/ApiWithActions/5
+        // Soft delete - sets the active event boolean to 1
+        [HttpDelete("{id}")]
+        public async Task<IActionResult>Delete([FromRoute] int id)
+        {
+            try
+            {
+                using (SqlConnection conn = Connection)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"UPDATE LikedCars
+                                            SET ActiveLikedCar = 1
+                                            WHERE Id = @id";
+
+                        cmd.Parameters.Add(new SqlParameter("@id", id));
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                             return new StatusCodeResult(StatusCodes.Status204NoContent);
+                        }
+                        throw new Exception("No rows affected");
+                    }
+                }
+            }
+                        catch (Exception)
+            {
+                if (!LikedCarExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
 
 
-//         private bool EventExists(int id)
-//        {
-//            using (SqlConnection conn = Connection)
-//            {
-//                conn.Open();
-//                using (SqlCommand cmd = conn.CreateCommand())
-//                {
-//                    cmd.CommandText = @"
-//                        SELECT Id
-//                        FROM LikedCars
-//                        WHERE Id = @id";
-//                    cmd.Parameters.Add(new SqlParameter("@id", id));
+         private bool LikedCarExists(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT Id, Name
+                        FROM LikedCar
+                        WHERE Id = @id";
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
 
-//                    SqlDataReader reader = cmd.ExecuteReader();
-//                    return reader.Read();
-//                }
-//            }
-//        }
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    return reader.Read();
+                }
+            }
+        }
 
-//    }
-//}
+    }
+}

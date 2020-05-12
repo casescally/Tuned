@@ -24,7 +24,7 @@ export const CarProvider = (props) => {
 
     const getCars = () => {
         const authHeader = createAuthHeaders();
-        return fetch("http://localhost:5001/api/cars", {
+        return fetch("https://localhost:5001/api/cars", {
 
             headers: authHeader
         })
@@ -37,7 +37,7 @@ export const CarProvider = (props) => {
 
     const addCar = car => {
         const authHeader = createAuthHeaders();
-        return fetch("http://localhost:5001/api/cars", {
+        return fetch("https://localhost:5001/api/cars", {
 
 
             method: "POST",
@@ -58,7 +58,7 @@ export const CarProvider = (props) => {
 
     const deleteCar = car => {
         const authHeader = createAuthHeaders();
-        return fetch(`http://localhost:5001/api/cars/${car.id}`, {
+        return fetch(`https://localhost:5001/api/cars/${car.id}`, {
 
             authHeader,
             method: "DELETE"
@@ -71,7 +71,7 @@ export const CarProvider = (props) => {
 
     const updateCar = car => {
         const authHeader = createAuthHeaders();
-        return fetch(`http://localhost:5001/api/cars/${car.id}`, {
+        return fetch(`https://localhost:5001/api/cars/${car.id}`, {
 
             method: "PUT",
 

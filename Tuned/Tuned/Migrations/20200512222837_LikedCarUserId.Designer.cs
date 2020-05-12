@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tuned.Data;
 
 namespace Tuned.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200512222837_LikedCarUserId")]
+    partial class LikedCarUserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,7 +250,7 @@ namespace Tuned.Migrations
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
                             ActiveUser = false,
-                            ConcurrencyStamp = "6b8398c2-d5f5-4f2d-b912-772a3ece62c6",
+                            ConcurrencyStamp = "213d8e39-1859-466f-8ccd-0bc587d71e9a",
                             Email = "caseScally@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Case",
@@ -256,7 +258,7 @@ namespace Tuned.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "CASESCALLY@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDCgIKa+XyVsTU4lKvRtcCW7ilaMtDn8UFpuWf85OV0cNcuq827c25VyX86k5mYg9g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP9DfPtwTHIuTaUP24tJCNXs+MznIQR2fxOG7zxh1n1d0JopfKY/flpWBahhwYR0QA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             StreetAddress = "123 Infinity Way",
@@ -268,7 +270,7 @@ namespace Tuned.Migrations
                             Id = "e4356622-ec1e-4b02-b5b9-762e4916c2ff",
                             AccessFailedCount = 0,
                             ActiveUser = false,
-                            ConcurrencyStamp = "eb4f0d50-2693-4a0c-8fee-dd2f85a1dc15",
+                            ConcurrencyStamp = "7e519678-f2ff-423f-bf6b-db66a07556b1",
                             Email = "caseScally@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Molly",
@@ -276,7 +278,7 @@ namespace Tuned.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MOSCALLY@GMAIL.COM",
                             NormalizedUserName = "MOSCALLY@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJi3Ne4FFNBdDesYRxO9f6BZy2yDM33/SMkhq89hT6+bGo3Ownh2ocATy2iRb4GQrA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKV9HnZFf2c6Ve+bEJlvzcKlJJRRdOcTtLNRZRDgWmwOtt1RUaokmxSg7oJM8Fk6Lw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794578",
                             StreetAddress = "123 Infinity Way",
@@ -288,7 +290,7 @@ namespace Tuned.Migrations
                             Id = "f5d1aaa8-b80a-4649-bea7-bbc0226c9866",
                             AccessFailedCount = 0,
                             ActiveUser = false,
-                            ConcurrencyStamp = "6daeb79c-ab61-4b71-8b74-9037602bc6ca",
+                            ConcurrencyStamp = "8443ab12-1790-42a8-aa28-bf03d4f0e002",
                             Email = "hunter@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Hunter",
@@ -296,7 +298,7 @@ namespace Tuned.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "HUNTER@GMAIL.COM",
                             NormalizedUserName = "HUNTER@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKW9Z6od+YjfT/qe8GClgB2NrrgpWwbaD+h4LlzBWS14YzWzV3hy8ael9GGRu3CUAQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOV9Uc5w7TsTk/U/yJ7EZ1b23VW5Z3ZNB6j9dnkBO/A2GlMBEPKzRgUudb7geg9N6w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794579",
                             StreetAddress = "249 Brentwood Place",
@@ -492,7 +494,7 @@ namespace Tuned.Migrations
                         {
                             Id = 1,
                             ActiveEvent = false,
-                            Date = new DateTime(2020, 5, 12, 15, 36, 42, 331, DateTimeKind.Local).AddTicks(7872),
+                            Date = new DateTime(2020, 5, 12, 15, 28, 37, 123, DateTimeKind.Local).AddTicks(6500),
                             Description = "Casual meet",
                             ImagePath = "SomeTestUrl",
                             Location = "Church Street",
@@ -503,7 +505,7 @@ namespace Tuned.Migrations
                         {
                             Id = 2,
                             ActiveEvent = false,
-                            Date = new DateTime(2020, 5, 12, 15, 36, 42, 332, DateTimeKind.Local).AddTicks(5781),
+                            Date = new DateTime(2020, 5, 12, 15, 28, 37, 124, DateTimeKind.Local).AddTicks(5189),
                             Description = "Imports only",
                             ImagePath = "SomeOtherTestUrl",
                             Location = "Atlanta",
@@ -538,7 +540,7 @@ namespace Tuned.Migrations
                         {
                             Id = 1,
                             CarId = 3,
-                            UserId = "00000000-ffff-ffff-ffff-ffffffffffff"
+                            UserId = "1"
                         });
                 });
 

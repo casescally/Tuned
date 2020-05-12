@@ -294,7 +294,7 @@ namespace Tuned.Data
         new LikedCar
         {
             Id = 1,
-            UserId = 1,
+            UserId = "00000000-ffff-ffff-ffff-ffffffffffff",
             CarId = 3
         }
         );

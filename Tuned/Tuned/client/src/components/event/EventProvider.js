@@ -23,7 +23,7 @@ export const EventProvider = (props) => {
 
     const getEvents = () => {
         const authHeader = createAuthHeaders();
-        return fetch("http://localhost:5001/api/events", {
+        return fetch("https://localhost:5001/api/events", {
             headers: authHeader
         })
             .then(res => res.json())
@@ -34,7 +34,7 @@ export const EventProvider = (props) => {
 
     const addEvent = event => {
         const authHeader = createAuthHeaders();
-        return fetch("http://localhost:5001/api/events", {
+        return fetch("https://localhost:5001/api/events", {
 
             method: "POST",
 
@@ -54,7 +54,7 @@ export const EventProvider = (props) => {
 
     const deleteEvent = event => {
         const authHeader = createAuthHeaders();
-        return fetch(`http://localhost:5001/api/events/${event.id}`, {
+        return fetch(`https://localhost:5001/api/events/${event.id}`, {
             headers: authHeader,
             method: "DELETE"
 
@@ -66,7 +66,7 @@ export const EventProvider = (props) => {
 
     const updateEvent = event => {
         const authHeader = createAuthHeaders();
-        return fetch(`http://localhost:5001/api/events/${event.id}`, {
+        return fetch(`https://localhost:5001/api/events/${event.id}`, {
 
             method: "PUT",
 
