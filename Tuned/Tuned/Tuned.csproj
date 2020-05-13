@@ -24,6 +24,8 @@
     <Compile Remove="Migrations\20200509023738_ModelSeedData.Designer.cs" />
     <Compile Remove="Migrations\20200511225723_Active.cs" />
     <Compile Remove="Migrations\20200511225723_Active.Designer.cs" />
+    <Compile Remove="Migrations\20200513182715_UpdatedUserData.cs" />
+    <Compile Remove="Migrations\20200513182715_UpdatedUserData.Designer.cs" />
   </ItemGroup>
 
 

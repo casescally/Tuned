@@ -11,19 +11,19 @@ export default (props) => {
 
     const { cars } = useContext(CarContext)
     const { users } = useContext(UserContext)
-    const chosenUserName = JSON.parse(localStorage.getItem("user")).username
+    const userName = JSON.parse(localStorage.getItem("user")).username
     const { likes } = useContext(LikedCarContext)
     const profilesArray = []
 
     let editProfileMode = Boolean
 
-    if (chosenUserName !== JSON.parse(localStorage.getItem("user")).username) {
-        let foundProfile = users.find(u => u.id === chosenUserName) || {}
+    if (userName !== JSON.parse(localStorage.getItem("user")).username) {
+        let foundProfile = users.find(u => u.id === userName) || {}
         editProfileMode = false
         profilesArray.push(foundProfile)
 
     } else {
-        let foundProfile = users.find(u => u.id === chosenUserName) || {}
+        let foundProfile = users.find(u => u.id === userName) || {}
         editProfileMode = true
         profilesArray.push(foundProfile)
 
@@ -54,7 +54,7 @@ export default (props) => {
     // }
 
     const currentUserCars = cars.filter(car => {
-        return car.userId === currentProfile.id
+        return car.applicationUserId === currentProfile.username
 
     })
 

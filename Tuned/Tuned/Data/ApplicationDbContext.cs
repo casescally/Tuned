@@ -35,7 +35,7 @@ namespace Tuned.Data
             UserName = "caseScally@gmail.com",
             NormalizedUserName = "CASESCALLY@GMAIL.COM",
             Email = "caseScally@gmail.com",
-            NormalizedEmail = "ADMIN@ADMIN.COM",
+            NormalizedEmail = "CASESCALLY@GMAIL.COM",
             EmailConfirmed = true,
             LockoutEnabled = false,
             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
@@ -50,8 +50,8 @@ namespace Tuned.Data
             LastName = "Scally",
             StreetAddress = "123 Infinity Way",
             UserName = "moScally@gmail.com",
-            NormalizedUserName = "MOSCALLY@GMAIL.COM",
-            Email = "caseScally@gmail.com",
+            NormalizedUserName = "MOSCALLY@gmail.com",
+            Email = "moScally@gmail.com",
             NormalizedEmail = "MOSCALLY@GMAIL.COM",
             EmailConfirmed = true,
             LockoutEnabled = false,
@@ -126,6 +126,8 @@ namespace Tuned.Data
             CarDescription = "Hunterz car"
         }
         );
+
+
 
         modelBuilder.Entity<VehicleType>().HasData(
         new VehicleType
@@ -290,14 +292,14 @@ namespace Tuned.Data
         }
         );
 
-        modelBuilder.Entity<LikedCar>().HasData(
-        new LikedCar
-        {
-            Id = 1,
-            UserId = "00000000-ffff-ffff-ffff-ffffffffffff",
-            CarId = 3
-        }
-        );
+        //modelBuilder.Entity<LikedCar>().HasData(
+        //new LikedCar
+        //{
+        //    Id = 1,
+        //    UserId = "00000000-ffff-ffff-ffff-ffffffffffff",
+        //    CarId = 3
+        //}
+        //);
 
         modelBuilder.Entity<UserEvent>().HasData(
         new UserEvent

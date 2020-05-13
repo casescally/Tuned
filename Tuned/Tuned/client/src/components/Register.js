@@ -5,17 +5,34 @@ import { register } from "../API/userManager";
 function Register({ history }) {
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [profilePicturePath, setProfilePicturePath] = useState();
+  const [profileBackgroundPicturePath, setProfileBackgroundPicturePath] = useState();
+  const [description, setDescription] = useState();
+  const [profileHeader, setProfileHeader] = useState();
+  const [streetAddress, setStreetAddress] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [errors, setErrors] = useState([]);
+  let activeUser = Boolean;
+  activeUser = true;
 
   const submit = (event) => {
     event.preventDefault();
     register({
       username,
       email,
+      firstName,
+      lastName,
+      streetAddress,
+      profilePicturePath,
+      profileBackgroundPicturePath,
+      description,
+      profileHeader,
       password,
       confirmPassword,
+      activeUser
     })
       .then((user) => history.push("/"))
       .catch((err) => {
@@ -48,6 +65,83 @@ function Register({ history }) {
           required
           placeholder="example@email.com"
           onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="firstName">First Name</label>
+        <input
+          id="firstName"
+          name="firstName"
+          type="firstName"
+          required
+          placeholder="First Name"
+          onChange={(e) => setFirstName(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="lastName">Last Name</label>
+        <input
+          id="lastName"
+          name="lastName"
+          type="lastName"
+          required
+          placeholder="Last Name"
+          onChange={(e) => setLastName(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="streetAddress">Street Address</label>
+        <input
+          id="streetAddress"
+          name="streetAddress"
+          type="streetAddress"
+          required
+          placeholder="Street Address"
+          onChange={(e) => setStreetAddress(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="profilePicturePath">Profile Picture</label>
+        <input
+          id="profilePicturePath"
+          name="profilePicturePath"
+          type="profilePicturePath"
+          required
+          placeholder="Profile Picture"
+          onChange={(e) => setProfilePicturePath(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="profileBackgroundPicturePath">Profile Backround Picture</label>
+        <input
+          id="profileBackgroundPicturePath"
+          name="profileBackgroundPicturePath"
+          type="profileBackgroundPicturePath"
+          required
+          placeholder="Profile Background Picture"
+          onChange={(e) => setProfileBackgroundPicturePath(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="description">Profile Description</label>
+        <input
+          id="description"
+          name="description"
+          type="description"
+          required
+          placeholder="Profile Description"
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="profileHeader">Profile Header</label>
+        <input
+          id="profileHeader"
+          name="profileHeader"
+          type="profileHeader"
+          required
+          placeholder="Profile Header"
+          onChange={(e) => setProfileHeader(e.target.value)}
         />
       </div>
       <div>
