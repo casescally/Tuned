@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext } from "react"
 
 import { Link } from "react-router-dom"
 
@@ -20,7 +20,7 @@ export default ({ car }) => {
 
     const user = users.find(u => u.id === car.userId) || {}
 
-    const currentCarsLikedCars = likedcars.filter(likedcar => likedcar.carId === car.id)
+    //   const currentCarsLikedCars = likedcars.filter(likedcar => likedcar.carId === car.id)
 
     const constructNewLikedCar = (currentCar) => {
 
@@ -73,24 +73,11 @@ export default ({ car }) => {
 
                 <img className="coverImage" src={car.carCoverUrl}></img>
 
-
-
-
-
-
-
-
-
-
-
                 <div className="carUploader">
-
-
 
                     <h3>
 
                         <Link to={`/users/${car.userId}`}>
-
 
 
                             <div className="car__user">{user.username}</div>
@@ -129,7 +116,7 @@ export default ({ car }) => {
 
 
 
-                LikedCars: {currentCarsLikedCars.length}
+                {/*   LikedCars: {currentCarsLikedCars.length}*/}
 
                 <button className="likedcarButton" value="LikedCar" onClick={evt => {
 

@@ -1,13 +1,8 @@
-import React, { useContext, useState } from "react"
-
+import React, { useContext } from "react"
 import { Link } from "react-router-dom"
-
 import { LikedCarContext } from "../likedCar/LikedCarProvider"
-
 import { UserContext } from "../user/UserProvider"
-
 //import "./Cars.css"
-
 
 export default ({ car }) => {
 
@@ -53,28 +48,19 @@ export default ({ car }) => {
 
     return (
 
-
-
         //car information
 
         <section className="Carsection">
 
             <div className="carInfo">
 
-
-
                 <img className="coverImage" src={car.carPageCoverUrl}></img>
 
-
                 <div className="carUploader">
-
-
 
                     <h3>
 
                         <Link to={`/users/${car.userId}`}>
-
-
 
                             <div className="car__user">{user.username}</div>
 
@@ -92,11 +78,7 @@ export default ({ car }) => {
 
                         </Link>
 
-
-
                     </h3>
-
-
 
                 </div>
 
@@ -104,15 +86,11 @@ export default ({ car }) => {
 
             <div className="likeInfo">
 
-
-
                 LikedCars: {currentCarsLikedCars.length}
 
                 <button className="likeButton" value="Like" onClick={evt => {
 
                     evt.preventDefault()
-
-
 
                     constructNewLike(car)
 
@@ -127,7 +105,5 @@ export default ({ car }) => {
             </div>
 
         </section>
-
     )
-
 }

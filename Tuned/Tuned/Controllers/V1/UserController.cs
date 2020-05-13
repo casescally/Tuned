@@ -1,56 +1,187 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Tuned.Interfaces;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using Tuned.Models.Data;
 using Tuned.Models.ViewModels;
-using Tuned.Routes.V1;
 
 namespace Tuned.Controllers.V1
 {
+    [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
-        private readonly IUserService _userSerice;
 
-        public UserController(IUserService userService)
+        private readonly IConfiguration _config;
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public UsersController(IConfiguration config, UserManager<ApplicationUser> userManager)
+
         {
-            _userSerice = userService;
+            _config = config;
+            _userManager = userManager;
         }
 
-        [HttpPost(Api.User.Register)]
-        public async Task<IActionResult> Register([FromBody] UserRegistrationViewModel user)
-        {
-            var authResponse = await _userSerice.RegisterUserAsync(user);
+        public SqlConnection Connection
 
-            if (!authResponse.Success)
-                return BadRequest(authResponse);
+        {
+            get
+            {
+                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
+            }
+        }
+
+        // GET: api/Users
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
             
-            return Ok(authResponse);
+            using (SqlConnection conn = Connection)
+
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText =
+
+                        @"SELECT Id, Username, FirstName, LastName
+                          FROM AspNetUsers";
+                
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                    List<ApplicationUserViewModel> users = new List<ApplicationUserViewModel>();
+
+                    try {
+
+                    while (reader.Read())
+                    {
+                            ApplicationUserViewModel foundUser = new ApplicationUserViewModel
+
+                            {
+                            Id = reader.GetString(reader.GetOrdinal("Id")),
+                            Username = reader.GetString(reader.GetOrdinal("Username")),
+                            FirstName = reader.GetString(reader.GetOrdinal("Firstname")),
+                            LastName = reader.GetString(reader.GetOrdinal("Lastname")),
+                        };
+
+                            users.Add(foundUser);
+                    }
+                    } catch (Exception ex) { }
+                       
+                    reader.Close();
+
+                    return Ok(users);
+                    
+                }
+            }
         }
 
-        [HttpPost(Api.User.Login)]
-        public async Task<IActionResult> Login([FromBody] UserLoginViewModel user)
+        // GET: api/Users/5
+        [HttpGet("{id}", Name = "GetUser")]
+        public async Task<IActionResult> Get([FromRoute] int id)
         {
-            var authResponse = await _userSerice.LoginAsync(
-                user.Email,
-                user.Password);
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT Id, Username, FirstName, LastName
+                                        FROM AspNetUsers
+                                        WHERE Id = @id";
 
-            if (!authResponse.Success)
-                return BadRequest(authResponse);
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-            return Ok(authResponse);
+                    ApplicationUserViewModel individualUser = null;
+
+                    if (reader.Read())
+                    {
+                        individualUser = new ApplicationUserViewModel
+                        {
+                            Id = reader.GetString(reader.GetOrdinal("Id")),
+                            Username = reader.GetString(reader.GetOrdinal("Username")),
+                            FirstName = reader.GetString(reader.GetOrdinal("Firstname")),
+                            LastName = reader.GetString(reader.GetOrdinal("Lastname")),
+                        };
+                        reader.Close();
+
+                        return Ok(individualUser);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                }
+            }
         }
 
-        [HttpPost(Api.User.Refresh)]
-        public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequestViewModel refresh)
+
+        
+
+        // DELETE: api/ApiWithActions/5
+        // Soft delete - sets the active user boolean to 1
+        [HttpDelete("{id}")]
+        public async Task<IActionResult>Delete([FromRoute] int id)
         {
-            var authResponse = await _userSerice.RefreshTokenAsync(
-                refresh.Token,
-                refresh.RefreshToken);
+            try
+            {
+                using (SqlConnection conn = Connection)
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"UPDATE Users
+                                            SET ActiveUser = 1
+                                            WHERE Id = @id";
 
-            if (!authResponse.Success)
-                return BadRequest(authResponse);
-
-            return Ok(authResponse);
+                        cmd.Parameters.Add(new SqlParameter("@id", id));
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                             return new StatusCodeResult(StatusCodes.Status204NoContent);
+                        }
+                        throw new Exception("No rows affected");
+                    }
+                }
+            }
+                        catch (Exception)
+            {
+                if (!UserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
+
+
+         private bool UserExists(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT Id, Username
+                        FROM User
+                        WHERE Id = @id";
+                    cmd.Parameters.Add(new SqlParameter("@id", id));
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    return reader.Read();
+                }
+            }
+        }
+
     }
 }

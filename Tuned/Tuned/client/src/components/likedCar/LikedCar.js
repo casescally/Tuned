@@ -16,9 +16,7 @@ export default ({ likedcar }) => {
 
     const constructNewLikedCar = (currentCar) => {
 
-        const alreadyLikedCar = likedcars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === parseInt(localStorage.getItem("currentUser")))
-
-        const user = users.find(u => u.id === likedcar.userId) || {}
+        const alreadyLikedCar = likedcars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === parseInt(localStorage.getItem("user")))
 
         //Don't allow duplicate likedcars
 
@@ -30,7 +28,7 @@ export default ({ likedcar }) => {
 
                 carId: currentCar.id,
 
-                userId: parseInt(localStorage.getItem("currentUser"))
+                userId: parseInt(localStorage.getItem("user"))
 
             })
 
@@ -38,7 +36,7 @@ export default ({ likedcar }) => {
 
             likedcarMode = true
 
-            deleteLikedCar(likedcars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === parseInt(localStorage.getItem("currentUser"))))
+            deleteLikedCar(likedcars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === parseInt(localStorage.getItem("user"))))
 
         }
 

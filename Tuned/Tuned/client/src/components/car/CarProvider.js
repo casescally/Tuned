@@ -105,9 +105,8 @@ export const CarProvider = (props) => {
 
     useEffect(() => {
 
-        console.log("****  CAR APPLICATION STATE CHANGED  ****")
-
-        console.log(cars)
+        //console.log("****  CAR APPLICATION STATE CHANGED  ****")
+        //console.log(cars)
 
     }, [cars])
 

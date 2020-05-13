@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import { CarContext } from "../car/CarProvider"
 import Car from "../car/Car"
-//import "../car/Cars.css"
+import "../car/Cars.css"
 import { UserContext } from "../user/UserProvider"
 import { LikedCarContext } from "../likedCar/LikedCarProvider"
 import LikedCar from "../likedCar/LikedCar"
@@ -11,43 +11,47 @@ export default (props) => {
 
     const { cars } = useContext(CarContext)
     const { users } = useContext(UserContext)
-    const chosenUserId = parseInt(props.match.params.userId, 10)
+    const chosenUserName = JSON.parse(localStorage.getItem("user")).username
     const { likes } = useContext(LikedCarContext)
     const profilesArray = []
+
     let editProfileMode = Boolean
 
-    if (chosenUserId !== parseInt(localStorage.getItem("currentUser"))) {
-        let foundProfile = users.find(u => u.id === chosenUserId) || {}
+    if (chosenUserName !== JSON.parse(localStorage.getItem("user")).username) {
+        let foundProfile = users.find(u => u.id === chosenUserName) || {}
         editProfileMode = false
         profilesArray.push(foundProfile)
 
     } else {
-        let foundProfile = users.find(u => u.id === parseInt(localStorage.getItem("currentUser"))) || {}
+        let foundProfile = users.find(u => u.id === chosenUserName) || {}
         editProfileMode = true
         profilesArray.push(foundProfile)
 
     }
 
     const currentProfile = profilesArray[0]
-    const currentProfileId = currentProfile.id
-    const likesRelationships = likes.filter(like => like.userId === currentProfile.id)
-    const currentUsersLikes = []
 
-    {
-        likesRelationships.forEach(rel => {
+    console.log(editProfileMode)
 
-            // Find this relationships's matching user object
-            const foundLike = cars.filter(
-                (singleCar) => {
-                    return rel.carId === singleCar.id
-                }
-            )[0]
-            //if page is reloaded and no likes are found
-            if (foundLike !== undefined) {
-                currentUsersLikes.push(foundLike)
-            }
-        })
-    }
+    // //const likesRelationships = likes.filter(like => like.userId === currentProfile.id)
+    // const currentUsersLikes = []
+
+    // {
+    //     likesRelationships.forEach(rel => {
+
+    //         // Find this relationships's matching user object
+    //         const foundLike = cars.filter(
+    //             (singleCar) => {
+    //                 return rel.carId === singleCar.id
+    //             }
+    //         )[0]
+
+    //         //if page is reloaded and no likes are found
+    //         if (foundLike !== undefined) {
+    //             currentUsersLikes.push(foundLike)
+    //         }
+    //     })
+    // }
 
     const currentUserCars = cars.filter(car => {
         return car.userId === currentProfile.id
@@ -61,7 +65,7 @@ export default (props) => {
             <section className="userProfile">
 
                 <div className="profileBackground" style={{
-                    backgroundImage: "url(" + `${currentProfile.backgroundCover}` + ")",
+                    backgroundImage: "url(" + `${currentProfile.name}` + ")",
                     backgroundPosition: 'center',
                     // backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
@@ -71,20 +75,19 @@ export default (props) => {
 
                     <span id="profileInfo">
 
-                        <img id="profilePicture" className="profilePicture" alt={`${currentProfile.name}'s profile picture`} src={currentProfile.profilePicture}></img>
+                        <img id="profilePicture" className="profilePicture" alt={`${currentProfile.firstname}'s profile picture`} src={currentProfile.name}></img>
 
                         {<h1 className="currentProfileName">{currentProfile.name}</h1>}
 
-                        {/* <img id="backgroundCover" className="backgroundCover" alt={`${currentProfile.name}'s background cover`} src={currentProfile.backgroundCover}></img> */}
 
-                        {/* <button className="followButton" value="Follow">Follow</button> */}
-                                    if (editProfileMode) {
+                        {
+
                             <button className="followButton" onClick={evt => {
 
                                 evt.preventDefault()
-                                props.history.push(`edit/${currentProfileId}`)
+                                props.history.push(`edit/${currentProfile.username}`)
 
-                            }}>{editProfileMode ? "Edit" : "Follow"}
+                            }}>{editProfileMode ? "Edit" : ""}
 
                             </button>}
                     </span>
@@ -110,8 +113,6 @@ export default (props) => {
                         <article id="likedCars" className="profileLikesList">
 
                             <h3>Liked Cars</h3>
-
-                            {currentUsersLikes.map(like => <LikedCar key={like.id} like={like} {...props} />)}
 
                         </article>
                     </div>

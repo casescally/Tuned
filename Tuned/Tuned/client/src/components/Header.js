@@ -11,7 +11,7 @@ function Header({ history }) {
     history.push("/login");
   };
 
-  console.log(user)
+
 
   return (
     <nav className="header">

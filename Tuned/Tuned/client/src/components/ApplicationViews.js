@@ -11,47 +11,48 @@ import ProfileForm from "./profile/ProfileForm"
 import { LikedCarProvider } from "./likedCar/LikedCarProvider"
 
 export default function ApplicationViews() {
+
   return (
     <>
+      <UserProvider>
+        <CarProvider>
+          <EventProvider>
+            <LikedCarProvider>
+              <Route exact path="/" render={() => <Home />} />
 
-      <CarProvider>
-        <EventProvider>
-          <LikedCarProvider>
-            <Route exact path="/" render={() => <Home />} />
+              <Route exact path="/users/CaseOtherAccount" render={
 
-            <Route exact path="/users/:userName(/^[a-zA-Z0-9]+$/)" render={
+                props => <Profile {...props} />
 
-              props => <Profile {...props} />
+              } />
 
-            } />
+              <Route exact path="/cars/create" render={
 
-            <Route exact path="/cars/create" render={
+                props => <CarForm {...props} />
 
-              props => <CarForm {...props} />
+              } />
 
-            } />
+              <Route path="/cars/:carId(\d+)" render={
 
-            <Route path="/cars/:carId(\d+)" render={
+                props => <CarDetails {...props} />
 
-              props => <CarDetails {...props} />
+              } />
 
-            } />
+              <Route path="/cars/edit/:carId(\d+)" render={
 
-            <Route path="/cars/edit/:carId(\d+)" render={
+                props => <CarForm {...props} />
 
-              props => <CarForm {...props} />
+              } />
 
-            } />
+              <Route exact path="/users/edit/:userId(\d+)" render={
 
-            <Route exact path="/users/edit/:userId(\d+)" render={
+                props => <ProfileForm {...props} />
 
-              props => <ProfileForm {...props} />
-
-            } />
-          </LikedCarProvider>
-        </EventProvider>
-      </CarProvider>
-
+              } />
+            </LikedCarProvider>
+          </EventProvider>
+        </CarProvider>
+      </UserProvider>
     </>
   );
 }
