@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from "react"
+import React, { useContext } from "react"
 import { Link } from "react-router-dom"
 import { LikedCarContext } from "../likedCar/LikedCarProvider"
 import { UserContext } from "../user/UserProvider"
