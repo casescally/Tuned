@@ -12,6 +12,20 @@
     <Compile Remove="Migrations\20200507025741_Models.Designer.cs" />
     <Compile Remove="Migrations\20200507170048_Models.cs" />
     <Compile Remove="Migrations\20200507170048_Models.Designer.cs" />
+    <Compile Remove="Migrations\20200507174740_Models.cs" />
+    <Compile Remove="Migrations\20200507174740_Models.Designer.cs" />
+    <Compile Remove="Migrations\20200508170420_Models.cs" />
+    <Compile Remove="Migrations\20200508170420_Models.Designer.cs" />
+    <Compile Remove="Migrations\20200508170901_Models.cs" />
+    <Compile Remove="Migrations\20200508170901_Models.Designer.cs" />
+    <Compile Remove="Migrations\20200508172234_Models.cs" />
+    <Compile Remove="Migrations\20200508172234_Models.Designer.cs" />
+    <Compile Remove="Migrations\20200509023738_ModelSeedData.cs" />
+    <Compile Remove="Migrations\20200509023738_ModelSeedData.Designer.cs" />
+    <Compile Remove="Migrations\20200511225723_Active.cs" />
+    <Compile Remove="Migrations\20200511225723_Active.Designer.cs" />
+    <Compile Remove="Migrations\20200513182715_UpdatedUserData.cs" />
+    <Compile Remove="Migrations\20200513182715_UpdatedUserData.Designer.cs" />
   </ItemGroup>
 
 
@@ -21,6 +35,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />

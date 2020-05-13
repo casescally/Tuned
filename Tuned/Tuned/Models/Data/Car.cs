@@ -19,5 +19,6 @@ namespace Tuned.Models.Data
         public VehicleType VehicleType { get; set; }
         public string CarPageCoverUrl { get; set; }
         public string CarDescription { get; set; }
+        public bool ActiveCar { get; set; }
     }
 }

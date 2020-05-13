@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { createAuthHeaders } from '../API/userManager';
+import { CarContext } from "./car/CarProvider"
+import Car from "./car/Car"
 
 function Home() {
   const [values, setValues] = useState([]);
@@ -13,17 +15,13 @@ function Home() {
       .then(setValues);
   }, []);
 
-  
-    return (
-      <>
-        <h1>Welcome to my app</h1>
-        <ul>
-          {
-            values.map((value, index) => <li key={index}>{value}</li>)
-          }
-        </ul>
-      </>
-    )
+
+
+  return (
+    <>
+      <h1>Welcome to my app</h1>
+    </>
+  )
 }
 
 export default Home;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tuned.Models.ViewModels;
 
 namespace Tuned.Models.Data
 {
@@ -12,8 +13,12 @@ namespace Tuned.Models.Data
         public string Location { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
-        public String AdminUserId { get; set; }
-        public ApplicationUser AdminUser { get; set; }
         public string ImagePath { get; set; }
+        public bool ActiveEvent { get; set; }
+
+        //Admin user
+        public string UserId { get; set; }
+        public ApplicationUserViewModel AdminUser { get; set; }
+
     }
 }

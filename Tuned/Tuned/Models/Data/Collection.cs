@@ -11,5 +11,6 @@ namespace Tuned.Models.Data
         public string Name { get; set; }
         public String UserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
+        public bool ActiveCollection { get; set; }
     }
 }

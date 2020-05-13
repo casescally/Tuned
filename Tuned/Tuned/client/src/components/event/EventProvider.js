@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react"
 import { createAuthHeaders } from "../../API/userManager"
 
@@ -10,7 +9,7 @@ import { createAuthHeaders } from "../../API/userManager"
 
 */
 
-export const CarContext = React.createContext()
+export const EventContext = React.createContext()
 
 /*
 
@@ -18,27 +17,24 @@ export const CarContext = React.createContext()
 
  */
 
-export const CarProvider = (props) => {
+export const EventProvider = (props) => {
 
-    const [cars, setCars] = useState([])
+    const [events, setEvents] = useState([])
 
-    const getCars = () => {
+    const getEvents = () => {
         const authHeader = createAuthHeaders();
-        return fetch("https://localhost:5001/api/cars", {
-
+        return fetch("https://localhost:5001/api/events", {
             headers: authHeader
         })
-
             .then(res => res.json())
 
-            .then(setCars)
+            .then(setEvents)
 
     }
 
-    const addCar = car => {
+    const addEvent = event => {
         const authHeader = createAuthHeaders();
-        return fetch("https://localhost:5001/api/cars", {
-
+        return fetch("https://localhost:5001/api/events", {
 
             method: "POST",
 
@@ -48,30 +44,29 @@ export const CarProvider = (props) => {
 
             },
 
-            body: JSON.stringify(car)
+            body: JSON.stringify(event)
 
         })
 
-            .then(getCars)
+            .then(getEvents)
 
     }
 
-    const deleteCar = car => {
+    const deleteEvent = event => {
         const authHeader = createAuthHeaders();
-        return fetch(`https://localhost:5001/api/cars/${car.id}`, {
-
-            authHeader,
+        return fetch(`https://localhost:5001/api/events/${event.id}`, {
+            headers: authHeader,
             method: "DELETE"
 
         })
 
-            .then(getCars)
+            .then(getEvents)
 
     }
 
-    const updateCar = car => {
+    const updateEvent = event => {
         const authHeader = createAuthHeaders();
-        return fetch(`https://localhost:5001/api/cars/${car.id}`, {
+        return fetch(`https://localhost:5001/api/events/${event.id}`, {
 
             method: "PUT",
 
@@ -81,17 +76,17 @@ export const CarProvider = (props) => {
 
             },
 
-            body: JSON.stringify(car)
+            body: JSON.stringify(event)
 
         })
 
-            .then(getCars)
+            .then(getEvents)
 
     }
 
     /*
 
-        Load all cars when the component is mounted. Ensure that
+        Load all events when the component is mounted. Ensure that
 
         an empty array is the second argument to avoid infinite loop.
 
@@ -99,28 +94,29 @@ export const CarProvider = (props) => {
 
     useEffect(() => {
 
-        getCars()
+        getEvents()
 
     }, [])
 
     useEffect(() => {
 
-        //console.log("****  CAR APPLICATION STATE CHANGED  ****")
-        //console.log(cars)
+        // console.log("****  EVENT APPLICATION STATE CHANGED  ****")
 
-    }, [cars])
+        // console.log(events)
+
+    }, [events])
 
     return (
 
-        <CarContext.Provider value={{
+        <EventContext.Provider value={{
 
-            cars, addCar, deleteCar, updateCar
+            events, addEvent, deleteEvent, updateEvent
 
         }}>
 
             {props.children}
 
-        </CarContext.Provider>
+        </EventContext.Provider>
 
     )
 

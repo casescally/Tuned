@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tuned.Data;
 
 namespace Tuned.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200511211316_UserEventsSeed")]
+    partial class UserEventsSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,9 +164,6 @@ namespace Tuned.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<bool>("ActiveUser")
-                        .HasColumnType("bit");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -247,16 +246,15 @@ namespace Tuned.Migrations
                         {
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
-                            ActiveUser = false,
-                            ConcurrencyStamp = "ca94d569-f3e4-452b-80e8-820d19eeeb1f",
+                            ConcurrencyStamp = "2cf224c6-f862-4332-830b-6eb79c676778",
                             Email = "caseScally@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Case",
                             LastName = "Scally",
                             LockoutEnabled = false,
-                            NormalizedEmail = "CASESCALLY@GMAIL.COM",
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "CASESCALLY@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKqYKVI0ka6vWdXlVlN7FZwlzTFj3BNFL75ALFltsRl1KWzP2K7bifN+/483C+dl8A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF2YQx8wG56ujpJzUhIvEjaZcvWFFuWPcVLbBTWsLOPbYzmp5nBeVvYhF9KbXQRueg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             StreetAddress = "123 Infinity Way",
@@ -267,16 +265,15 @@ namespace Tuned.Migrations
                         {
                             Id = "e4356622-ec1e-4b02-b5b9-762e4916c2ff",
                             AccessFailedCount = 0,
-                            ActiveUser = false,
-                            ConcurrencyStamp = "ee83d50c-3edb-45a1-abb6-44c0e110cc08",
-                            Email = "moScally@gmail.com",
+                            ConcurrencyStamp = "17640f99-c211-4683-9fde-fb2b8d06d45d",
+                            Email = "caseScally@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Molly",
                             LastName = "Scally",
                             LockoutEnabled = false,
                             NormalizedEmail = "MOSCALLY@GMAIL.COM",
-                            NormalizedUserName = "MOSCALLY@gmail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA+MIYLTvJb0CTKzwpU0qqd/YyR5lTK8Aly5NO7yjsyw42Uwcd9kcpstTDo+lKTMrg==",
+                            NormalizedUserName = "MOSCALLY@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMwyDPqPJ3xNPAoyc457+5xSgYoOIYVNTP31UBqul6ablXQuB/zFe5gHVvHxkL4msQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794578",
                             StreetAddress = "123 Infinity Way",
@@ -287,8 +284,7 @@ namespace Tuned.Migrations
                         {
                             Id = "f5d1aaa8-b80a-4649-bea7-bbc0226c9866",
                             AccessFailedCount = 0,
-                            ActiveUser = false,
-                            ConcurrencyStamp = "333ce7d7-4440-45d0-83e9-9feb4896dec3",
+                            ConcurrencyStamp = "c4c0cb5b-f85f-4959-b257-43640e751de5",
                             Email = "hunter@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Hunter",
@@ -296,7 +292,7 @@ namespace Tuned.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "HUNTER@GMAIL.COM",
                             NormalizedUserName = "HUNTER@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFFwAhcQzALlqQsHTCnd+Qr4HkzO7Psns1Uxl2H0Jx+aTNRv1K3XBr3OqiBOV5lNww==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI5/HGPOsqLhkD8tQS1RTKV01O4Hp3CP6SN1onek0kBbSqx0ZUlfgzTJHkHx/4bQjA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794579",
                             StreetAddress = "249 Brentwood Place",
@@ -311,9 +307,6 @@ namespace Tuned.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("ActiveCar")
-                        .HasColumnType("bit");
 
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
@@ -354,7 +347,6 @@ namespace Tuned.Migrations
                         new
                         {
                             Id = 1,
-                            ActiveCar = false,
                             ApplicationUserId = "00000000-ffff-ffff-ffff-ffffffffffff",
                             CarDescription = "My car",
                             CarPageCoverUrl = "testUrl",
@@ -368,7 +360,6 @@ namespace Tuned.Migrations
                         new
                         {
                             Id = 2,
-                            ActiveCar = false,
                             ApplicationUserId = "e4356622-ec1e-4b02-b5b9-762e4916c2ff",
                             CarDescription = "Molly's Car",
                             CarPageCoverUrl = "testUrl2",
@@ -382,7 +373,6 @@ namespace Tuned.Migrations
                         new
                         {
                             Id = 3,
-                            ActiveCar = false,
                             ApplicationUserId = "f5d1aaa8-b80a-4649-bea7-bbc0226c9866",
                             CarDescription = "Hunterz car",
                             CarPageCoverUrl = "testUrl3",
@@ -422,9 +412,6 @@ namespace Tuned.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("ActiveCollection")
-                        .HasColumnType("bit");
-
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -444,7 +431,6 @@ namespace Tuned.Migrations
                         new
                         {
                             Id = 1,
-                            ActiveCollection = false,
                             Name = "Cars in my driveway",
                             UserId = "1"
                         });
@@ -456,12 +442,6 @@ namespace Tuned.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("ActiveEvent")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("AdminUserId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -483,16 +463,13 @@ namespace Tuned.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdminUserId");
-
                     b.ToTable("Events");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            ActiveEvent = false,
-                            Date = new DateTime(2020, 5, 13, 12, 10, 54, 144, DateTimeKind.Local).AddTicks(1125),
+                            Date = new DateTime(2020, 5, 11, 14, 13, 16, 63, DateTimeKind.Local).AddTicks(751),
                             Description = "Casual meet",
                             ImagePath = "SomeTestUrl",
                             Location = "Church Street",
@@ -502,8 +479,7 @@ namespace Tuned.Migrations
                         new
                         {
                             Id = 2,
-                            ActiveEvent = false,
-                            Date = new DateTime(2020, 5, 13, 12, 10, 54, 144, DateTimeKind.Local).AddTicks(9091),
+                            Date = new DateTime(2020, 5, 11, 14, 13, 16, 63, DateTimeKind.Local).AddTicks(9026),
                             Description = "Imports only",
                             ImagePath = "SomeOtherTestUrl",
                             Location = "Atlanta",
@@ -522,16 +498,27 @@ namespace Tuned.Migrations
                     b.Property<int>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("LikedCars");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CarId = 3,
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("Tuned.Models.Data.RefreshToken", b =>
@@ -575,8 +562,8 @@ namespace Tuned.Migrations
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -587,13 +574,13 @@ namespace Tuned.Migrations
                         {
                             Id = 1,
                             EventId = 1,
-                            UserId = "00000000-ffff-ffff-ffff-ffffffffffff"
+                            UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             EventId = 2,
-                            UserId = "f5d1aaa8-b80a-4649-bea7-bbc0226c9866"
+                            UserId = 3
                         });
                 });
 
@@ -694,25 +681,6 @@ namespace Tuned.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Tuned.Models.ViewModels.ApplicationUserViewModel", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ApplicationUserViewModel");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -793,13 +761,6 @@ namespace Tuned.Migrations
                         .HasForeignKey("ApplicationUserId");
                 });
 
-            modelBuilder.Entity("Tuned.Models.Data.Event", b =>
-                {
-                    b.HasOne("Tuned.Models.ViewModels.ApplicationUserViewModel", "AdminUser")
-                        .WithMany()
-                        .HasForeignKey("AdminUserId");
-                });
-
             modelBuilder.Entity("Tuned.Models.Data.LikedCar", b =>
                 {
                     b.HasOne("Tuned.Models.Data.Car", "Car")
@@ -808,9 +769,9 @@ namespace Tuned.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Tuned.Models.ViewModels.ApplicationUserViewModel", "User")
+                    b.HasOne("Tuned.Models.Data.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Tuned.Models.Data.RefreshToken", b =>

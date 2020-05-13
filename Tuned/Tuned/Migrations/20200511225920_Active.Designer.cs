@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tuned.Data;
 
 namespace Tuned.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200511225920_Active")]
+    partial class Active
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,15 +250,15 @@ namespace Tuned.Migrations
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
                             ActiveUser = false,
-                            ConcurrencyStamp = "ca94d569-f3e4-452b-80e8-820d19eeeb1f",
+                            ConcurrencyStamp = "858cae32-04ce-4cbd-8164-92000d4befc9",
                             Email = "caseScally@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Case",
                             LastName = "Scally",
                             LockoutEnabled = false,
-                            NormalizedEmail = "CASESCALLY@GMAIL.COM",
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "CASESCALLY@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKqYKVI0ka6vWdXlVlN7FZwlzTFj3BNFL75ALFltsRl1KWzP2K7bifN+/483C+dl8A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENnK9y4JtQKop8hlCeQPZHV8r6nyOR6klQE1YoVDOYBX5R039hkX81Kla5Uv6/GYzQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             StreetAddress = "123 Infinity Way",
@@ -268,15 +270,15 @@ namespace Tuned.Migrations
                             Id = "e4356622-ec1e-4b02-b5b9-762e4916c2ff",
                             AccessFailedCount = 0,
                             ActiveUser = false,
-                            ConcurrencyStamp = "ee83d50c-3edb-45a1-abb6-44c0e110cc08",
-                            Email = "moScally@gmail.com",
+                            ConcurrencyStamp = "c38c9ac8-7b60-4c12-8c3f-787e6037207d",
+                            Email = "caseScally@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Molly",
                             LastName = "Scally",
                             LockoutEnabled = false,
                             NormalizedEmail = "MOSCALLY@GMAIL.COM",
-                            NormalizedUserName = "MOSCALLY@gmail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA+MIYLTvJb0CTKzwpU0qqd/YyR5lTK8Aly5NO7yjsyw42Uwcd9kcpstTDo+lKTMrg==",
+                            NormalizedUserName = "MOSCALLY@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFvmfZZ/VVyrNcL38fEqey2cL5ImckKC//wU6mD8/sUUUqujmcAsg71ttQ216fCQ8Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794578",
                             StreetAddress = "123 Infinity Way",
@@ -288,7 +290,7 @@ namespace Tuned.Migrations
                             Id = "f5d1aaa8-b80a-4649-bea7-bbc0226c9866",
                             AccessFailedCount = 0,
                             ActiveUser = false,
-                            ConcurrencyStamp = "333ce7d7-4440-45d0-83e9-9feb4896dec3",
+                            ConcurrencyStamp = "dddebab4-99c5-4bac-aef2-94b826083c8b",
                             Email = "hunter@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Hunter",
@@ -296,7 +298,7 @@ namespace Tuned.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "HUNTER@GMAIL.COM",
                             NormalizedUserName = "HUNTER@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFFwAhcQzALlqQsHTCnd+Qr4HkzO7Psns1Uxl2H0Jx+aTNRv1K3XBr3OqiBOV5lNww==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENh8FIS4gU2gq/hcp+oNlLkz0hxtw8qGPK3YZiS3D2oE7vtemPy0zpGowjyuXyouRw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794579",
                             StreetAddress = "249 Brentwood Place",
@@ -492,7 +494,7 @@ namespace Tuned.Migrations
                         {
                             Id = 1,
                             ActiveEvent = false,
-                            Date = new DateTime(2020, 5, 13, 12, 10, 54, 144, DateTimeKind.Local).AddTicks(1125),
+                            Date = new DateTime(2020, 5, 11, 15, 59, 19, 769, DateTimeKind.Local).AddTicks(1548),
                             Description = "Casual meet",
                             ImagePath = "SomeTestUrl",
                             Location = "Church Street",
@@ -503,7 +505,7 @@ namespace Tuned.Migrations
                         {
                             Id = 2,
                             ActiveEvent = false,
-                            Date = new DateTime(2020, 5, 13, 12, 10, 54, 144, DateTimeKind.Local).AddTicks(9091),
+                            Date = new DateTime(2020, 5, 11, 15, 59, 19, 770, DateTimeKind.Local).AddTicks(1505),
                             Description = "Imports only",
                             ImagePath = "SomeOtherTestUrl",
                             Location = "Atlanta",
@@ -522,16 +524,27 @@ namespace Tuned.Migrations
                     b.Property<int>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("LikedCars");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CarId = 3,
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("Tuned.Models.Data.RefreshToken", b =>
@@ -808,9 +821,9 @@ namespace Tuned.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Tuned.Models.ViewModels.ApplicationUserViewModel", "User")
+                    b.HasOne("Tuned.Models.Data.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Tuned.Models.Data.RefreshToken", b =>
