@@ -11,5 +11,6 @@ namespace Tuned.Models.Data
         public int CarId { get; set; }
         public Car Car { get; set; }
         public string ImagePath { get; set; }
+        public bool Active { get; set; }
     }
 }
