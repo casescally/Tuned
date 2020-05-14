@@ -9,8 +9,9 @@ import CarForm from "./car/CarForm"
 import CarDetails from "./car/CarDetails"
 import ProfileForm from "./profile/ProfileForm"
 import { LikedCarProvider } from "./likedCar/LikedCarProvider"
+import { CarList } from "./car/CarList"
 
-export default function ApplicationViews() {
+export default function ApplicationViews(props) {
 
   return (
     <>
@@ -18,37 +19,23 @@ export default function ApplicationViews() {
         <CarProvider>
           <EventProvider>
             <LikedCarProvider>
-              <Route exact path="/" render={() => <Home />} />
 
-              <Route exact path="/users/CaseOtherAccount" render={
+              <Route exact path="/" render={props => <Home {...props} />} />
 
-                props => <Profile {...props} />
-
-              } />
+              <Route exact path="/Cars" render={(props) => <CarList {...props} />} />
 
               <Route exact path="/cars/create" render={
-
                 props => <CarForm {...props} />
-
               } />
 
               <Route path="/cars/:carId(\d+)" render={
-
                 props => <CarDetails {...props} />
-
               } />
 
-              <Route path="/cars/edit/:carId(\d+)" render={
-
-                props => <CarForm {...props} />
-
+              <Route path="/profile/:userId" render={
+                props => <Profile {...props} />
               } />
 
-              <Route exact path="/users/edit/:userId(\d+)" render={
-
-                props => <ProfileForm {...props} />
-
-              } />
             </LikedCarProvider>
           </EventProvider>
         </CarProvider>

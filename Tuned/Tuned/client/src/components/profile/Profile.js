@@ -31,7 +31,7 @@ export default (props) => {
 
     const currentProfile = profilesArray[0]
 
-    console.log(editProfileMode)
+    console.log("User Profile")
 
     // //const likesRelationships = likes.filter(like => like.userId === currentProfile.id)
     // const currentUsersLikes = []
