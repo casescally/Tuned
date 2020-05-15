@@ -1,11 +1,18 @@
-import React, { useContext, useState, useEffect } from "react"
+import React, { useContext, useState, useEffect, useReducer } from "react"
 import { CarContext } from "./CarProvider"
-import { LikedCarContext } from "../likedCar/LikedCarProvider"
+//import { LikedCarContext } from "../likedCar/LikedCarProvider"
 
 export default props => {
-    const { likedCars } = useContext(likedCarContext)
+    // const { likedCars } = useContext(LikedCarContext)
     const { cars, addCar, updateCar } = useContext(CarContext)
-    const [car, setCar] = useState({})
+    const [car, setCar] = useState({
+        "url": 1,
+        "applicationUserId": JSON.parse(localStorage.getItem("user")).id,
+        "activeCar": true,
+        "vehicleTypeId": 3,
+        "year": 1998,
+        "carDescription": "something"
+    })
 
     const editMode = props.match.params.hasOwnProperty("carId")
 
@@ -39,26 +46,26 @@ export default props => {
                 name: car.name,
                 make: car.make,
                 model: car.model,
-                year: car.year,
-                vehicleTypeId: car.vehicleTypeId,
+                year: parseInt(car.year),
+                vehicleTypeId: parseInt(car.vehicleTypeId),
                 carPageCoverUrl: car.carPageCoverUrl,
-                likedCarId: likedCarId,
-                description: car.description,
-                userId: parseInt(localStorage.getItem("user"))
+                carDescription: car.description,
+                applicationUserId: localStorage.getItem("user").id
             })
+
                 .then(() => props.history.push("/cars"))
         } else {
             addCar({
-                name: car.name,
-                make: car.make,
-                model: car.model,
-                year: car.year,
-                vehicleTypeId: car.vehicleTypeId,
-                carPageCoverUrl: car.carPageCoverUrl,
-                likedcarId: likedcarId,
-                description: car.description,
-                customerId: parseInt(localStorage.getItem("user"))
+                "name": car.name,
+                "make": car.make,
+                "model": car.model,
+                //year: parseInt(car.year),
+                // vehicleTypeId: parseInt(car.vehicleTypeId),
+                "carPageCoverUrl": car.carPageCoverUrl,
+                //carDescription: car.description,
+
             })
+                .then(console.log(car))
                 .then(() => props.history.push("/cars"))
         }
     }
@@ -66,7 +73,7 @@ export default props => {
 
     return (
         <form className="carForm">
-            <h2 className="carForm__title">{editMode ? "Update Car" : "Admit Car"}</h2>
+            <h2 className="carForm__title">{editMode ? "Update Car" : "Add Car"}</h2>
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="name">Car name: </label>
@@ -113,8 +120,8 @@ export default props => {
             </fieldset>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="vehicleType">Vehicle Type: </label>
-                    <input type="text" name="year" required className="form-control"
+                    <label htmlFor="vehicleTypeId">Vehicle Type: </label>
+                    <input type="text" name="vehicleTypeId" required className="form-control"
                         proptype="varchar"
                         placeholder="Vehicle Type"
                         defaultValue={car.vehicleTypeId}
@@ -125,7 +132,7 @@ export default props => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="carPageCoverUrl">Car Page Cover: </label>
-                    <input type="text" name="year" required className="form-control"
+                    <input type="text" name="carPageCoverUrl" required className="form-control"
                         proptype="varchar"
                         placeholder="Car Page Cover"
                         defaultValue={car.carPageCoverUrlId}
@@ -149,7 +156,7 @@ export default props => {
                     constructNewCar()
                 }}
                 className="btn btn-primary">
-                {editMode ? "Save Updates" : "-"}
+                {editMode ? "Save Updates" : "Add Car"}
             </button>
         </form>
     )

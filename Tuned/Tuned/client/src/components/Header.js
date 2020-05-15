@@ -19,8 +19,18 @@ function Header({ history }) {
         {user ? (
           <>
             <li className="nav-item">
-              <Link to={"/users/" + user.username}>
+              <Link to={"/profile/" + user.id}>
                 Hello {user.username}
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/cars">
+                Browse Cars
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/cars/create">
+                Add Car
               </Link>
             </li>
             <li className="nav-item" onClick={logout}>
