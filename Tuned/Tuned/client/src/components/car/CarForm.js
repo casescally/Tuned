@@ -1,17 +1,18 @@
 import React, { useContext, useState, useEffect, useReducer } from "react"
 import { CarContext } from "./CarProvider"
+import { getUser } from "../../API/userManager"
 //import { LikedCarContext } from "../likedCar/LikedCarProvider"
 
 export default props => {
+
+    const user = getUser();
+
     // const { likedCars } = useContext(LikedCarContext)
+
     const { cars, addCar, updateCar } = useContext(CarContext)
+
     const [car, setCar] = useState({
-        "url": 1,
-        "applicationUserId": JSON.parse(localStorage.getItem("user")).id,
-        "activeCar": true,
-        "vehicleTypeId": 3,
-        "year": 1998,
-        "carDescription": "something"
+        url: 1
     })
 
     const editMode = props.match.params.hasOwnProperty("carId")
@@ -41,7 +42,9 @@ export default props => {
     const constructNewCar = () => {
 
         if (editMode) {
+
             updateCar({
+
                 id: car.id,
                 name: car.name,
                 make: car.make,
@@ -51,21 +54,28 @@ export default props => {
                 carPageCoverUrl: car.carPageCoverUrl,
                 carDescription: car.description,
                 applicationUserId: localStorage.getItem("user").id
+
             })
 
                 .then(() => props.history.push("/cars"))
+
         } else {
+
             addCar({
-                "name": car.name,
-                "make": car.make,
-                "model": car.model,
-                //year: parseInt(car.year),
-                // vehicleTypeId: parseInt(car.vehicleTypeId),
-                "carPageCoverUrl": car.carPageCoverUrl,
-                //carDescription: car.description,
+
+                name: car.name,
+                make: car.make,
+                model: car.model,
+                year: parseInt(car.year),
+                applicationUserId: user.id,
+                vehicleTypeId: parseInt(car.vehicleTypeId),
+                carPageCoverUrl: car.carPageCoverUrl,
+                carDescription: car.description,
+                activeCar: true
 
             })
-                .then(console.log(car))
+                //console.log(car)
+
                 .then(() => props.history.push("/cars"))
         }
     }
