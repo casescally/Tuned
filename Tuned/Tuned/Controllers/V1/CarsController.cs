@@ -61,7 +61,6 @@ namespace Tuned.Controllers.V1
                             Make = reader.GetString(reader.GetOrdinal("Make")),
                             Model = reader.GetString(reader.GetOrdinal("Model")),
                             Year = reader.GetInt32(reader.GetOrdinal("Year")),
-                            Url = reader.GetInt32(reader.GetOrdinal("Url")),
                             ApplicationUserId = reader.GetString(reader.GetOrdinal("ApplicationUserId")),
                             VehicleTypeId = reader.GetInt32(reader.GetOrdinal("VehicleTypeId")),
                             CarPageCoverUrl = reader.GetString(reader.GetOrdinal("CarPageCoverUrl")),
@@ -89,7 +88,7 @@ namespace Tuned.Controllers.V1
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT c.Id, c.Name, c.Make, c.Model, c.Year, c.Url, c.ApplicationUserId, c.VehicleTypeId, c.CarPageCoverUrl, c.CarDescription, c.ActiveCar, a.FirstName, a.LastName, a.StreetAddress, a.ProfilePicturePath, a.ProfileBackgroundPicturePath, a.Description, a.ProfileHeader, a.ActiveUser
+                    cmd.CommandText = @"SELECT c.Id, c.Name, c.Make, c.Model, c.Year, c.ApplicationUserId, c.VehicleTypeId, c.CarPageCoverUrl, c.CarDescription, c.ActiveCar, a.FirstName, a.LastName, a.StreetAddress, a.ProfilePicturePath, a.ProfileBackgroundPicturePath, a.Description, a.ProfileHeader, a.ActiveUser
                                         FROM Cars c
                                         LEFT JOIN AspNetUsers a
                                         ON c.ApplicationUserId = a.Id
@@ -109,7 +108,6 @@ namespace Tuned.Controllers.V1
                             Make = reader.GetString(reader.GetOrdinal("Make")),
                             Model = reader.GetString(reader.GetOrdinal("Model")),
                             Year = reader.GetInt32(reader.GetOrdinal("Year")),
-                            Url = reader.GetInt32(reader.GetOrdinal("Url")),
                             ApplicationUserId = reader.GetString(reader.GetOrdinal("ApplicationUserId")),
                             VehicleTypeId = reader.GetInt32(reader.GetOrdinal("VehicleTypeId")),
                             CarPageCoverUrl = reader.GetString(reader.GetOrdinal("CarPageCoverUrl")),
@@ -136,15 +134,14 @@ namespace Tuned.Controllers.V1
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Cars (Name, Make, Model, Year, Url, ApplicationUserId, VehicleTypeId, CarPageCoverUrl, CarDescription)
+                    cmd.CommandText = @"INSERT INTO Cars (Name, Make, Model, Year, ApplicationUserId, VehicleTypeId, CarPageCoverUrl, CarDescription)
                                         OUTPUT INSERTED.Id
-                                        VALUES (@name, @make, @model, @year, @url, @applicationUserId, @vehicleTypeId, @carPageCoverUrl, @carDescription)";
+                                        VALUES (@name, @make, @model, @year, @applicationUserId, @vehicleTypeId, @carPageCoverUrl, @carDescription)";
 
                     cmd.Parameters.Add(new SqlParameter("@name", newCar.Name));
                     cmd.Parameters.Add(new SqlParameter("@make", newCar.Make));
                     cmd.Parameters.Add(new SqlParameter("@model", newCar.Model));
                     cmd.Parameters.Add(new SqlParameter("@year", newCar.Year));
-                    cmd.Parameters.Add(new SqlParameter("@url", newCar.Url));
                     cmd.Parameters.Add(new SqlParameter("@applicationUserId", newCar.ApplicationUserId));
                     cmd.Parameters.Add(new SqlParameter("@vehicleTypeId", newCar.VehicleTypeId));
                     cmd.Parameters.Add(new SqlParameter("@carPageCoverUrl", newCar.CarPageCoverUrl));
@@ -174,7 +171,6 @@ namespace Tuned.Controllers.V1
                                             Make = @make,
                                             Model = @model,
                                             Year = @year,
-                                            Url = @url,
                                             ApplicationUserId = @applicationUserId,
                                             VehicleTypeId = @vehicleTypeId,
                                             CarPageCoverUrl = @carPageCoverUrl,
@@ -187,7 +183,6 @@ namespace Tuned.Controllers.V1
                     cmd.Parameters.Add(new SqlParameter("@make", updatedCar.Make));
                     cmd.Parameters.Add(new SqlParameter("@model", updatedCar.Model));
                     cmd.Parameters.Add(new SqlParameter("@year", updatedCar.Year));
-                    cmd.Parameters.Add(new SqlParameter("@url", updatedCar.Url));
                     cmd.Parameters.Add(new SqlParameter("@applicationUserId", updatedCar.ApplicationUserId));
                     cmd.Parameters.Add(new SqlParameter("@vehicleTypeId", updatedCar.VehicleTypeId));
                     cmd.Parameters.Add(new SqlParameter("@carPageCoverUrl", updatedCar.CarPageCoverUrl));

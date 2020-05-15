@@ -25,12 +25,7 @@ function Header({ history }) {
             </li>
             <li className="nav-item">
               <Link to="/cars">
-                Browse Cars
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/cars/create">
-                Add Car
+                Browse
               </Link>
             </li>
             <li className="nav-item" onClick={logout}>

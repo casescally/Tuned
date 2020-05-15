@@ -11,9 +11,7 @@ export default props => {
 
     const { cars, addCar, updateCar } = useContext(CarContext)
 
-    const [car, setCar] = useState({
-        url: 1
-    })
+    const [car, setCar] = useState({})
 
     const editMode = props.match.params.hasOwnProperty("carId")
 

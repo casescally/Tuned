@@ -3,6 +3,7 @@ import { UserContext } from "../user/UserProvider"
 import { LikedCarContext } from "../likedCar/LikedCarProvider"
 import { CarContext } from "./CarProvider"
 import "./Cars.css"
+import { getUser } from "../../API/userManager"
 
 export default (props) => {
 
@@ -12,9 +13,10 @@ export default (props) => {
 
     const chosenCarId = parseInt(props.match.params.carId, 10)
 
+    const user = getUser()
     const car = cars.find(c => c.id === chosenCarId) || {}
     const likedCar = likedCars.find(l => l.likedCarId === car.id) || {}
-    const user = users.find(u => u.id === car.userId) || {}
+    const carUser = users.find(u => u.id === car.applicationUserId) || {}
     const currentUsersCars = cars.filter(c => c.userId === user.id)
     let likedCarMode = Boolean
 
@@ -35,7 +37,7 @@ export default (props) => {
 
             }>{likedCarMode ? "Like" : "Unlike"}</button>
 
-            <div className="car__user">User: {user.username}</div>
+            <div className="car__user">User: {carUser.username}</div>
             
             <button onClick={
                 () => {

@@ -78,7 +78,7 @@ export default ({ likedcar }) => {
 
                 LikedCars: {currentLikedCars.length}
 
-                <button className="likedcarButton" value="LikedCar" onClick={evt => {
+                <button className="likedCarButton" value="Like" onClick={evt => {
 
                     evt.preventDefault()
 
@@ -86,7 +86,7 @@ export default ({ likedcar }) => {
 
                 }
 
-                }>{likedcarMode ? "LikedCar" : "Unlikedcar"}</button>
+                }>{likedcarMode ? "Like" : "Unlike"}</button>
 
                 <div className="uploaderInfo">
 
