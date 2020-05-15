@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect, useReducer } from "react"
 import { CarContext } from "./CarProvider"
 import { getUser } from "../../API/userManager"
 //import { LikedCarContext } from "../likedCar/LikedCarProvider"
+import { createAuthHeaders } from "../../API/userManager"
 
 export default props => {
 
@@ -78,6 +79,40 @@ export default props => {
         }
     }
 
+    // async function sendImage(event) {
+    //     event.preventDefault();
+    //     console.log(this.state.file);
+    //     await this.addImage(this.state.file);
+    //     console.log('it works');
+    // };
+    // async function addImage(image) {
+    //     const authHeader = createAuthHeaders();
+    //     await fetch('https://localhost:44385/api/cars',
+
+    //         {
+
+    //             method: 'POST',
+    //             mode: 'cors',
+    //             headers: {
+    //                 //'Accept': 'application/json',
+    //                 //'Authorization': 'Bearer ' + sessionStorage.tokenKey
+    //                 headers: authHeader
+    //             },
+    //             body: this.state.file
+    //         }
+    //     )
+    // }
+
+    // async function handleImageChange(e) {
+    //     e.preventDefault();
+    //     let form = new FormData();
+    //     for (var index = 0; index < e.target.files.length; index++) {
+    //         var element = e.target.files[index];
+    //         form.append('image', element);
+    //     }
+    //     form.append('fileName', "Img");
+    //     this.setState({ file: form });
+    // };
 
     return (
         <form className="carForm">
@@ -148,6 +183,16 @@ export default props => {
                     />
                 </div>
             </fieldset>
+            <form method="post" encType="multipart/form-data" action="https://localhost:5001/api/cars">
+
+                <div>
+                    <label htmlFor="img">Image File</label>
+                    <input name="img" type="file" />
+                </div>
+                {/* <div>
+                    <input type="submit" value="Submit" />
+                </div> */}
+            </form>
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="description">Description: </label>

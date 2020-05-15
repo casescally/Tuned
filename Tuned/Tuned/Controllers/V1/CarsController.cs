@@ -7,6 +7,10 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Tuned.Models.Data;
 using Tuned.Models.ViewModels;
+using System.Web;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using System.Linq.Expressions;
 
 namespace Tuned.Controllers.V1
 {
@@ -17,10 +21,12 @@ namespace Tuned.Controllers.V1
 
         private readonly IConfiguration _config;
 
-        public CarsController(IConfiguration config)
+        public static IWebHostEnvironment _environment;
 
+        public CarsController(IConfiguration config, IWebHostEnvironment environment)
         {
             _config = config;
+            _environment = environment;
         }
 
         public SqlConnection Connection
@@ -30,6 +36,11 @@ namespace Tuned.Controllers.V1
             {
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
+        }
+
+        public class FileUploadInterface
+        {
+            public IFormFile files { get; set; }
         }
 
         // GET: api/Cars
@@ -127,7 +138,7 @@ namespace Tuned.Controllers.V1
 
         // POST: api/Cars
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Car newCar)
+        public async Task<IActionResult> Post([FromBody] CarCreateViewModel newCar)
         {
             using (SqlConnection conn = Connection)
             {
@@ -146,12 +157,41 @@ namespace Tuned.Controllers.V1
                     cmd.Parameters.Add(new SqlParameter("@vehicleTypeId", newCar.VehicleTypeId));
                     cmd.Parameters.Add(new SqlParameter("@carPageCoverUrl", newCar.CarPageCoverUrl));
                     cmd.Parameters.Add(new SqlParameter("@carDescription", newCar.CarDescription));
+                    { 
+                        try {
 
+                        if (newCar.ImageFile.Length > 0) { 
+                            if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
+                            {
+                                Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
+                            }
+                        using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + "\\Upload\\"+newCar.ImageFile.FileName))
+                        {
+                            newCar.ImageFile.CopyTo(fileStream);
+                            fileStream.Flush();
+                            return "\\Upload\\" + newCar.ImageFile.FileName;
+                        }
+                            }
+                        else
+                        {
+                            return "Upload Failed";
+                        }
+                }
+                    catch (Exception ex)
+                        {
+                            return ex.Message.ToString();
+                        }
+
+
+                
                     int newId = (int)cmd.ExecuteScalar();
                     newCar.Id = newId;
                     return CreatedAtRoute("GetCar", new { id = newId}, newCar);
+
+
                 }
             }
+        } 
         }
 
         // PUT: api/Cars/5
