@@ -53,7 +53,8 @@ namespace Tuned.Controllers.V1
                         @"SELECT e.Id, e.Name, e.Location, e.Date, e.Description, e.ImagePath, e.UserId, a.Id AS AdminId, a.UserName, a.FirstName, a.LastName
                           FROM Events e
                           INNER JOIN AspNetUsers a
-                          ON e.UserId = a.Id";
+                          ON e.UserId = a.Id
+                          WHERE ActiveEvent = 1";
                 
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -110,10 +111,10 @@ namespace Tuned.Controllers.V1
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"
-                                        SELECT Id, Name, Location, Date, Description, ImagePath, UserId
+                    cmd.CommandText = @"SELECT Id, Name, Location, Date, Description, ImagePath, UserId
                                         FROM Events
-                                        WHERE Id = @id";
+                                        WHERE Id = @id
+                                        AND ActiveEvent = 1";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
                     SqlDataReader reader = cmd.ExecuteReader();

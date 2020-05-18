@@ -13,7 +13,7 @@ export default (props) => {
     const { cars } = useContext(CarContext)
     const { users } = useContext(UserContext)
     const userName = JSON.parse(localStorage.getItem("user")).username
-    const { likes } = useContext(LikedCarContext)
+    const { likedCars } = useContext(LikedCarContext)
     const currentUser = getUser()
     const profilesArray = []
 
@@ -61,6 +61,24 @@ export default (props) => {
 
     })
 
+    const currentUsersLikedCars = [];
+
+    {
+        likedCars.forEach(rel => {
+
+            // Find the user
+            const foundLike = cars.filter(
+                (car) => {
+                    return rel.applicationUserId === car.applicationUserId
+                }
+            )[0]
+            //if page is reloaded and no likes are found
+            if (foundLike !== undefined) {
+                currentUsersLikedCars.push(foundLike)
+            }
+        })
+    }
+    console.log(likedCars)
     return (
 
         <div className="profile">
@@ -116,6 +134,8 @@ export default (props) => {
                         <article id="likedCars" className="profileLikesList">
 
                             <h3>Liked Cars</h3>
+
+                            {currentUsersLikedCars.map(car => <Car key={car.id} car={car} {...props} />)}
 
                         </article>
                     </div>

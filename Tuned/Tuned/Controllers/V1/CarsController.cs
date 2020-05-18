@@ -136,9 +136,17 @@ namespace Tuned.Controllers.V1
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> PostFile([FromForm] IFormFile file)
+        { 
+            throw new Exception("Not Implemented");
+            //TODO: save file and return file path. 
+            // Add new property to car to hold image file paths.
+        }
+
         // POST: api/Cars
         [HttpPost]
-        public async Task<String> Post([FromBody] CarCreateViewModel newCar)
+        public async Task<String> Post([FromForm] CarCreateViewModel newCar)
         {
             using (SqlConnection conn = Connection)
             {
@@ -166,17 +174,22 @@ namespace Tuned.Controllers.V1
 
                         if (newCar.ImageFile.Length > 0) {
 
+                            if (String.IsNullOrWhiteSpace(_environment.WebRootPath))
+                            {
+                                _environment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                            }
+
                             if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
 
                             {
                                 Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
                             }
-                        using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + "\\Upload\\"+newCar.ImageFile.FileName))
+                        using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + "\\Upload\\"+ Path.GetFileName(newCar.ImageFile.FileName)))
                         {
 
                             newCar.ImageFile.CopyTo(fileStream);
                             fileStream.Flush();
-                            return "\\Upload\\" + newCar.ImageFile.FileName;
+                            return "\\Upload\\" + Path.GetFileName(newCar.ImageFile.FileName);
 
                         }
                             }

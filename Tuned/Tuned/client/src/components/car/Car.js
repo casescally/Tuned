@@ -51,15 +51,9 @@ export default ({ car }) => {
 
     }
 
-
-
     let likedcardCarMode = Boolean
 
-
-
     return (
-
-
 
         //car information
 
@@ -83,15 +77,9 @@ export default ({ car }) => {
 
                     </h3>
 
-
-
                     {/* {console.log(currentCarsLikedCars)} */}
 
-
-
                     <h3 className="car__name">
-
-
 
                         <Link to={`/cars/${car.id}`} className="carLink">
 
@@ -99,11 +87,7 @@ export default ({ car }) => {
 
                         </Link>
 
-
-
                     </h3>
-
-
 
                 </div>
 
@@ -112,8 +96,6 @@ export default ({ car }) => {
             <div className="likedcarInfo">
 
 
-
-                {/*   LikedCars: {currentCarsLikedCars.length}*/}
 
                 <button className="likedcarButton" value="LikedCar" onClick={evt => {
 
@@ -127,31 +109,11 @@ export default ({ car }) => {
 
                 }>{likedcardCarMode ? "Like" : "Unlike"}</button>
 
-
-
-
-
-
-
-
-
             </div>
-
-
-
-
-
-
 
             <div className="uploaderInfo">
 
-
-
             </div>
-
-
-
-
 
         </section>
 

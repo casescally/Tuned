@@ -37,6 +37,12 @@ export const CarProvider = (props) => {
 
     const addCar = car => {
         const authHeader = createAuthHeaders();
+        var form_data = new FormData();
+        console.log(car);
+        for (var key in car ) {
+            form_data.append(key, car[key]);
+        }
+        console.log(form_data);
         return fetch("https://localhost:5001/api/cars", {
 
 
@@ -44,12 +50,11 @@ export const CarProvider = (props) => {
 
             headers: {
                 authHeader,
-                "Content-Type": "application/json"
+               // "Content-Type": "application/json"
 
-            },
+            },         
 
-            body: JSON.stringify(car)
-
+            body: form_data
         })
 
             .then(getCars)

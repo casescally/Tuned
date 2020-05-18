@@ -27,6 +27,13 @@ export default props => {
         setCar(newCar)
     }
 
+    const imageFileChanged = (event) => {
+        console.log(event.target.files);
+        const newCar = Object.assign({}, car)
+        newCar['imageFile'] = event.target.files[0];
+        setCar(newCar);
+    }
+
     const setDefaults = () => {
         if (editMode) {
             const carId = parseInt(props.match.params.carId)
@@ -71,8 +78,8 @@ export default props => {
                 vehicleTypeId: parseInt(car.vehicleTypeId),
                 carPageCoverUrl: car.carPageCoverUrl,
                 carDescription: car.description,
-                activeCar: true
-
+                activeCar: true,
+                imageFile: car.imageFile
             })
                 //console.log(car)
 
@@ -188,7 +195,7 @@ export default props => {
 
                 <div>
                     <label htmlFor="imageFile">Image File</label>
-                    <input name="imageFile" type="file" onChange={handleControlledInputChange} />
+                    <input name="imageFile" type="file" onChange={imageFileChanged} />
                     <div className="imagePreview" id="imagePreview">
                         <img src="" alt="Image Preview" className="image-preview__image"></img>
                         <span class="image-preview__default-text">Image Preview</span>
