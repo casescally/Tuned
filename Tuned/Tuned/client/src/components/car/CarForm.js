@@ -3,6 +3,7 @@ import { CarContext } from "./CarProvider"
 import { getUser } from "../../API/userManager"
 //import { LikedCarContext } from "../likedCar/LikedCarProvider"
 import { createAuthHeaders } from "../../API/userManager"
+import "./Cars.css"
 
 export default props => {
 
@@ -183,15 +184,19 @@ export default props => {
                     />
                 </div>
             </fieldset>
-            <form method="post" encType="multipart/form-data" action="https://localhost:5001/api/cars">
+            <form method="post" encType="multipart/form-data" action="https://localhost:5001/api/cars" required className="form-control">
 
                 <div>
-                    <label htmlFor="img">Image File</label>
-                    <input name="img" type="file" />
+                    <label htmlFor="imageFile">Image File</label>
+                    <input name="imageFile" type="file" onChange={handleControlledInputChange} />
+                    <div className="imagePreview" id="imagePreview">
+                        <img src="" alt="Image Preview" className="image-preview__image"></img>
+                        <span class="image-preview__default-text">Image Preview</span>
+                    </div>
                 </div>
-                {/* <div>
+                <div>
                     <input type="submit" value="Submit" />
-                </div> */}
+                </div>
             </form>
             <fieldset>
                 <div className="form-group">

@@ -6,6 +6,7 @@ import { UserContext } from "../user/UserProvider"
 import { LikedCarContext } from "../likedCar/LikedCarProvider"
 import LikedCar from "../likedCar/LikedCar"
 import "./Profiles.css"
+import { getUser } from "../../API/userManager"
 
 export default (props) => {
 
@@ -13,6 +14,7 @@ export default (props) => {
     const { users } = useContext(UserContext)
     const userName = JSON.parse(localStorage.getItem("user")).username
     const { likes } = useContext(LikedCarContext)
+    const currentUser = getUser()
     const profilesArray = []
 
     let editProfileMode = Boolean
@@ -29,9 +31,9 @@ export default (props) => {
 
     }
 
-    const currentProfile = profilesArray[0]
+    //const currentProfile = profilesArray[0]
 
-    console.log("User Profile")
+    //console.log("User Profile")
 
     // //const likesRelationships = likes.filter(like => like.userId === currentProfile.id)
     // const currentUsersLikes = []
@@ -54,7 +56,8 @@ export default (props) => {
     // }
 
     const currentUserCars = cars.filter(car => {
-        return car.applicationUserId === currentProfile.username
+
+        return car.applicationUserId === currentUser.id
 
     })
 
@@ -65,7 +68,7 @@ export default (props) => {
             <section className="userProfile">
 
                 <div className="profileBackground" style={{
-                    backgroundImage: "url(" + `${currentProfile.name}` + ")",
+                    backgroundImage: "url(" + `${currentUser.name}` + ")",
                     backgroundPosition: 'center',
                     // backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
@@ -75,9 +78,9 @@ export default (props) => {
 
                     <span id="profileInfo">
 
-                        <img id="profilePicture" className="profilePicture" alt={`${currentProfile.firstname}'s profile picture`} src={currentProfile.name}></img>
 
-                        {<h1 className="currentProfileName">{currentProfile.name}</h1>}
+
+                        {<h1 className="currentProfileName">{currentUser.userName}</h1>}
 
 
                         {
@@ -85,7 +88,7 @@ export default (props) => {
                             <button className="followButton" onClick={evt => {
 
                                 evt.preventDefault()
-                                props.history.push(`edit/${currentProfile.username}`)
+                                props.history.push(`edit/${currentUser.userName}`)
 
                             }}>{editProfileMode ? "Edit" : ""}
 

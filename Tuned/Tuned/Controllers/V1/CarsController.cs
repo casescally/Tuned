@@ -138,7 +138,7 @@ namespace Tuned.Controllers.V1
 
         // POST: api/Cars
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CarCreateViewModel newCar)
+        public async Task<String> Post([FromBody] CarCreateViewModel newCar)
         {
             using (SqlConnection conn = Connection)
             {
@@ -157,26 +157,37 @@ namespace Tuned.Controllers.V1
                     cmd.Parameters.Add(new SqlParameter("@vehicleTypeId", newCar.VehicleTypeId));
                     cmd.Parameters.Add(new SqlParameter("@carPageCoverUrl", newCar.CarPageCoverUrl));
                     cmd.Parameters.Add(new SqlParameter("@carDescription", newCar.CarDescription));
+
+                    int newId = (int)cmd.ExecuteScalar();
+                    newCar.Id = newId;
+
                     { 
                         try {
 
-                        if (newCar.ImageFile.Length > 0) { 
+                        if (newCar.ImageFile.Length > 0) {
+
                             if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
+
                             {
                                 Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
                             }
                         using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + "\\Upload\\"+newCar.ImageFile.FileName))
                         {
+
                             newCar.ImageFile.CopyTo(fileStream);
                             fileStream.Flush();
                             return "\\Upload\\" + newCar.ImageFile.FileName;
+
                         }
                             }
+
                         else
                         {
+
                             return "Upload Failed";
+                              
                         }
-                }
+                    }
                     catch (Exception ex)
                         {
                             return ex.Message.ToString();
@@ -184,9 +195,9 @@ namespace Tuned.Controllers.V1
 
 
                 
-                    int newId = (int)cmd.ExecuteScalar();
-                    newCar.Id = newId;
-                    return CreatedAtRoute("GetCar", new { id = newId}, newCar);
+                    //   int newId = (int)cmd.ExecuteScalar();
+                   //   newCar.Id = newId;
+                  //  return CreatedAtRoute("GetCar", new { id = newId}, newCar);
 
 
                 }
