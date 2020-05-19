@@ -10,7 +10,7 @@ namespace Tuned.Models.Data
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public ApplicationUserViewModel User { get; set; }
+        public ApplicationUser User { get; set; }
         public int CarId { get; set; }
         public Car Car { get; set; }
     }

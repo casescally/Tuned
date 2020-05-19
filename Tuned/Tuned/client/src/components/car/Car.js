@@ -25,11 +25,11 @@ export default ({ car }) => {
 
     const constructNewLikedCar = (currentCar) => {
 
-        const alreadyLikedCardCar = likedCars.find(lc => lc.carId === currentCar.id && lc.applicationUserId === user.id)
+        const alreadyLikedCar = likedCars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === currentCar.applicationUserId)
 
         //Don't allow duplicate likedcars
 
-        if (alreadyLikedCardCar === undefined) {
+        if (alreadyLikedCar === undefined) {
 
             likedcardCarMode = false
 
@@ -41,7 +41,7 @@ export default ({ car }) => {
 
             })
 
-        } if (alreadyLikedCardCar !== undefined) {
+        } if (alreadyLikedCar !== undefined) {
 
             likedcardCarMode = true
 

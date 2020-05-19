@@ -66,7 +66,7 @@ namespace Tuned.Controllers.V1
 
                             {
                                 Id = reader.GetString(reader.GetOrdinal("Id")),
-                                Username = reader.GetString(reader.GetOrdinal("Username")),
+                                //Username = reader.GetString(reader.GetOrdinal("Username")),
                                 FirstName = reader.GetString(reader.GetOrdinal("Firstname")),
                                 LastName = reader.GetString(reader.GetOrdinal("Lastname")),
                             };
@@ -107,7 +107,7 @@ namespace Tuned.Controllers.V1
                         individualUser = new ApplicationUserViewModel
                         {
                             Id = reader.GetString(reader.GetOrdinal("Id")),
-                            Username = reader.GetString(reader.GetOrdinal("Username")),
+                            //Username = reader.GetString(reader.GetOrdinal("Username")),
                             FirstName = reader.GetString(reader.GetOrdinal("Firstname")),
                             LastName = reader.GetString(reader.GetOrdinal("Lastname")),
                         };

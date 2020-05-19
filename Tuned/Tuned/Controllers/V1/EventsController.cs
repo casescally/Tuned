@@ -84,7 +84,7 @@ namespace Tuned.Controllers.V1
                             foundEvent.AdminUser = new ApplicationUserViewModel { 
 
                                 Id = reader.GetString(reader.GetOrdinal("AdminId")),
-                                Username = reader.GetString(reader.GetOrdinal("UserName")),
+                                //Username = reader.GetString(reader.GetOrdinal("UserName")),
                                 FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
                                 LastName = reader.GetString(reader.GetOrdinal("LastName")),
                             };

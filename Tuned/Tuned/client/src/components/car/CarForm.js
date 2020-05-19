@@ -6,12 +6,12 @@ import { createAuthHeaders } from "../../API/userManager"
 import "./Cars.css"
 
 export default props => {
-
+ 
     const user = getUser();
 
     // const { likedCars } = useContext(LikedCarContext)
 
-    const { cars, addCar, updateCar } = useContext(CarContext)
+    const { cars, addCar, saveImages, updateCar } = useContext(CarContext)
 
     const [car, setCar] = useState({})
 
@@ -27,11 +27,20 @@ export default props => {
         setCar(newCar)
     }
 
-    const imageFileChanged = (event) => {
+    const imageFileChanged = async (event) => {
         console.log(event.target.files);
-        const newCar = Object.assign({}, car)
-        newCar['imageFile'] = event.target.files[0];
-        setCar(newCar);
+        const filePaths = await saveImages(event.target.files);
+        car['imageFilePaths'] = filePaths;
+
+        //for loop  filePaths.split(','); => arrray of base64 images.
+        console.log(car);
+        setCar(car);
+        setState({
+            imageSrc: filePaths
+         })
+        // const newCar = Object.assign({}, car)
+        // newCar['imageFile'] = event.target.files[0];
+        // setCar(newCar);
     }
 
     const setDefaults = () => {
@@ -45,6 +54,14 @@ export default props => {
     useEffect(() => {
         setDefaults()
     }, [cars])
+
+    const getImageSrc = () => {
+    //console.log('Called');
+    //console.log(car.imageFilePaths);
+
+     return 'data:image/jpeg;base64,' + car.imageFilePaths;  //car.imageFilePaths[index]
+     //car.defaultImage = car.imageFilePaths[0];
+    };
 
     const constructNewCar = () => {
 
@@ -195,10 +212,10 @@ export default props => {
 
                 <div>
                     <label htmlFor="imageFile">Image File</label>
-                    <input name="imageFile" type="file" onChange={imageFileChanged} />
+                    <input name="imageFile" type="file" multiple onChange={imageFileChanged} />
                     <div className="imagePreview" id="imagePreview">
-                        <img src="" alt="Image Preview" className="image-preview__image"></img>
-                        <span class="image-preview__default-text">Image Preview</span>
+                        <img src={state.imageSrc} ></img>
+                       <span class="image-preview__default-text">Image Preview</span>
                     </div>
                 </div>
                 <div>

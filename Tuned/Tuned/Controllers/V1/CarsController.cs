@@ -136,26 +136,62 @@ namespace Tuned.Controllers.V1
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> PostFile([FromForm] IFormFile file)
-        { 
-            throw new Exception("Not Implemented");
-            //TODO: save file and return file path. 
-            // Add new property to car to hold image file paths.
+        [HttpPost("files")]
+        public async Task<IActionResult> PostFile()
+        {
+            var savedFilePaths = new List<string>();
+
+            if (Request.Form.Files.Count > 0)
+            {
+                EnsureUploadDirectoryExists();
+                foreach (IFormFile file in Request.Form.Files)
+                {
+                    string savedFilePath = String.Empty;
+                    if (file != null && file.Length > 0)
+                    {
+                        savedFilePath = _environment.WebRootPath + "\\Upload\\"+ Path.GetFileName(file.FileName);
+                        using (var fileStream = new FileStream(savedFilePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(fileStream);
+                        }
+                        savedFilePaths.Add(savedFilePath);
+                    }
+                }
+            }
+            List<string> base64ImagaData = new List<string>();
+            foreach (var savedFilePath in savedFilePaths)
+            {
+                byte[] imageArray = System.IO.File.ReadAllBytes(savedFilePath);
+                string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+                base64ImagaData.Add(base64ImageRepresentation);
+            }
+            return Ok(String.Join(",", base64ImagaData));
+        }
+
+        private static void EnsureUploadDirectoryExists()
+        {
+            if (String.IsNullOrWhiteSpace(_environment.WebRootPath))
+            {
+                _environment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+            }
+            if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
+            }
         }
 
         // POST: api/Cars
         [HttpPost]
-        public async Task<String> Post([FromForm] CarCreateViewModel newCar)
+        public void Post([FromForm] Car newCar)
         {
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Cars (Name, Make, Model, Year, ApplicationUserId, VehicleTypeId, CarPageCoverUrl, CarDescription)
+                    cmd.CommandText = @"INSERT INTO Cars (Name, Make, Model, Year, ApplicationUserId, VehicleTypeId, CarPageCoverUrl, CarDescription, ImageFileNames)
                                         OUTPUT INSERTED.Id
-                                        VALUES (@name, @make, @model, @year, @applicationUserId, @vehicleTypeId, @carPageCoverUrl, @carDescription)";
+                                        VALUES (@name, @make, @model, @year, @applicationUserId, @vehicleTypeId, @carPageCoverUrl, @carDescription, @imageFileNames)";
 
                     cmd.Parameters.Add(new SqlParameter("@name", newCar.Name));
                     cmd.Parameters.Add(new SqlParameter("@make", newCar.Make));
@@ -165,58 +201,61 @@ namespace Tuned.Controllers.V1
                     cmd.Parameters.Add(new SqlParameter("@vehicleTypeId", newCar.VehicleTypeId));
                     cmd.Parameters.Add(new SqlParameter("@carPageCoverUrl", newCar.CarPageCoverUrl));
                     cmd.Parameters.Add(new SqlParameter("@carDescription", newCar.CarDescription));
+                    cmd.Parameters.Add(new SqlParameter("@imageFileNames", newCar.ImageFileNames));
 
                     int newId = (int)cmd.ExecuteScalar();
                     newCar.Id = newId;
 
-                    { 
-                        try {
 
-                        if (newCar.ImageFile.Length > 0) {
+                    //  try {
 
-                            if (String.IsNullOrWhiteSpace(_environment.WebRootPath))
-                            {
-                                _environment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-                            }
+                    //    if (newCar.ImageFile.Length > 0) {
 
-                            if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
+                    //        if (String.IsNullOrWhiteSpace(_environment.WebRootPath))
+                    //        {
+                    //            _environment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                    //        }
 
-                            {
-                                Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
-                            }
-                        using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + "\\Upload\\"+ Path.GetFileName(newCar.ImageFile.FileName)))
-                        {
+                    //        if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
 
-                            newCar.ImageFile.CopyTo(fileStream);
-                            fileStream.Flush();
-                            return "\\Upload\\" + Path.GetFileName(newCar.ImageFile.FileName);
+                    //        {
+                    //            Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
+                    //        }
+                    //    using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + "\\Upload\\"+ Path.GetFileName(newCar.ImageFile.FileName)))
+                    //    {
 
-                        }
-                            }
+                    //        newCar.ImageFile.CopyTo(fileStream);
+                    //        fileStream.Flush();
+                    //        return "\\Upload\\" + Path.GetFileName(newCar.ImageFile.FileName);
 
-                        else
-                        {
+                    //    }
+                    //        }
 
-                            return "Upload Failed";
-                              
-                        }
-                    }
-                    catch (Exception ex)
-                        {
-                            return ex.Message.ToString();
-                        }
+                    //    else
+                    //    {
+
+                    //        return "Upload Failed";
+
+                    //    }
+                    //}
+                    //catch (Exception ex)
+                    //    {
+                    //        return ex.Message.ToString();
+                    //    }
 
 
-                
+
                     //   int newId = (int)cmd.ExecuteScalar();
-                   //   newCar.Id = newId;
-                  //  return CreatedAtRoute("GetCar", new { id = newId}, newCar);
+                    //   newCar.Id = newId;
+                    //  return CreatedAtRoute("GetCar", new { id = newId}, newCar);
 
 
+
+                    //}
                 }
             }
-        } 
         }
+        
 
         // PUT: api/Cars/5
         //Update an car

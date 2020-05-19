@@ -69,7 +69,7 @@ export default (props) => {
             // Find the user
             const foundLike = cars.filter(
                 (car) => {
-                    return rel.applicationUserId === car.applicationUserId
+                    return rel.UserId === car.ApplicationUserId
                 }
             )[0]
             //if page is reloaded and no likes are found
@@ -78,7 +78,8 @@ export default (props) => {
             }
         })
     }
-    console.log(likedCars)
+    console.log(currentUsersLikedCars)
+
     return (
 
         <div className="profile">
