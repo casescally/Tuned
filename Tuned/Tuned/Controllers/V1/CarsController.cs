@@ -137,7 +137,7 @@ namespace Tuned.Controllers.V1
         }
 
         [HttpPost("files")]
-        public async Task<IActionResult> PostFile()
+        public async Task<List<string>> PostFile()
         {
             var savedFilePaths = new List<string>();
 
@@ -158,14 +158,15 @@ namespace Tuned.Controllers.V1
                     }
                 }
             }
-            List<string> base64ImagaData = new List<string>();
-            foreach (var savedFilePath in savedFilePaths)
-            {
-                byte[] imageArray = System.IO.File.ReadAllBytes(savedFilePath);
-                string base64ImageRepresentation = Convert.ToBase64String(imageArray);
-                base64ImagaData.Add(base64ImageRepresentation);
-            }
-            return Ok(String.Join(",", base64ImagaData));
+            //List<string> base64ImagaData = new List<string>();
+            //foreach (var savedFilePath in savedFilePaths)
+            //{
+            //    byte[] imageArray = System.IO.File.ReadAllBytes(savedFilePath);
+            //    string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+            //    base64ImagaData.Add(base64ImageRepresentation);
+            //}
+            //return Ok(String.Join(",", base64ImagaData));
+            return savedFilePaths;
         }
 
         private static void EnsureUploadDirectoryExists()

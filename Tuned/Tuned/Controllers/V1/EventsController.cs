@@ -146,6 +146,40 @@ namespace Tuned.Controllers.V1
             }
         }
 
+        [HttpPost("files")]
+        public async Task<List<string>> PostFile()
+        {
+            var savedFilePaths = new List<string>();
+
+            if (Request.Form.Files.Count > 0)
+            {
+                EnsureUploadDirectoryExists();
+                foreach (IFormFile file in Request.Form.Files)
+                {
+                    string savedFilePath = String.Empty;
+                    if (file != null && file.Length > 0)
+                    {
+                        savedFilePath = _environment.WebRootPath + "\\Upload\\"+ Path.GetFileName(file.FileName);
+                        using (var fileStream = new FileStream(savedFilePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(fileStream);
+                        }
+                        savedFilePaths.Add(savedFilePath);
+                    }
+                }
+            }
+            //List<string> base64ImagaData = new List<string>();
+            //foreach (var savedFilePath in savedFilePaths)
+            //{
+            //    byte[] imageArray = System.IO.File.ReadAllBytes(savedFilePath);
+            //    string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+            //    base64ImagaData.Add(base64ImageRepresentation);
+            //}
+            //return Ok(String.Join(",", base64ImagaData));
+            return savedFilePaths;
+        }
+
+
         // POST: api/Events
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Event newEvent)

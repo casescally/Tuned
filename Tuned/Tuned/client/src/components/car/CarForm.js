@@ -35,7 +35,7 @@ export default props => {
         //for loop  filePaths.split(','); => arrray of base64 images.
         console.log(car);
         setCar(car);
-        setState({
+        setCar({
             imageSrc: filePaths
          })
         // const newCar = Object.assign({}, car)
@@ -209,12 +209,11 @@ export default props => {
                 </div>
             </fieldset>
             <form method="post" encType="multipart/form-data" action="https://localhost:5001/api/cars" required className="form-control">
-
                 <div>
                     <label htmlFor="imageFile">Image File</label>
                     <input name="imageFile" type="file" multiple onChange={imageFileChanged} />
                     <div className="imagePreview" id="imagePreview">
-                        <img src={state.imageSrc} ></img>
+                        <img src={car.imageSrc} ></img>
                        <span class="image-preview__default-text">Image Preview</span>
                     </div>
                 </div>
