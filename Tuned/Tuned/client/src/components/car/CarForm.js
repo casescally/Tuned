@@ -30,16 +30,22 @@ export default props => {
     const imageFileChanged = async (event) => {
         console.log(event.target.files);
         const filePaths = await saveImages(event.target.files);
-        car['imageFilePaths'] = filePaths;
+        //car['imageFileNames'] = filePaths;
         //for loop  filePaths.split(','); => arrray of base64 images.
-        //console.log(car);
+        console.log(filePaths);
         //setCar(car);
         //setCar({
-        //    imageSrc: filePaths
+        //    imageFileNames: filePaths
         // })
-        const newCar = Object.assign({}, car)
 
-        //newCar['imageFile'] = event.target.files[0];
+        const newCar = Object.assign({
+
+            imageFileNames: filePaths,
+            carPageCoverUrl: filePaths.split(',')
+        
+        }, car)
+
+        //newCar['carPageCoverUrl'] = filePaths[0];
         //console.log(event.target)
         console.log(newCar)
         setCar(newCar);
@@ -96,9 +102,9 @@ export default props => {
                 applicationUserId: user.id,
                 vehicleTypeId: parseInt(car.vehicleTypeId),
                 carPageCoverUrl: car.carPageCoverUrl,
+                imageFileNames: car.imageFileNames,
                 carDescription: car.description,
-                activeCar: true,
-                imageFile: car.imageFile
+                activeCar: true
 
             })
 
