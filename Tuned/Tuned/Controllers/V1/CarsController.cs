@@ -11,6 +11,7 @@ using System.Web;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Linq.Expressions;
+using System.Data;
 
 namespace Tuned.Controllers.V1
 {
@@ -190,9 +191,9 @@ namespace Tuned.Controllers.V1
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Cars (Name, Make, Model, Year, ApplicationUserId, VehicleTypeId, CarPageCoverUrl, CarDescription, ImageFileNames)
+                    cmd.CommandText = @"INSERT INTO Cars (Name, Make, Model, Year, ApplicationUserId, VehicleTypeId, CarPageCoverUrl, CarDescription, ActiveCar, ImageFileNames)
                                         OUTPUT INSERTED.Id
-                                        VALUES (@name, @make, @model, @year, @applicationUserId, @vehicleTypeId, @carPageCoverUrl, @carDescription, @imageFileNames)";
+                                        VALUES (@name, @make, @model, @year, @applicationUserId, @vehicleTypeId, @carPageCoverUrl, @carDescription, @activeCar, @imageFileNames)";
 
                     cmd.Parameters.Add(new SqlParameter("@name", newCar.Name));
                     cmd.Parameters.Add(new SqlParameter("@make", newCar.Make));
@@ -203,6 +204,7 @@ namespace Tuned.Controllers.V1
                     cmd.Parameters.Add(new SqlParameter("@carPageCoverUrl", newCar.CarPageCoverUrl));
                     cmd.Parameters.Add(new SqlParameter("@carDescription", newCar.CarDescription));
                     cmd.Parameters.Add(new SqlParameter("@imageFileNames", newCar.ImageFileNames));
+                    cmd.Parameters.Add(new SqlParameter("@activeCar", newCar.ActiveCar));
 
                     int newId = (int)cmd.ExecuteScalar();
                     newCar.Id = newId;

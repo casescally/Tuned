@@ -31,16 +31,18 @@ export default props => {
         console.log(event.target.files);
         const filePaths = await saveImages(event.target.files);
         car['imageFilePaths'] = filePaths;
-
         //for loop  filePaths.split(','); => arrray of base64 images.
-        console.log(car);
-        setCar(car);
-        setCar({
-            imageSrc: filePaths
-         })
-        // const newCar = Object.assign({}, car)
-        // newCar['imageFile'] = event.target.files[0];
-        // setCar(newCar);
+        //console.log(car);
+        //setCar(car);
+        //setCar({
+        //    imageSrc: filePaths
+        // })
+        const newCar = Object.assign({}, car)
+
+        //newCar['imageFile'] = event.target.files[0];
+        //console.log(event.target)
+        console.log(newCar)
+        setCar(newCar);
     }
 
     const setDefaults = () => {
@@ -57,9 +59,9 @@ export default props => {
 
     const getImageSrc = () => {
     //console.log('Called');
-    //console.log(car.imageFilePaths);
+    console.log(car.imageFilePaths);
 
-     return 'data:image/jpeg;base64,' + car.imageFilePaths;  //car.imageFilePaths[index]
+     return car.imageFilePaths;  //car.imageFilePaths[index]
      //car.defaultImage = car.imageFilePaths[0];
     };
 
@@ -77,7 +79,7 @@ export default props => {
                 vehicleTypeId: parseInt(car.vehicleTypeId),
                 carPageCoverUrl: car.carPageCoverUrl,
                 carDescription: car.description,
-                applicationUserId: localStorage.getItem("user").id
+                applicationUserId: user.id,
 
             })
 
@@ -90,15 +92,15 @@ export default props => {
                 name: car.name,
                 make: car.make,
                 model: car.model,
-                year: parseInt(car.year),
+                year: car.year,
                 applicationUserId: user.id,
                 vehicleTypeId: parseInt(car.vehicleTypeId),
                 carPageCoverUrl: car.carPageCoverUrl,
                 carDescription: car.description,
                 activeCar: true,
                 imageFile: car.imageFile
+
             })
-                //console.log(car)
 
                 .then(() => props.history.push("/cars"))
         }

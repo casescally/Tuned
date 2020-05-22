@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +22,14 @@ namespace Tuned.Controllers.V1
 
         private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;
+        public static IWebHostEnvironment _environment;
 
-        public EventsController(IConfiguration config, UserManager<ApplicationUser> userManager)
+        public EventsController(IConfiguration config, UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
 
         {
             _config = config;
             _userManager = userManager;
+            _environment = environment;
         }
 
         public SqlConnection Connection
@@ -177,6 +181,18 @@ namespace Tuned.Controllers.V1
             //}
             //return Ok(String.Join(",", base64ImagaData));
             return savedFilePaths;
+        }
+
+                private static void EnsureUploadDirectoryExists()
+        {
+            if (String.IsNullOrWhiteSpace(_environment.WebRootPath))
+            {
+                _environment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+            }
+            if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
+            }
         }
 
 

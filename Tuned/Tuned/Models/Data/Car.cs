@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace Tuned.Models.Data
         public ApplicationUser ApplicationUser { get; set; }
         public int VehicleTypeId { get; set; }
         public VehicleType VehicleType { get; set; }
+
+        //public IFormFile ImageFile { get; set; }
         public string CarPageCoverUrl { get; set; }
         public string CarDescription { get; set; }
         public bool ActiveCar { get; set; }
