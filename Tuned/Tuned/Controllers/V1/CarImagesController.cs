@@ -1,6 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +24,14 @@ namespace Tuned.Controllers.V1
 
         private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;
+         public static IWebHostEnvironment _environment;
 
-        public CarImagesController(IConfiguration config, UserManager<ApplicationUser> userManager)
+        public CarImagesController(IConfiguration config, UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
 
         {
             _config = config;
             _userManager = userManager;
+            _environment = environment;
         }
 
         public SqlConnection Connection
@@ -37,52 +45,34 @@ namespace Tuned.Controllers.V1
 
         // GET: api/CarImages
         [HttpGet]
-        public async Task<IActionResult> Get()
+        [Route("image/get")]
+        public HttpResponseMessage ImageGet(string imageName)
         {
+            var result = new HttpResponseMessage(HttpStatusCode.OK);
             
-            using (SqlConnection conn = Connection)
+            //get file bytes
+            var filename = "GetMedia.jpg";
+            var filePath = _environment.WebRootPath + "\\Upload\\" + filename;
 
-            {
-                conn.Open();
-                using (SqlCommand cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText =
 
-                        @"SELECT ci.Id, ci.CarId, ci.ImagePath
-                          FROM CarImages ci
-                          LEFT JOIN Cars c
-                          ON ci.CarId = c.Id
-                          WHERE Active = 0";
-                
-                SqlDataReader reader = cmd.ExecuteReader();
+            var fileBytes = System.IO.File.ReadAllBytes(filePath);
 
-                    List<CarImage> carImages = new List<CarImage>();
+            //add bytes to memory stream
+            var fileMemStream = new MemoryStream(fileBytes);
 
-                    try {
+            //add memory stream to response
+            result.Content = new StreamContent(fileMemStream);
 
-                    while (reader.Read())
-                    {
-                            CarImage foundCarImage = new CarImage
+            //build response headers
+            var headers = result.Content.Headers;
+            
+            headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+            headers.ContentDisposition.FileName = filename;
+            headers.ContentLength = fileMemStream.Length;
 
-                            {
+                return result;
 
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            CarId = reader.GetInt32(reader.GetOrdinal("CarId")),
-                            ImagePath = reader.GetString(reader.GetOrdinal("ImagePath")),
 
-                        };        
-
-                           
-                            carImages.Add(foundCarImage);
-                    }
-                    } catch (Exception ex) { }
-                       
-                    reader.Close();
-
-                    return Ok(carImages);
-                    
-                }
-            }
         }
 
         // GET: api/CarImages/5

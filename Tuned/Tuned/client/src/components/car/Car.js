@@ -29,7 +29,7 @@ export default ({ car }) => {
 
         //Don't allow duplicate likedcars
 
-        if (alreadyLikedCar === undefined) {
+        if (alreadyLikedCar === undefined || null) {
 
             likedcardCarMode = false
 
@@ -41,7 +41,7 @@ export default ({ car }) => {
 
             })
 
-        } if (alreadyLikedCar !== undefined) {
+        } if (alreadyLikedCar !== undefined || null) {
 
             likedcardCarMode = true
 
