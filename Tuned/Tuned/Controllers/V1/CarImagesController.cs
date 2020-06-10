@@ -46,32 +46,15 @@ namespace Tuned.Controllers.V1
         // GET: api/CarImages
         [HttpGet]
         [Route("image/get")]
-        public HttpResponseMessage ImageGet(string imageName)
+        public IActionResult Get(string imageName)
         {
-            var result = new HttpResponseMessage(HttpStatusCode.OK);
+               // var filePath = _environment.WebRootPath + "\\Upload\\" + imageName;
+
+            var filePath = imageName;
+
+                Byte[] b = System.IO.File.ReadAllBytes(filePath);   // You can use your own method over here.       
             
-            //get file bytes
-            var filename = "GetMedia.jpg";
-            var filePath = _environment.WebRootPath + "\\Upload\\" + filename;
-
-
-            var fileBytes = System.IO.File.ReadAllBytes(filePath);
-
-            //add bytes to memory stream
-            var fileMemStream = new MemoryStream(fileBytes);
-
-            //add memory stream to response
-            result.Content = new StreamContent(fileMemStream);
-
-            //build response headers
-            var headers = result.Content.Headers;
-            
-            headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-            headers.ContentDisposition.FileName = filename;
-            headers.ContentLength = fileMemStream.Length;
-
-                return result;
-
+                return File(b, "image/jpeg");
 
         }
 

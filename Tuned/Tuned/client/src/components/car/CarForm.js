@@ -41,8 +41,7 @@ export default props => {
         const newCar = Object.assign({
 
             imageFileNames: filePaths,
-            carPageCoverUrl: filePaths.split(',')
-        
+            carPageCoverUrl: filePaths.split(',')[0]
         }, car)
 
         //newCar['carPageCoverUrl'] = filePaths[0];
@@ -64,12 +63,15 @@ export default props => {
     }, [cars])
 
     const getImageSrc = () => {
-    //console.log('Called');
-    console.log(car.imageFilePaths);
 
-     return car.imageFilePaths;  //car.imageFilePaths[index]
-     //car.defaultImage = car.imageFilePaths[0];
-    };
+        if (car.imageFileNames) {
+            console.log(JSON.parse(car.imageFileNames)[0].split("/"))
+         return fetch(`https://localhost:5001/api/CarImages/image/get?imageName=${JSON.parse(car.imageFileNames)[0].split("/")}`)  //car.imageFilePaths[index]
+        }
+
+        };
+
+
 
     const constructNewCar = () => {
 
@@ -221,7 +223,7 @@ export default props => {
                     <label htmlFor="imageFile">Image File</label>
                     <input name="imageFile" type="file" multiple onChange={imageFileChanged} />
                     <div className="imagePreview" id="imagePreview">
-                        <img src={getImageSrc()} ></img>
+                        <img src={getImageSrc()}></img>
                        <span class="image-preview__default-text">Image Preview</span>
                     </div>
                 </div>

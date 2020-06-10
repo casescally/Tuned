@@ -19,13 +19,14 @@ export default (props) => {
     const carUser = users.find(u => u.id === car.applicationUserId) || {}
     const currentUsersCars = cars.filter(c => c.userId === user.id)
     let likedCarMode = Boolean
-
+console.log(car)
     return (
         <section className="car">
             <h3 className="car__name">{car.name}</h3>
             <div className="car__make">{car.make}</div>
             <div className="car__model">{car.model}</div>
             <div className="car__year">{car.year}</div>
+            
 
             <button className="likeButton" value="Like" onClick={evt => {
 
