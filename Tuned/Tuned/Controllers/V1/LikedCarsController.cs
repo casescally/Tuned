@@ -48,7 +48,7 @@ namespace Tuned.Controllers.V1
                 {
                     cmd.CommandText =
 
-                        @"SELECT lc.Id, lc.UserId, lc.CarId, a.Id, a.FirstName, a.LastName, a.StreetAddress, a.ProfilePicturePath, a.ProfileBackgroundPicturePath, a.Description, a.ProfileHeader
+                        @"SELECT lc.Id AS Id, lc.UserId AS UserId, lc.CarId AS CarId
                           FROM LikedCars lc
                           LEFT JOIN AspNetUsers a
                           ON lc.UserId = a.Id
@@ -66,18 +66,17 @@ namespace Tuned.Controllers.V1
                             LikedCar foundLikedCar = new LikedCar
 
                             {
-
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            CarId = reader.GetInt32(reader.GetOrdinal("CarId")),
                             UserId = reader.GetString(reader.GetOrdinal("UserId")),
 
                         };        
 
-                            foundLikedCar.User = new ApplicationUserViewModel { 
+                            foundLikedCar.User = new ApplicationUser { 
 
-                                Id = reader.GetString(reader.GetOrdinal("AdminId")),
-                                Username = reader.GetString(reader.GetOrdinal("UserName")),
-                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                Id = reader.GetString(reader.GetOrdinal("UserId")),
+                              //  FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                              //  LastName = reader.GetString(reader.GetOrdinal("LastName")),
 
                         };
 
@@ -86,15 +85,14 @@ namespace Tuned.Controllers.V1
                             {
 
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Name = reader.GetString(reader.GetOrdinal("Name")),
-                            Make = reader.GetString(reader.GetOrdinal("Make")),
-                            Model = reader.GetString(reader.GetOrdinal("Model")),
-                            Year = reader.GetInt32(reader.GetOrdinal("Year")),
-                            Url = reader.GetInt32(reader.GetOrdinal("Url")),
-                            ApplicationUserId = reader.GetString(reader.GetOrdinal("ApplicationUserId")),
-                            VehicleTypeId = reader.GetInt32(reader.GetOrdinal("VehicleTypeId")),
-                            CarPageCoverUrl = reader.GetString(reader.GetOrdinal("CarPageCoverUrl")),
-                            CarDescription = reader.GetString(reader.GetOrdinal("CarDescription"))
+                            //Name = reader.GetString(reader.GetOrdinal("Name")),
+                            //Make = reader.GetString(reader.GetOrdinal("Make")),
+                            //Model = reader.GetString(reader.GetOrdinal("Model")),
+                            //Year = reader.GetInt32(reader.GetOrdinal("Year")),
+                            //ApplicationUserId = reader.GetString(reader.GetOrdinal("ApplicationUserId")),
+                            //VehicleTypeId = reader.GetInt32(reader.GetOrdinal("VehicleTypeId")),
+                            //CarPageCoverUrl = reader.GetString(reader.GetOrdinal("CarPageCoverUrl")),
+                            //CarDescription = reader.GetString(reader.GetOrdinal("CarDescription"))
                         };
 
                             likedCars.Add(foundLikedCar);
@@ -142,10 +140,10 @@ namespace Tuned.Controllers.V1
 
                         };        
 
-                            individualLikedCar.User = new ApplicationUserViewModel { 
+                            individualLikedCar.User = new ApplicationUser { 
 
                                 Id = reader.GetString(reader.GetOrdinal("AdminId")),
-                                Username = reader.GetString(reader.GetOrdinal("UserName")),
+                                //Username = reader.GetString(reader.GetOrdinal("UserName")),
                                 FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
                                 LastName = reader.GetString(reader.GetOrdinal("LastName")),
 
@@ -160,7 +158,6 @@ namespace Tuned.Controllers.V1
                             Make = reader.GetString(reader.GetOrdinal("Make")),
                             Model = reader.GetString(reader.GetOrdinal("Model")),
                             Year = reader.GetInt32(reader.GetOrdinal("Year")),
-                            Url = reader.GetInt32(reader.GetOrdinal("Url")),
                             ApplicationUserId = reader.GetString(reader.GetOrdinal("ApplicationUserId")),
                             VehicleTypeId = reader.GetInt32(reader.GetOrdinal("VehicleTypeId")),
                             CarPageCoverUrl = reader.GetString(reader.GetOrdinal("CarPageCoverUrl")),
@@ -191,8 +188,8 @@ namespace Tuned.Controllers.V1
                                         OUTPUT INSERTED.Id
                                         VALUES (@userId, @carId)";
 
-                    cmd.Parameters.Add(new SqlParameter("@name", newLikedCar.UserId));
-                    cmd.Parameters.Add(new SqlParameter("@location", newLikedCar.CarId));
+                    cmd.Parameters.Add(new SqlParameter("@userId", newLikedCar.UserId));
+                    cmd.Parameters.Add(new SqlParameter("@carId", newLikedCar.CarId));
 
                     int newId = (int)cmd.ExecuteScalar();
                     newLikedCar.Id = newId;

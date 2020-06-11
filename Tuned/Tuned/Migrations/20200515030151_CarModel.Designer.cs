@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tuned.Data;
 
 namespace Tuned.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200515030151_CarModel")]
+    partial class CarModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,7 +250,7 @@ namespace Tuned.Migrations
                             Id = "00000000-ffff-ffff-ffff-ffffffffffff",
                             AccessFailedCount = 0,
                             ActiveUser = false,
-                            ConcurrencyStamp = "09c0cf5b-7e31-49db-94de-0063b1a4efd9",
+                            ConcurrencyStamp = "11e03fc4-9ed6-4aae-9b76-c7ec0de6bc51",
                             Email = "caseScally@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Case",
@@ -256,7 +258,7 @@ namespace Tuned.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "CASESCALLY@GMAIL.COM",
                             NormalizedUserName = "CASESCALLY@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEITRQSC96+Dc85zDTxqazbLCIwbg3eTIfAcWwa9fV+6+HyE6CKjodZJUNRFiQglfPg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOmj1q+OsGRmVHnzYxH5BXn1bdtx+2R7IsLeYBm4rgOfd5IphotDy8hZMa/B/f4t2Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794577",
                             StreetAddress = "123 Infinity Way",
@@ -268,7 +270,7 @@ namespace Tuned.Migrations
                             Id = "e4356622-ec1e-4b02-b5b9-762e4916c2ff",
                             AccessFailedCount = 0,
                             ActiveUser = false,
-                            ConcurrencyStamp = "ec86865f-a61a-4134-b8c0-d955835c5409",
+                            ConcurrencyStamp = "04aaed32-b3e7-46cc-8484-7ca783b7b8cd",
                             Email = "moScally@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Molly",
@@ -276,7 +278,7 @@ namespace Tuned.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MOSCALLY@GMAIL.COM",
                             NormalizedUserName = "MOSCALLY@gmail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAECAWCzaTxPp/uYpCz8lGOwBTg80QmM7vMMfWggPLOWZtdxAqax4o2l1iNoaoRZh0ig==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEsvBGd47BmQCIrMvfWfapmLZRrtnKLnTQee2o27M1OSXRfwGFgUNiQjDx8QF2hKIA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794578",
                             StreetAddress = "123 Infinity Way",
@@ -288,7 +290,7 @@ namespace Tuned.Migrations
                             Id = "f5d1aaa8-b80a-4649-bea7-bbc0226c9866",
                             AccessFailedCount = 0,
                             ActiveUser = false,
-                            ConcurrencyStamp = "ac6d2e93-fb2a-4063-8570-fbece9c38964",
+                            ConcurrencyStamp = "ae5c1eb2-908f-4496-8809-57a5dd5c7261",
                             Email = "hunter@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Hunter",
@@ -296,7 +298,7 @@ namespace Tuned.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "HUNTER@GMAIL.COM",
                             NormalizedUserName = "HUNTER@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJ1xbtJruoSpPxfcyfDBR9enWV7/uCk6E7mRa4PVdPEMsi8+ZjprhsFsmWaBkI5w6g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP0Gqpr13bw+ffGcUAUDjfeD8YNRt7TG+NRCb4YzBsMYZ1FRaabaDz81XAWWcMesNg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "7f434309-a4d9-48e9-9ebb-8803db794579",
                             StreetAddress = "249 Brentwood Place",
@@ -322,9 +324,6 @@ namespace Tuned.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CarPageCoverUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageFileNames")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Make")
@@ -492,7 +491,7 @@ namespace Tuned.Migrations
                         {
                             Id = 1,
                             ActiveEvent = false,
-                            Date = new DateTime(2020, 5, 19, 9, 23, 34, 737, DateTimeKind.Local).AddTicks(8911),
+                            Date = new DateTime(2020, 5, 14, 20, 1, 50, 523, DateTimeKind.Local).AddTicks(9693),
                             Description = "Casual meet",
                             ImagePath = "SomeTestUrl",
                             Location = "Church Street",
@@ -503,7 +502,7 @@ namespace Tuned.Migrations
                         {
                             Id = 2,
                             ActiveEvent = false,
-                            Date = new DateTime(2020, 5, 19, 9, 23, 34, 738, DateTimeKind.Local).AddTicks(8410),
+                            Date = new DateTime(2020, 5, 14, 20, 1, 50, 524, DateTimeKind.Local).AddTicks(9867),
                             Description = "Imports only",
                             ImagePath = "SomeOtherTestUrl",
                             Location = "Atlanta",
@@ -705,6 +704,9 @@ namespace Tuned.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("ApplicationUserViewModel");
@@ -805,7 +807,7 @@ namespace Tuned.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Tuned.Models.Data.ApplicationUser", "User")
+                    b.HasOne("Tuned.Models.ViewModels.ApplicationUserViewModel", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });

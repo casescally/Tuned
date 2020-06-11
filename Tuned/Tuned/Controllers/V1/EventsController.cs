@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +22,14 @@ namespace Tuned.Controllers.V1
 
         private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;
+        public static IWebHostEnvironment _environment;
 
-        public EventsController(IConfiguration config, UserManager<ApplicationUser> userManager)
+        public EventsController(IConfiguration config, UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
 
         {
             _config = config;
             _userManager = userManager;
+            _environment = environment;
         }
 
         public SqlConnection Connection
@@ -53,7 +57,8 @@ namespace Tuned.Controllers.V1
                         @"SELECT e.Id, e.Name, e.Location, e.Date, e.Description, e.ImagePath, e.UserId, a.Id AS AdminId, a.UserName, a.FirstName, a.LastName
                           FROM Events e
                           INNER JOIN AspNetUsers a
-                          ON e.UserId = a.Id";
+                          ON e.UserId = a.Id
+                          WHERE ActiveEvent = 1";
                 
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -83,7 +88,7 @@ namespace Tuned.Controllers.V1
                             foundEvent.AdminUser = new ApplicationUserViewModel { 
 
                                 Id = reader.GetString(reader.GetOrdinal("AdminId")),
-                                Username = reader.GetString(reader.GetOrdinal("UserName")),
+                                //Username = reader.GetString(reader.GetOrdinal("UserName")),
                                 FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
                                 LastName = reader.GetString(reader.GetOrdinal("LastName")),
                             };
@@ -110,10 +115,10 @@ namespace Tuned.Controllers.V1
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"
-                                        SELECT Id, Name, Location, Date, Description, ImagePath, UserId
+                    cmd.CommandText = @"SELECT Id, Name, Location, Date, Description, ImagePath, UserId
                                         FROM Events
-                                        WHERE Id = @id";
+                                        WHERE Id = @id
+                                        AND ActiveEvent = 1";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -144,6 +149,52 @@ namespace Tuned.Controllers.V1
                 }
             }
         }
+
+        [HttpPost("files")]
+        public async Task<List<string>> PostFile()
+        {
+            var savedFilePaths = new List<string>();
+
+            if (Request.Form.Files.Count > 0)
+            {
+                EnsureUploadDirectoryExists();
+                foreach (IFormFile file in Request.Form.Files)
+                {
+                    string savedFilePath = String.Empty;
+                    if (file != null && file.Length > 0)
+                    {
+                        savedFilePath = _environment.WebRootPath + "\\Upload\\"+ Path.GetFileName(file.FileName);
+                        using (var fileStream = new FileStream(savedFilePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(fileStream);
+                        }
+                        savedFilePaths.Add(savedFilePath);
+                    }
+                }
+            }
+            //List<string> base64ImagaData = new List<string>();
+            //foreach (var savedFilePath in savedFilePaths)
+            //{
+            //    byte[] imageArray = System.IO.File.ReadAllBytes(savedFilePath);
+            //    string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+            //    base64ImagaData.Add(base64ImageRepresentation);
+            //}
+            //return Ok(String.Join(",", base64ImagaData));
+            return savedFilePaths;
+        }
+
+                private static void EnsureUploadDirectoryExists()
+        {
+            if (String.IsNullOrWhiteSpace(_environment.WebRootPath))
+            {
+                _environment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+            }
+            if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
+            }
+        }
+
 
         // POST: api/Events
         [HttpPost]

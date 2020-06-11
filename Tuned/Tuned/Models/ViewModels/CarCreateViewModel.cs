@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tuned.Models.Data;
 
-namespace Tuned.Models.Data
+namespace Tuned.Models.ViewModels
 {
-    public class Car
+    public class CarCreateViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -17,11 +18,9 @@ namespace Tuned.Models.Data
         public ApplicationUser ApplicationUser { get; set; }
         public int VehicleTypeId { get; set; }
         public VehicleType VehicleType { get; set; }
-
-        //public IFormFile ImageFile { get; set; }
+        public IFormFile ImageFile { get; set; }
         public string CarPageCoverUrl { get; set; }
         public string CarDescription { get; set; }
         public bool ActiveCar { get; set; }
-        public string ImageFileNames { get; set; }
     }
 }

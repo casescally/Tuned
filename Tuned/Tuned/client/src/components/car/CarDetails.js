@@ -1,109 +1,63 @@
 import React, { useContext } from "react"
-import { Link } from "react-router-dom"
-import { LikedCarContext } from "../likedCar/LikedCarProvider"
 import { UserContext } from "../user/UserProvider"
-//import "./Cars.css"
+import { LikedCarContext } from "../likedCar/LikedCarProvider"
+import { CarContext } from "./CarProvider"
+import "./Cars.css"
+import { getUser } from "../../API/userManager"
 
-export default ({ car }) => {
+export default (props) => {
 
+    const { cars, deleteCar } = useContext(CarContext)
+    const { likedCars } = useContext(LikedCarContext)
     const { users } = useContext(UserContext)
 
-    const { likedcars, addLike, deleteLike } = useContext(LikedCarContext)
+    const chosenCarId = parseInt(props.match.params.carId, 10)
 
-    const user = users.find(u => u.id === car.userId) || {}
-
-    const currentCarsLikedCars = likedcars.filter(like => like.carId === car.id)
-
-    const constructNewLike = (currentCar) => {
-
-        const alreadyLikedCar = likedcars.find(like => like.carId === currentCar.id && like.userId === parseInt(localStorage.getItem("currentUser")))
-
-        const user = users.find(u => u.id === car.userId) || {}
-
-        //Don't allow duplicate liked cars
-
-        if (alreadyLikedCar === undefined) {
-
-            likedCarMode = false
-
-            addLike({
-
-                carId: currentCar.id,
-
-                userId: parseInt(localStorage.getItem("currentUser"))
-
-            })
-
-        } if (alreadyLikedCar !== undefined) {
-
-            likedCarMode = true
-
-            deleteLike(likedcars.find(like => like.carId === currentCar.id && like.userId === parseInt(localStorage.getItem("currentUser"))))
-
-        }
-
-    }
-
+    const user = getUser()
+    const car = cars.find(c => c.id === chosenCarId) || {}
+    const likedCar = likedCars.find(l => l.likedCarId === car.id) || {}
+    const carUser = users.find(u => u.id === car.applicationUserId) || {}
+    const currentUsersCars = cars.filter(c => c.userId === user.id)
     let likedCarMode = Boolean
-
+console.log(car)
     return (
+        <section className="car">
+            <h3 className="car__name">{car.name}</h3>
+            <div className="car__make">{car.make}</div>
+            <div className="car__model">{car.model}</div>
+            <div className="car__year">{car.year}</div>
+            
 
-        //car information
+            <button className="likeButton" value="Like" onClick={evt => {
 
-        <section className="Carsection">
+                evt.preventDefault()
 
-            <div className="carInfo">
+                // constructNewLike(car)
 
-                <img className="coverImage" src={car.carPageCoverUrl}></img>
+            }
 
-                <div className="carUploader">
+            }>{likedCarMode ? "Like" : "Unlike"}</button>
 
-                    <h3>
+            <div className="car__user">User: {carUser.username}</div>
+            
+            <button onClick={
+                () => {
 
-                        <Link to={`/users/${car.userId}`}>
-
-                            <div className="car__user">{user.username}</div>
-
-                        </Link>
-
-                    </h3>
-
-                    {/* {console.log(currentCarsLikedCars)} */}
-
-                    <h3 className="car__name">
-
-                        <Link to={`/cars/${car.id}`} className="carLink">
-
-                            {car.name}
-
-                        </Link>
-
-                    </h3>
-
-                </div>
-
-            </div>
-
-            <div className="likeInfo">
-
-                LikedCars: {currentCarsLikedCars.length}
-
-                <button className="likeButton" value="Like" onClick={evt => {
-
-                    evt.preventDefault()
-
-                    constructNewLike(car)
-
+                    deleteCar(car)
+                        .then(() => {
+                            props.history.push("/cars")
+                        })
                 }
+            }>
+                Delete Car
 
-                }>{likedCarMode ? "Like" : "Unlike"}</button>
+            </button>
 
-            </div>
-
-            <div className="uploaderInfo">
-
-            </div>
-
+            <button onClick={() => {
+                props.history.push(`/cars/edit/${car.id}`)
+            }}>Edit
+            
+            </button>
         </section>
     )
 }

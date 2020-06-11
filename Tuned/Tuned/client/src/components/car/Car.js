@@ -7,32 +7,29 @@ import { LikedCarContext } from "../likedCar/LikedCarProvider"
 import { UserContext } from "../user/UserProvider"
 
 import "./Cars.css"
+import { getUser } from "../../API/userManager"
 
 
 
 export default ({ car }) => {
 
-
-
     const { users } = useContext(UserContext)
 
-    const { likedcars, addLikedCar, deleteLikedCar } = useContext(LikedCarContext)
+    const { likedCars, addLikedCar, deleteLikedCar } = useContext(LikedCarContext)
 
-    const user = users.find(u => u.id === car.userId) || {}
+    const carUser = users.find(u => u.id === car.userId) || {}
+
+    const user = getUser()
 
     //   const currentCarsLikedCars = likedcars.filter(likedcar => likedcar.carId === car.id)
 
     const constructNewLikedCar = (currentCar) => {
 
-        const alreadyLikedCardCar = likedcars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === parseInt(localStorage.getItem("currentUser")))
-
-        const user = users.find(u => u.id === car.userId) || {}
-
-
+        const alreadyLikedCar = likedCars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === currentCar.applicationUserId)
 
         //Don't allow duplicate likedcars
 
-        if (alreadyLikedCardCar === undefined) {
+        if (alreadyLikedCar === undefined || null) {
 
             likedcardCarMode = false
 
@@ -40,29 +37,23 @@ export default ({ car }) => {
 
                 carId: currentCar.id,
 
-                userId: parseInt(localStorage.getItem("currentUser"))
+                userId: user.id
 
             })
 
-        } if (alreadyLikedCardCar !== undefined) {
+        } if (alreadyLikedCar !== undefined || null) {
 
             likedcardCarMode = true
 
-            deleteLikedCar(likedcars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === parseInt(localStorage.getItem("currentUser"))))
+            deleteLikedCar(likedCars.find(lc => lc.carId === currentCar.id && lc.applicationUserId === user.id))
 
         }
 
     }
 
-
-
     let likedcardCarMode = Boolean
 
-
-
     return (
-
-
 
         //car information
 
@@ -80,21 +71,15 @@ export default ({ car }) => {
                         <Link to={`/users/${car.userId}`}>
 
 
-                            <div className="car__user">{user.username}</div>
+                            <div className="car__user">{carUser.username}</div>
 
                         </Link>
 
                     </h3>
 
-
-
                     {/* {console.log(currentCarsLikedCars)} */}
 
-
-
                     <h3 className="car__name">
-
-
 
                         <Link to={`/cars/${car.id}`} className="carLink">
 
@@ -102,11 +87,7 @@ export default ({ car }) => {
 
                         </Link>
 
-
-
                     </h3>
-
-
 
                 </div>
 
@@ -115,8 +96,6 @@ export default ({ car }) => {
             <div className="likedcarInfo">
 
 
-
-                {/*   LikedCars: {currentCarsLikedCars.length}*/}
 
                 <button className="likedcarButton" value="LikedCar" onClick={evt => {
 
@@ -128,33 +107,13 @@ export default ({ car }) => {
 
                 }
 
-                }>{likedcardCarMode ? "LikedCar" : "Unlikedcar"}</button>
-
-
-
-
-
-
-
-
+                }>{likedcardCarMode ? "Like" : "Unlike"}</button>
 
             </div>
-
-
-
-
-
-
 
             <div className="uploaderInfo">
 
-
-
             </div>
-
-
-
-
 
         </section>
 

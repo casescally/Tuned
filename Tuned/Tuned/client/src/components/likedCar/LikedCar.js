@@ -16,10 +16,9 @@ export default ({ likedcar }) => {
 
     const constructNewLikedCar = (currentCar) => {
 
-        const alreadyLikedCar = likedcars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === parseInt(localStorage.getItem("user")))
+        const alreadyLikedCar = likedcars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === currentCar.userId)
 
-        //Don't allow duplicate likedcars
-
+        //Don't allow duplicate liked cars
         if (alreadyLikedCar === undefined) {
 
             likedcarMode = false
@@ -28,7 +27,7 @@ export default ({ likedcar }) => {
 
                 carId: currentCar.id,
 
-                userId: parseInt(localStorage.getItem("user"))
+                userId: user.id
 
             })
 
@@ -36,7 +35,7 @@ export default ({ likedcar }) => {
 
             likedcarMode = true
 
-            deleteLikedCar(likedcars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === parseInt(localStorage.getItem("user"))))
+            deleteLikedCar(likedcars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === user.id))
 
         }
 
@@ -78,7 +77,7 @@ export default ({ likedcar }) => {
 
                 LikedCars: {currentLikedCars.length}
 
-                <button className="likedcarButton" value="LikedCar" onClick={evt => {
+                <button className="likedCarButton" value="Like" onClick={evt => {
 
                     evt.preventDefault()
 
@@ -86,7 +85,7 @@ export default ({ likedcar }) => {
 
                 }
 
-                }>{likedcarMode ? "LikedCar" : "Unlikedcar"}</button>
+                }>{likedcarMode ? "Like" : "Unlike"}</button>
 
                 <div className="uploaderInfo">
 

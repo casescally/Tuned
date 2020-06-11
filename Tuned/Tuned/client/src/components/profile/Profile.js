@@ -6,13 +6,15 @@ import { UserContext } from "../user/UserProvider"
 import { LikedCarContext } from "../likedCar/LikedCarProvider"
 import LikedCar from "../likedCar/LikedCar"
 import "./Profiles.css"
+import { getUser } from "../../API/userManager"
 
 export default (props) => {
 
     const { cars } = useContext(CarContext)
     const { users } = useContext(UserContext)
     const userName = JSON.parse(localStorage.getItem("user")).username
-    const { likes } = useContext(LikedCarContext)
+    const { likedCars } = useContext(LikedCarContext)
+    const currentUser = getUser()
     const profilesArray = []
 
     let editProfileMode = Boolean
@@ -29,9 +31,9 @@ export default (props) => {
 
     }
 
-    const currentProfile = profilesArray[0]
+    //const currentProfile = profilesArray[0]
 
-    console.log(editProfileMode)
+    //console.log("User Profile")
 
     // //const likesRelationships = likes.filter(like => like.userId === currentProfile.id)
     // const currentUsersLikes = []
@@ -54,9 +56,29 @@ export default (props) => {
     // }
 
     const currentUserCars = cars.filter(car => {
-        return car.applicationUserId === currentProfile.username
+
+        return car.applicationUserId === currentUser.id
 
     })
+
+    const currentUsersLikedCars = [];
+
+    {
+        likedCars.forEach(rel => {
+
+            // Find the user
+            const foundLike = cars.filter(
+                (car) => {
+                    return rel.UserId === car.ApplicationUserId
+                }
+            )[0]
+            //if page is reloaded and no likes are found
+            if (foundLike !== undefined) {
+                currentUsersLikedCars.push(foundLike)
+            }
+        })
+    }
+    console.log(currentUsersLikedCars)
 
     return (
 
@@ -65,7 +87,7 @@ export default (props) => {
             <section className="userProfile">
 
                 <div className="profileBackground" style={{
-                    backgroundImage: "url(" + `${currentProfile.name}` + ")",
+                    backgroundImage: "url(" + `${currentUser.name}` + ")",
                     backgroundPosition: 'center',
                     // backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
@@ -75,9 +97,9 @@ export default (props) => {
 
                     <span id="profileInfo">
 
-                        <img id="profilePicture" className="profilePicture" alt={`${currentProfile.firstname}'s profile picture`} src={currentProfile.name}></img>
 
-                        {<h1 className="currentProfileName">{currentProfile.name}</h1>}
+
+                        {<h1 className="currentProfileName">{currentUser.userName}</h1>}
 
 
                         {
@@ -85,7 +107,7 @@ export default (props) => {
                             <button className="followButton" onClick={evt => {
 
                                 evt.preventDefault()
-                                props.history.push(`edit/${currentProfile.username}`)
+                                props.history.push(`edit/${currentUser.userName}`)
 
                             }}>{editProfileMode ? "Edit" : ""}
 
@@ -113,6 +135,8 @@ export default (props) => {
                         <article id="likedCars" className="profileLikesList">
 
                             <h3>Liked Cars</h3>
+
+                            {currentUsersLikedCars.map(car => <Car key={car.id} car={car} {...props} />)}
 
                         </article>
                     </div>

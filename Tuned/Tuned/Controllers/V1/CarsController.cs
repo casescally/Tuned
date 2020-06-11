@@ -7,6 +7,11 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Tuned.Models.Data;
 using Tuned.Models.ViewModels;
+using System.Web;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using System.Linq.Expressions;
+using System.Data;
 
 namespace Tuned.Controllers.V1
 {
@@ -17,10 +22,12 @@ namespace Tuned.Controllers.V1
 
         private readonly IConfiguration _config;
 
-        public CarsController(IConfiguration config)
+        public static IWebHostEnvironment _environment;
 
+        public CarsController(IConfiguration config, IWebHostEnvironment environment)
         {
             _config = config;
+            _environment = environment;
         }
 
         public SqlConnection Connection
@@ -30,6 +37,11 @@ namespace Tuned.Controllers.V1
             {
                 return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
             }
+        }
+
+        public class FileUploadInterface
+        {
+            public IFormFile files { get; set; }
         }
 
         // GET: api/Cars
@@ -61,7 +73,6 @@ namespace Tuned.Controllers.V1
                             Make = reader.GetString(reader.GetOrdinal("Make")),
                             Model = reader.GetString(reader.GetOrdinal("Model")),
                             Year = reader.GetInt32(reader.GetOrdinal("Year")),
-                            Url = reader.GetInt32(reader.GetOrdinal("Url")),
                             ApplicationUserId = reader.GetString(reader.GetOrdinal("ApplicationUserId")),
                             VehicleTypeId = reader.GetInt32(reader.GetOrdinal("VehicleTypeId")),
                             CarPageCoverUrl = reader.GetString(reader.GetOrdinal("CarPageCoverUrl")),
@@ -89,7 +100,7 @@ namespace Tuned.Controllers.V1
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT c.Id, c.Name, c.Make, c.Model, c.Year, c.Url, c.ApplicationUserId, c.VehicleTypeId, c.CarPageCoverUrl, c.CarDescription, c.ActiveCar, a.FirstName, a.LastName, a.StreetAddress, a.ProfilePicturePath, a.ProfileBackgroundPicturePath, a.Description, a.ProfileHeader, a.ActiveUser
+                    cmd.CommandText = @"SELECT c.Id, c.Name, c.Make, c.Model, c.Year, c.ApplicationUserId, c.VehicleTypeId, c.CarPageCoverUrl, c.CarDescription, c.ActiveCar, a.FirstName, a.LastName, a.StreetAddress, a.ProfilePicturePath, a.ProfileBackgroundPicturePath, a.Description, a.ProfileHeader, a.ActiveUser
                                         FROM Cars c
                                         LEFT JOIN AspNetUsers a
                                         ON c.ApplicationUserId = a.Id
@@ -109,7 +120,6 @@ namespace Tuned.Controllers.V1
                             Make = reader.GetString(reader.GetOrdinal("Make")),
                             Model = reader.GetString(reader.GetOrdinal("Model")),
                             Year = reader.GetInt32(reader.GetOrdinal("Year")),
-                            Url = reader.GetInt32(reader.GetOrdinal("Url")),
                             ApplicationUserId = reader.GetString(reader.GetOrdinal("ApplicationUserId")),
                             VehicleTypeId = reader.GetInt32(reader.GetOrdinal("VehicleTypeId")),
                             CarPageCoverUrl = reader.GetString(reader.GetOrdinal("CarPageCoverUrl")),
@@ -127,35 +137,128 @@ namespace Tuned.Controllers.V1
             }
         }
 
+        [HttpPost("files")]
+        public async Task<List<string>> PostFile()
+        {
+            var savedFilePaths = new List<string>();
+
+            if (Request.Form.Files.Count > 0)
+            {
+                EnsureUploadDirectoryExists();
+                foreach (IFormFile file in Request.Form.Files)
+                {
+                    string savedFilePath = String.Empty;
+                    if (file != null && file.Length > 0)
+                    {
+                        savedFilePath = _environment.WebRootPath + "\\Upload\\"+ Path.GetFileName(file.FileName);
+                        using (var fileStream = new FileStream(savedFilePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(fileStream);
+                        }
+                        savedFilePaths.Add(savedFilePath);
+                    }
+                }
+            }
+            //List<string> base64ImagaData = new List<string>();
+            //foreach (var savedFilePath in savedFilePaths)
+            //{
+            //    byte[] imageArray = System.IO.File.ReadAllBytes(savedFilePath);
+            //    string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+            //    base64ImagaData.Add(base64ImageRepresentation);
+            //}
+            //return Ok(String.Join(",", base64ImagaData));
+            return savedFilePaths;
+        }
+
+        private static void EnsureUploadDirectoryExists()
+        {
+            if (String.IsNullOrWhiteSpace(_environment.WebRootPath))
+            {
+                _environment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+            }
+            if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
+            {
+                Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
+            }
+        }
+
         // POST: api/Cars
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Car newCar)
+        public void Post([FromForm] Car newCar)
         {
             using (SqlConnection conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Cars (Name, Make, Model, Year, Url, ApplicationUserId, VehicleTypeId, CarPageCoverUrl, CarDescription)
+                    cmd.CommandText = @"INSERT INTO Cars (Name, Make, Model, Year, ApplicationUserId, VehicleTypeId, CarPageCoverUrl, CarDescription, ActiveCar, ImageFileNames)
                                         OUTPUT INSERTED.Id
-                                        VALUES (@name, @make, @model, @year, @url, @applicationUserId, @vehicleTypeId, @carPageCoverUrl, @carDescription)";
+                                        VALUES (@name, @make, @model, @year, @applicationUserId, @vehicleTypeId, @carPageCoverUrl, @carDescription, @activeCar, @imageFileNames)";
 
                     cmd.Parameters.Add(new SqlParameter("@name", newCar.Name));
                     cmd.Parameters.Add(new SqlParameter("@make", newCar.Make));
                     cmd.Parameters.Add(new SqlParameter("@model", newCar.Model));
                     cmd.Parameters.Add(new SqlParameter("@year", newCar.Year));
-                    cmd.Parameters.Add(new SqlParameter("@url", newCar.Url));
                     cmd.Parameters.Add(new SqlParameter("@applicationUserId", newCar.ApplicationUserId));
                     cmd.Parameters.Add(new SqlParameter("@vehicleTypeId", newCar.VehicleTypeId));
                     cmd.Parameters.Add(new SqlParameter("@carPageCoverUrl", newCar.CarPageCoverUrl));
                     cmd.Parameters.Add(new SqlParameter("@carDescription", newCar.CarDescription));
+                    cmd.Parameters.Add(new SqlParameter("@imageFileNames", newCar.ImageFileNames));
+                    cmd.Parameters.Add(new SqlParameter("@activeCar", newCar.ActiveCar));
 
                     int newId = (int)cmd.ExecuteScalar();
                     newCar.Id = newId;
-                    return CreatedAtRoute("GetCar", new { id = newId}, newCar);
+
+
+                    //  try {
+
+                    //    if (newCar.ImageFile.Length > 0) {
+
+                    //        if (String.IsNullOrWhiteSpace(_environment.WebRootPath))
+                    //        {
+                    //            _environment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                    //        }
+
+                    //        if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
+
+                    //        {
+                    //            Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
+                    //        }
+                    //    using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + "\\Upload\\"+ Path.GetFileName(newCar.ImageFile.FileName)))
+                    //    {
+
+                    //        newCar.ImageFile.CopyTo(fileStream);
+                    //        fileStream.Flush();
+                    //        return "\\Upload\\" + Path.GetFileName(newCar.ImageFile.FileName);
+
+                    //    }
+                    //        }
+
+                    //    else
+                    //    {
+
+                    //        return "Upload Failed";
+
+                    //    }
+                    //}
+                    //catch (Exception ex)
+                    //    {
+                    //        return ex.Message.ToString();
+                    //    }
+
+
+
+                    //   int newId = (int)cmd.ExecuteScalar();
+                    //   newCar.Id = newId;
+                    //  return CreatedAtRoute("GetCar", new { id = newId}, newCar);
+
+
+
+                    //}
                 }
             }
         }
+        
 
         // PUT: api/Cars/5
         //Update an car
@@ -174,7 +277,6 @@ namespace Tuned.Controllers.V1
                                             Make = @make,
                                             Model = @model,
                                             Year = @year,
-                                            Url = @url,
                                             ApplicationUserId = @applicationUserId,
                                             VehicleTypeId = @vehicleTypeId,
                                             CarPageCoverUrl = @carPageCoverUrl,
@@ -187,7 +289,6 @@ namespace Tuned.Controllers.V1
                     cmd.Parameters.Add(new SqlParameter("@make", updatedCar.Make));
                     cmd.Parameters.Add(new SqlParameter("@model", updatedCar.Model));
                     cmd.Parameters.Add(new SqlParameter("@year", updatedCar.Year));
-                    cmd.Parameters.Add(new SqlParameter("@url", updatedCar.Url));
                     cmd.Parameters.Add(new SqlParameter("@applicationUserId", updatedCar.ApplicationUserId));
                     cmd.Parameters.Add(new SqlParameter("@vehicleTypeId", updatedCar.VehicleTypeId));
                     cmd.Parameters.Add(new SqlParameter("@carPageCoverUrl", updatedCar.CarPageCoverUrl));

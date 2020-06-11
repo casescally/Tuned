@@ -35,8 +35,50 @@ export const CarProvider = (props) => {
 
     }
 
+    const saveImages = async (files) => {
+        const authHeader = createAuthHeaders();  
+        const formData = new FormData();
+        if (files) {
+          Array.from(files).forEach(file => {
+            formData.append(file.name, file);
+          });
+        }      
+        
+        const response = await fetch('https://localhost:5001/api/cars/files', {
+          // content-type header should not be specified!
+          method: 'POST',
+          headers: {
+            authHeader,
+          }, 
+          body: formData,
+          responseType: 'text'
+        });
+        return response.text();
+        //   .then(response => response.text())
+        //   .then(filePaths => {
+        //     // Do something with the successful response
+        //     return filePaths;
+        //   })
+        //   .catch(error => console.log(error)
+        // );
+    }
+
     const addCar = car => {
+
         const authHeader = createAuthHeaders();
+
+        var form_data = new FormData();
+        
+        console.log(car);
+
+        for (var key in car ) {
+            form_data.append(key, car[key]);
+        }
+
+        for (var key of form_data.entries()) {
+            console.log(key[0] + ', ' + key[1]);
+        }
+
         return fetch("https://localhost:5001/api/cars", {
 
 
@@ -44,12 +86,10 @@ export const CarProvider = (props) => {
 
             headers: {
                 authHeader,
-                "Content-Type": "application/json"
+                //"Content-Type": "application/json"
+            },         
 
-            },
-
-            body: JSON.stringify(car)
-
+            body: form_data
         })
 
             .then(getCars)
@@ -114,7 +154,7 @@ export const CarProvider = (props) => {
 
         <CarContext.Provider value={{
 
-            cars, addCar, deleteCar, updateCar
+            cars, addCar, deleteCar, updateCar, saveImages
 
         }}>
 
