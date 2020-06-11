@@ -15,6 +15,8 @@ export default props => {
 
     const [car, setCar] = useState({})
 
+    const [carImage, setCarImage] = useState("")
+
     const editMode = props.match.params.hasOwnProperty("carId")
 
     const handleControlledInputChange = (event) => {
@@ -28,8 +30,14 @@ export default props => {
     }
 
     const imageFileChanged = async (event) => {
+
+        const carImageURL = URL.createObjectURL(event.target.files[0])
+
+        setCarImage(carImageURL)
+
         console.log(event.target.files);
         const filePaths = await saveImages(event.target.files);
+
         //car['imageFileNames'] = filePaths;
         //for loop  filePaths.split(','); => arrray of base64 images.
         console.log(filePaths);
@@ -66,11 +74,14 @@ export default props => {
 
         if (car.imageFileNames) {
             console.log(JSON.parse(car.imageFileNames)[0].split("/"))
-         return fetch(`https://localhost:5001/api/CarImages/image/get?imageName=${JSON.parse(car.imageFileNames)[0].split("/")}`)  //car.imageFilePaths[index]
+          fetch(`https://localhost:5001/api/CarImages/image/get?imageName=${JSON.parse(car.imageFileNames)[0].split("/")}`).then(setCarImage('url'))
         }
 
         };
-
+/*
+React relies on data flow, you should always update your "state" based on the state of the information of the app.
+in your case: server call > response from server > update the state with data from server > view is re-rendered with new data.
+*/
 
 
     const constructNewCar = () => {
@@ -91,7 +102,10 @@ export default props => {
 
             })
 
-                .then(() => props.history.push("/cars"))
+                .then(data => {
+                    getImageSrc()
+                    props.history.push("/cars")
+                })
 
         } else {
 
@@ -223,7 +237,7 @@ export default props => {
                     <label htmlFor="imageFile">Image File</label>
                     <input name="imageFile" type="file" multiple onChange={imageFileChanged} />
                     <div className="imagePreview" id="imagePreview">
-                        <img src={getImageSrc()}></img>
+                        <img src={carImage}/>
                        <span class="image-preview__default-text">Image Preview</span>
                     </div>
                 </div>
