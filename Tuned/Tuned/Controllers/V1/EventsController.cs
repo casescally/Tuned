@@ -121,6 +121,7 @@ namespace Tuned.Controllers.V1
                                         AND ActiveEvent = 1";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
+
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     Event individualEvent = null;

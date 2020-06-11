@@ -1,27 +1,37 @@
 import React, { useContext } from "react"
+
 import { Link } from "react-router-dom"
+
 import { LikedCarContext } from "../likedCar/LikedCarProvider"
+
 import { UserContext } from "../user/UserProvider"
+
+import { getUser } from "../../API/userManager"
+
 import "../car/Cars.css"
 
-export default ({ likedcar }) => {
+
+export default ({ car }) => {
 
     const { users } = useContext(UserContext)
 
-    const { likedcars, addLikedCar, deleteLikedCar } = useContext(LikedCarContext)
+    const { likedCars, addLikedCar, deleteLikedCar } = useContext(LikedCarContext)
 
-    const user = users.find(u => u.id === likedcar.userId) || {}
+    const carUser = users.find(u => u.id === car.userId) || {}
 
-    const currentLikedCars = likedcars.filter(l => l.carId === likedcar.id)
+    const user = getUser()
+
+    //   const currentCarsLikedCars = likedcars.filter(likedcar => likedcar.carId === car.id)
 
     const constructNewLikedCar = (currentCar) => {
 
-        const alreadyLikedCar = likedcars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === currentCar.userId)
+        const alreadyLikedCar = likedCars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === currentCar.applicationUserId)
 
-        //Don't allow duplicate liked cars
-        if (alreadyLikedCar === undefined) {
+        //Don't allow duplicate likedcars
 
-            likedcarMode = false
+        if (alreadyLikedCar === undefined || null) {
+
+            likedcardCarMode = false
 
             addLikedCar({
 
@@ -31,66 +41,71 @@ export default ({ likedcar }) => {
 
             })
 
-        } if (alreadyLikedCar !== undefined) {
+        } else if (alreadyLikedCar !== undefined || null) {
 
-            likedcarMode = true
+            likedcardCarMode = true
 
-            deleteLikedCar(likedcars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === user.id))
+            deleteLikedCar(currentCar)
 
         }
 
     }
 
-    let likedcarMode = Boolean
+    let likedcardCarMode = Boolean
 
     return (
 
-        <section className="likedCarSection">
+        //car information
 
-            <img className="coverImage" src={likedcar.CarPageCoverUrl} alt={`${likedcar.name} cover image`}></img>
+        <section className="carSection">
 
-            <div className="carUploader">
+            <div className="carInfo">
 
-                <h3>
 
-                    <Link to={`/users/${likedcar.userId}`}>
+                <img className="coverImage" src={car.carCoverUrl}></img>
 
-                        <div className="car__user">{user.name}</div>
+                <div className="carUploader">
 
-                    </Link>
+                    <h3>
 
-                </h3>
+                        <Link to={`/users/${car.userId}`}>
 
-                <h3 className="car__name">
 
-                    <Link className="carLink" to={`/cars/${likedcar.id}`}>
+                            <div className="car__user">{carUser.username}</div>
 
-                        {likedcar.name}
+                        </Link>
 
-                    </Link>
+                    </h3>
 
-                </h3>
+                    <h3 className="car__name">
+
+                        <Link to={`/cars/${car.id}`} className="carLink">
+
+                            {car.name}
+
+                        </Link>
+
+                    </h3>
+
+                </div>
 
             </div>
 
             <div className="likedcarInfo">
 
-                LikedCars: {currentLikedCars.length}
-
-                <button className="likedCarButton" value="Like" onClick={evt => {
+                <button className="likedcarButton" value="LikedCar" onClick={evt => {
 
                     evt.preventDefault()
 
-                    constructNewLikedCar(likedcar)
+                    constructNewLikedCar(car)
 
                 }
 
-                }>{likedcarMode ? "Like" : "Unlike"}</button>
+                }>{likedcardCarMode ? "Like" : "Unlike"}</button>
 
-                <div className="uploaderInfo">
+            </div>
 
-
-                </div>
+            <div className="uploaderInfo">
 
             </div>
 

@@ -25,11 +25,11 @@ export default ({ car }) => {
 
     const constructNewLikedCar = (currentCar) => {
 
-        const alreadyLikedCar = likedCars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === currentCar.applicationUserId)
+        const alreadyLikedCar = likedCars.find(likedCar => likedCar.carId === currentCar.id && likedCar.userId === currentCar.applicationUserId)
 
         //Don't allow duplicate likedcars
 
-        if (alreadyLikedCar === undefined || null) {
+        if (alreadyLikedCar == undefined || null) {
 
             likedcardCarMode = false
 
@@ -41,11 +41,11 @@ export default ({ car }) => {
 
             })
 
-        } if (alreadyLikedCar !== undefined || null) {
+        } else if (alreadyLikedCar !== undefined || null) {
 
             likedcardCarMode = true
 
-            deleteLikedCar(likedCars.find(lc => lc.carId === currentCar.id && lc.applicationUserId === user.id))
+            deleteLikedCar(currentCar)
 
         }
 
@@ -77,8 +77,6 @@ export default ({ car }) => {
 
                     </h3>
 
-                    {/* {console.log(currentCarsLikedCars)} */}
-
                     <h3 className="car__name">
 
                         <Link to={`/cars/${car.id}`} className="carLink">
@@ -95,13 +93,9 @@ export default ({ car }) => {
 
             <div className="likedcarInfo">
 
-
-
                 <button className="likedcarButton" value="LikedCar" onClick={evt => {
 
                     evt.preventDefault()
-
-
 
                     constructNewLikedCar(car)
 

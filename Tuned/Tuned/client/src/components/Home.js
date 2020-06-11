@@ -6,14 +6,14 @@ import Car from "./car/Car"
 function Home() {
   const [values, setValues] = useState([]);
 
-  useEffect(() => {
-    const authHeader = createAuthHeaders();
-    fetch('/api/v1/values', {
-      headers: authHeader
-    })
-      .then(response => response.json())
-      .then(setValues);
-  }, []);
+  // useEffect(() => {
+  //   const authHeader = createAuthHeaders();
+  //   fetch('/api/v1/values', {
+  //     headers: authHeader
+  //   })
+  //     .then(response => response.json())
+  //     .then(setValues);
+  // }, []);
 
 
 

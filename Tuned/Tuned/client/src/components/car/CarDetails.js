@@ -8,7 +8,7 @@ import { getUser } from "../../API/userManager"
 export default (props) => {
 
     const { cars, deleteCar } = useContext(CarContext)
-    const { likedCars } = useContext(LikedCarContext)
+    const { likedCars, addLikedCar, deleteLikedCar } = useContext(LikedCarContext)
     const { users } = useContext(UserContext)
 
     const chosenCarId = parseInt(props.match.params.carId, 10)
@@ -19,7 +19,37 @@ export default (props) => {
     const carUser = users.find(u => u.id === car.applicationUserId) || {}
     const currentUsersCars = cars.filter(c => c.userId === user.id)
     let likedCarMode = Boolean
-console.log(car)
+
+    const constructNewLikedCar = (currentCar) => {
+
+        const alreadyLikedCarRel = likedCars.find(likedCar => likedCar.carId == currentCar.id && likedCar.user.id === user.id)
+
+        //Don't allow duplicate liked cars
+
+        if (alreadyLikedCarRel === undefined || null) {
+
+            likedCarMode = false
+            
+            addLikedCar({
+
+                carId: currentCar.id,
+
+                userId: user.id
+
+            })
+
+            console.log(alreadyLikedCarRel)
+        } else if (alreadyLikedCarRel !== undefined || null) {
+
+            console.log("deleted")
+            likedCarMode = true
+
+            deleteLikedCar(alreadyLikedCarRel)
+
+        }
+
+    }
+
     return (
         <section className="car">
             <h3 className="car__name">{car.name}</h3>
@@ -32,7 +62,7 @@ console.log(car)
 
                 evt.preventDefault()
 
-                // constructNewLike(car)
+                constructNewLikedCar(car)
 
             }
 

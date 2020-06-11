@@ -256,8 +256,7 @@ namespace Tuned.Controllers.V1
                     conn.Open();
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = @"UPDATE LikedCars
-                                            SET ActiveLikedCar = 1
+                        cmd.CommandText = @"DELETE FROM LikedCars
                                             WHERE Id = @id";
 
                         cmd.Parameters.Add(new SqlParameter("@id", id));
