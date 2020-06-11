@@ -9,8 +9,6 @@ export default props => {
  
     const user = getUser();
 
-    // const { likedCars } = useContext(LikedCarContext)
-
     const { cars, addCar, saveImages, updateCar } = useContext(CarContext)
 
     const [car, setCar] = useState({})
@@ -20,10 +18,12 @@ export default props => {
     const editMode = props.match.params.hasOwnProperty("carId")
 
     const handleControlledInputChange = (event) => {
+
         /*
             When changing a state object or array, always create a new one
             and change state instead of modifying current one
         */
+
         const newCar = Object.assign({}, car)
         newCar[event.target.name] = event.target.value
         setCar(newCar)
@@ -35,16 +35,10 @@ export default props => {
 
         setCarImage(carImageURL)
 
-        console.log(event.target.files);
+        //console.log(event.target.files);
         const filePaths = await saveImages(event.target.files);
 
-        //car['imageFileNames'] = filePaths;
-        //for loop  filePaths.split(','); => arrray of base64 images.
         console.log(filePaths);
-        //setCar(car);
-        //setCar({
-        //    imageFileNames: filePaths
-        // })
 
         const newCar = Object.assign({
 
@@ -52,9 +46,6 @@ export default props => {
             carPageCoverUrl: filePaths.split(',')[0]
         }, car)
 
-        //newCar['carPageCoverUrl'] = filePaths[0];
-        //console.log(event.target)
-        console.log(newCar)
         setCar(newCar);
     }
 
@@ -72,17 +63,18 @@ export default props => {
 
     const getImageSrc = () => {
 
-        if (car.imageFileNames) {
-            console.log(JSON.parse(car.imageFileNames)[0].split("/"))
-          fetch(`https://localhost:5001/api/CarImages/image/get?imageName=${JSON.parse(car.imageFileNames)[0].split("/")}`).then(setCarImage('url'))
-        }
+            if (car.imageFileNames) {
+
+                console.log(JSON.parse(car.imageFileNames)[0].split("/"))
+                fetch(`https://localhost:5001/api/CarImages/image/get?imageName=${JSON.parse(car.imageFileNames)[0].split("/")}`).then(setCarImage('url'))
+            }
 
         };
-/*
-React relies on data flow, you should always update your "state" based on the state of the information of the app.
-in your case: server call > response from server > update the state with data from server > view is re-rendered with new data.
-*/
 
+        /*
+        React relies on data flow, you should always update your "state" based on the state of the information of the app.
+        in your case: server call > response from server > update the state with data from server > view is re-rendered with new data.
+        */
 
     const constructNewCar = () => {
 
@@ -128,40 +120,6 @@ in your case: server call > response from server > update the state with data fr
         }
     }
 
-    // async function sendImage(event) {
-    //     event.preventDefault();
-    //     console.log(this.state.file);
-    //     await this.addImage(this.state.file);
-    //     console.log('it works');
-    // };
-    // async function addImage(image) {
-    //     const authHeader = createAuthHeaders();
-    //     await fetch('https://localhost:44385/api/cars',
-
-    //         {
-
-    //             method: 'POST',
-    //             mode: 'cors',
-    //             headers: {
-    //                 //'Accept': 'application/json',
-    //                 //'Authorization': 'Bearer ' + sessionStorage.tokenKey
-    //                 headers: authHeader
-    //             },
-    //             body: this.state.file
-    //         }
-    //     )
-    // }
-
-    // async function handleImageChange(e) {
-    //     e.preventDefault();
-    //     let form = new FormData();
-    //     for (var index = 0; index < e.target.files.length; index++) {
-    //         var element = e.target.files[index];
-    //         form.append('image', element);
-    //     }
-    //     form.append('fileName', "Img");
-    //     this.setState({ file: form });
-    // };
 
     return (
         <form className="carForm">
