@@ -134,9 +134,9 @@ export default (props) => {
 
                         <article id="likedCars" className="profileLikedCarList">
 
-                            <h3>Liked Cars</h3>
+                            <h3>Liked Cars {currentUsersLikedCars.length}</h3>
 
-                            {/* {currentUsersLikedCars.map(LikedCar => <LikedCar key={LikedCar.id} LikedCar={LikedCar} {...props} />)} */}
+                            {currentUsersLikedCars.map(car => <Car key={car.id} car={car} {...props} />)}
 
                         </article>
                     </div>
