@@ -25,14 +25,14 @@ export default ({ car }) => {
 
     const constructNewLikedCar = (currentCar) => {
 
-        const alreadyLikedCar = likedCars.find(likedcar => likedcar.carId === currentCar.id && likedcar.userId === currentCar.applicationUserId)
+        const alreadyLikedCarRel = likedCars.find(likedCar => likedCar.carId == currentCar.id && likedCar.user.id === user.id)
 
-        //Don't allow duplicate likedcars
+        //Don't allow duplicate liked cars
 
-        if (alreadyLikedCar === undefined || null) {
+        if (alreadyLikedCarRel === undefined || null) {
 
-            likedcardCarMode = false
-
+            likedCarMode = false
+            
             addLikedCar({
 
                 carId: currentCar.id,
@@ -41,17 +41,17 @@ export default ({ car }) => {
 
             })
 
-        } else if (alreadyLikedCar !== undefined || null) {
+        } else if (alreadyLikedCarRel !== undefined || null) {
 
-            likedcardCarMode = true
+            likedCarMode = true
 
-            deleteLikedCar(currentCar)
+            deleteLikedCar(alreadyLikedCarRel)
 
         }
 
     }
 
-    let likedcardCarMode = Boolean
+    let likedCarMode = Boolean
 
     return (
 
@@ -101,7 +101,7 @@ export default ({ car }) => {
 
                 }
 
-                }>{likedcardCarMode ? "Like" : "Unlike"}</button>
+                }>{likedCarMode ? "Like" : "Unlike"}</button>
 
             </div>
 

@@ -67,11 +67,11 @@ export default (props) => {
         likedCars.forEach(rel => {
 
             // Find the user
-            const foundLike = cars.filter(
+            const foundLike = cars.find(
                 (car) => {
-                    return rel.UserId === car.ApplicationUserId
+                    return rel.userId === currentUser.id && rel.carId === car.id
                 }
-            )[0]
+            )
             //if page is reloaded and no likes are found
             if (foundLike !== undefined) {
                 currentUsersLikedCars.push(foundLike)
@@ -132,11 +132,11 @@ export default (props) => {
 
                         </article>
 
-                        <article id="likedCars" className="profileLikesList">
+                        <article id="likedCars" className="profileLikedCarList">
 
                             <h3>Liked Cars</h3>
 
-                            {currentUsersLikedCars.map(car => <Car key={car.id} car={car} {...props} />)}
+                            {/* {currentUsersLikedCars.map(LikedCar => <LikedCar key={LikedCar.id} LikedCar={LikedCar} {...props} />)} */}
 
                         </article>
                     </div>

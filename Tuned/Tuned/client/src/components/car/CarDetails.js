@@ -38,10 +38,8 @@ export default (props) => {
 
             })
 
-            console.log(alreadyLikedCarRel)
         } else if (alreadyLikedCarRel !== undefined || null) {
 
-            console.log("deleted")
             likedCarMode = true
 
             deleteLikedCar(alreadyLikedCarRel)
