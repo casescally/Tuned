@@ -85,8 +85,12 @@ export default ({ car }) => {
 
                         </Link>
 
-                    </h3>
 
+
+                    </h3>
+                       <div className="car_make">{car.make}</div>
+
+                        <div className="car_model">{car.model}</div>
                 </div>
 
             </div>

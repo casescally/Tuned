@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { CarContext } from "../car/CarProvider"
 import Car from "../car/Car"
 import "../car/Cars.css"
@@ -31,30 +31,6 @@ export default (props) => {
 
     }
 
-    //const currentProfile = profilesArray[0]
-
-    //console.log("User Profile")
-
-    // //const likesRelationships = likes.filter(like => like.userId === currentProfile.id)
-    // const currentUsersLikes = []
-
-    // {
-    //     likesRelationships.forEach(rel => {
-
-    //         // Find this relationships's matching user object
-    //         const foundLike = cars.filter(
-    //             (singleCar) => {
-    //                 return rel.carId === singleCar.id
-    //             }
-    //         )[0]
-
-    //         //if page is reloaded and no likes are found
-    //         if (foundLike !== undefined) {
-    //             currentUsersLikes.push(foundLike)
-    //         }
-    //     })
-    // }
-
     const currentUserCars = cars.filter(car => {
 
         return car.applicationUserId === currentUser.id
@@ -66,7 +42,7 @@ export default (props) => {
     {
         likedCars.forEach(rel => {
 
-            // Find the user
+            // Find the user and car matching like
             const foundLike = cars.find(
                 (car) => {
                     return rel.userId === currentUser.id && rel.carId === car.id
@@ -78,7 +54,24 @@ export default (props) => {
             }
         })
     }
-    console.log(currentUsersLikedCars)
+
+    let foundProfile = users.find(user => user.id == currentUser.id)
+
+    let profileDescription = ""
+
+    let profileHeader = ""
+
+    let profileBackgroundPicturePath = ""
+
+    let profilePicturePath = ""
+
+    if (foundProfile !== undefined) {
+        profileDescription = foundProfile.description
+        profileHeader = foundProfile.profileHeader
+        profileBackgroundPicturePath = foundProfile.profileBackgroundPicturePath
+        profilePicturePath = foundProfile.profilePicturePath
+
+    }
 
     return (
 
@@ -97,13 +90,9 @@ export default (props) => {
 
                     <span id="profileInfo">
 
-
-
-                        {<h1 className="currentProfileName">{currentUser.userName}</h1>}
-
+                        {<h1 className="currentProfileName">{currentUser.username}</h1>}
 
                         {
-
                             <button className="followButton" onClick={evt => {
 
                                 evt.preventDefault()
@@ -112,10 +101,13 @@ export default (props) => {
                             }}>{editProfileMode ? "Edit" : ""}
 
                             </button>}
+
+                        <div className="profile_description">{profileDescription}</div>
+
+                        <div className="profile_header">{profileHeader}</div>
+
                     </span>
                 </div>
-
-
 
                 <div className="mainProfileSection">
                     <article className="profileCarList">
@@ -126,11 +118,6 @@ export default (props) => {
                     </article>
 
                     <div className="profileSidebar">
-
-                        <article id="profileCarCollections">
-
-
-                        </article>
 
                         <article id="likedCars" className="profileLikedCarList">
 

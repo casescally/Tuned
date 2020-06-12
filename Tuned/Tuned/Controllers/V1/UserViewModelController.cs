@@ -50,8 +50,8 @@ namespace Tuned.Controllers.V1
                 {
                     cmd.CommandText =
 
-                        @"SELECT Id, Username, FirstName, LastName
-                          FROM AspNetUsers";
+                        @"SELECT Id, Username, FirstName, LastName, Description, ProfileHeader, ProfilePicturePath, ProfileBackgroundPicturePath
+FROM AspNetUsers";
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
@@ -69,6 +69,10 @@ namespace Tuned.Controllers.V1
                                 //Username = reader.GetString(reader.GetOrdinal("Username")),
                                 FirstName = reader.GetString(reader.GetOrdinal("Firstname")),
                                 LastName = reader.GetString(reader.GetOrdinal("Lastname")),
+                                Description = reader.GetString(reader.GetOrdinal("Description")),
+                                ProfileHeader = reader.GetString(reader.GetOrdinal("ProfileHeader")),
+                                ProfilePicturePath = reader.GetString(reader.GetOrdinal("ProfilePicturePath")),
+                                ProfileBackgroundPicturePath = reader.GetString(reader.GetOrdinal("ProfileBackgroundPicturePath"))
                             };
 
                             users.Add(foundUser);
@@ -93,7 +97,7 @@ namespace Tuned.Controllers.V1
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, Username, FirstName, LastName
+                    cmd.CommandText = @"SELECT Id, Username, FirstName, LastName, Description, ProfileHeader, ProfilePicturePath, ProfileBackgroundPicturePath
                                         FROM AspNetUsers
                                         WHERE Id = @id";
 
@@ -110,6 +114,10 @@ namespace Tuned.Controllers.V1
                             //Username = reader.GetString(reader.GetOrdinal("Username")),
                             FirstName = reader.GetString(reader.GetOrdinal("Firstname")),
                             LastName = reader.GetString(reader.GetOrdinal("Lastname")),
+                            Description = reader.GetString(reader.GetOrdinal("Description")),
+                            ProfileHeader = reader.GetString(reader.GetOrdinal("ProfileHeader")),
+                            ProfilePicturePath = reader.GetString(reader.GetOrdinal("ProfilePicturePath")),
+                            ProfileBackgroundPicturePath = reader.GetString(reader.GetOrdinal("ProfileBackgroundPicturePath"))
                         };
                         reader.Close();
 

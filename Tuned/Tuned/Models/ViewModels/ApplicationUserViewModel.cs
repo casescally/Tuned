@@ -11,5 +11,9 @@ namespace Tuned.Models.ViewModels
      //   public string Username { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string ProfilePicturePath { get; set; }
+        public string ProfileBackgroundPicturePath { get; set; }
+        public string Description { get; set; }
+        public string ProfileHeader { get; set; }
     }
 }
