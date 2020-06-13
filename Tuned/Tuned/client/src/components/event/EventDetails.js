@@ -17,7 +17,7 @@ export default (props) => {
     const event = events.find(c => c.id === chosenEventId) || {}
     const likedEvent = likedEvents.find(l => l.likedEventId === event.id) || {}
     const eventUser = users.find(u => u.id === event.applicationUserId) || {}
-    const currentUsersEvents = events.filter(c => c.userId === user.id)
+    //const currentUsersEvents = events.filter(c => c.userId === user.id)
     let likedEventMode = Boolean
 
     return (

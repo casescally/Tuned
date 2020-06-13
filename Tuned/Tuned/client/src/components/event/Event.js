@@ -48,16 +48,6 @@ export default ({ event }) => {
             <div className="likedeventInfo">
 
 
-                <button className="likedeventButton" value="LikedEvent" onClick={evt => {
-
-                    evt.preventDefault()
-
-                    constructNewLikedEvent(event)
-
-                }
-
-                }>{likedeventdEventMode ? "Like" : "Unlike"}</button>
-
 
             </div>
 

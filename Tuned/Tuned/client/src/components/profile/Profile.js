@@ -7,33 +7,33 @@ import { LikedCarContext } from "../likedCar/LikedCarProvider"
 import LikedCar from "../likedCar/LikedCar"
 import "./Profiles.css"
 import { getUser } from "../../API/userManager"
+import { EventContext } from "../event/EventProvider"
+import Event from "../event/Event"
 
 export default (props) => {
 
     const { cars } = useContext(CarContext)
     const { users } = useContext(UserContext)
-    const userName = JSON.parse(localStorage.getItem("user")).username
+    const { events } = useContext(EventContext)
+    const userId = JSON.parse(localStorage.getItem("user")).id
     const { likedCars } = useContext(LikedCarContext)
     const currentUser = getUser()
-    const profilesArray = []
-
+    let currentUsersEvents = events.filter(event => event.UserId === props.match.params.Id)
+    let currentProfileUser = users.find(user => user.id === props.match.params.userId)
+console.log(currentProfileUser)
     let editProfileMode = Boolean
 
-    if (userName !== JSON.parse(localStorage.getItem("user")).username) {
-        let foundProfile = users.find(u => u.id === userName) || {}
+    if (userId !== props.match.params.userId) {
+
         editProfileMode = false
-        profilesArray.push(foundProfile)
-
     } else {
-        let foundProfile = users.find(u => u.id === userName) || {}
-        editProfileMode = true
-        profilesArray.push(foundProfile)
 
+        editProfileMode = true
     }
 
     const currentUserCars = cars.filter(car => {
 
-        return car.applicationUserId === currentUser.id
+        return car.applicationUserId === props.match.params.userId
 
     })
 
@@ -45,7 +45,7 @@ export default (props) => {
             // Find the user and car matching like
             const foundLike = cars.find(
                 (car) => {
-                    return rel.userId === currentUser.id && rel.carId === car.id
+                    return rel.userId === props.match.params.userId && rel.carId === car.id
                 }
             )
             //if page is reloaded and no likes are found
@@ -55,7 +55,7 @@ export default (props) => {
         })
     }
 
-    let foundProfile = users.find(user => user.id == currentUser.id) //props match params - get user id from url for other users profile info
+    let foundProfile = users.find(user => user.id == props.match.params.userId)
 
     let profileDescription = ""
 
@@ -65,11 +65,17 @@ export default (props) => {
 
     let profilePicturePath = ""
 
+    let firstName = ""
+
+    let lastName = ""
+
     if (foundProfile !== undefined) {
         profileDescription = foundProfile.description
         profileHeader = foundProfile.profileHeader
         profileBackgroundPicturePath = foundProfile.profileBackgroundPicturePath
         profilePicturePath = foundProfile.profilePicturePath
+        firstName = foundProfile.firstName
+        lastName = foundProfile.lastName
 
     }
 
@@ -90,7 +96,7 @@ export default (props) => {
 
                     <span id="profileInfo">
 
-                        {<h1 className="currentProfileName">{currentUser.username}</h1>}
+                        {<h1 className="currentProfileName">{firstName + ' ' + lastName}</h1>}
 
                         {
                             <button className="followButton" onClick={evt => {
@@ -117,7 +123,16 @@ export default (props) => {
 
                     </article>
 
-                    <div className="profileSidebar">
+                    <article className="events">
+                        <h3>Events {currentUsersEvents.length}</h3>
+
+                            {currentUsersEvents.map(event => <Event key={event.id} event={event} {...props} />)}
+
+                    </article>
+
+
+
+
 
                         <article id="likedCars" className="profileLikedCarList">
 
@@ -126,7 +141,7 @@ export default (props) => {
                             {currentUsersLikedCars.map(car => <Car key={car.id} car={car} {...props} />)}
 
                         </article>
-                    </div>
+
 
                 </div>
             </section>
