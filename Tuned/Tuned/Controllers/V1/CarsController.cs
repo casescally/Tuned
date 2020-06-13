@@ -209,59 +209,13 @@ namespace Tuned.Controllers.V1
                     int newId = (int)cmd.ExecuteScalar();
                     newCar.Id = newId;
 
-
-                    //  try {
-
-                    //    if (newCar.ImageFile.Length > 0) {
-
-                    //        if (String.IsNullOrWhiteSpace(_environment.WebRootPath))
-                    //        {
-                    //            _environment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-                    //        }
-
-                    //        if (!Directory.Exists(_environment.WebRootPath + "\\Upload\\"))
-
-                    //        {
-                    //            Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
-                    //        }
-                    //    using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + "\\Upload\\"+ Path.GetFileName(newCar.ImageFile.FileName)))
-                    //    {
-
-                    //        newCar.ImageFile.CopyTo(fileStream);
-                    //        fileStream.Flush();
-                    //        return "\\Upload\\" + Path.GetFileName(newCar.ImageFile.FileName);
-
-                    //    }
-                    //        }
-
-                    //    else
-                    //    {
-
-                    //        return "Upload Failed";
-
-                    //    }
-                    //}
-                    //catch (Exception ex)
-                    //    {
-                    //        return ex.Message.ToString();
-                    //    }
-
-
-
-                    //   int newId = (int)cmd.ExecuteScalar();
-                    //   newCar.Id = newId;
-                    //  return CreatedAtRoute("GetCar", new { id = newId}, newCar);
-
-
-
-                    //}
                 }
             }
         }
         
 
         // PUT: api/Cars/5
-        //Update an car
+        //Update a car
         [HttpPut("{id}")]
         public async Task<IActionResult>Put([FromRoute]int id, [FromBody] Car updatedCar)
         {

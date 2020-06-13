@@ -32,6 +32,34 @@ export const EventProvider = (props) => {
 
     }
 
+    const saveImages = async (files) => {
+        const authHeader = createAuthHeaders();  
+        const formData = new FormData();
+        if (files) {
+          Array.from(files).forEach(file => {
+            formData.append(file.name, file);
+          });
+        }      
+        
+        const response = await fetch('https://localhost:5001/api/events/files', {
+          // content-type header should not be specified!
+          method: 'POST',
+          headers: {
+            authHeader,
+          }, 
+          body: formData,
+          responseType: 'text'
+        });
+        return response.text();
+        //   .then(response => response.text())
+        //   .then(filePaths => {
+        //     // Do something with the successful response
+        //     return filePaths;
+        //   })
+        //   .catch(error => console.log(error)
+        // );
+    }
+
     const addEvent = event => {
         const authHeader = createAuthHeaders();
         return fetch("https://localhost:5001/api/events", {
@@ -47,9 +75,8 @@ export const EventProvider = (props) => {
             body: JSON.stringify(event)
 
         })
-
+            .then(console.log(event))
             .then(getEvents)
-
     }
 
     const deleteEvent = event => {
@@ -110,7 +137,7 @@ export const EventProvider = (props) => {
 
         <EventContext.Provider value={{
 
-            events, addEvent, deleteEvent, updateEvent
+            events, addEvent, deleteEvent, updateEvent, saveImages
 
         }}>
 

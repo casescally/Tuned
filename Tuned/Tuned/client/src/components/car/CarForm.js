@@ -73,7 +73,7 @@ export default props => {
 
         /*
         React relies on data flow, you should always update your "state" based on the state of the information of the app.
-        in your case: server call > response from server > update the state with data from server > view is re-rendered with new data.
+        server call > response from server > update the state with data from server > view is re-rendered with new data.
         */
 
     const constructNewCar = () => {

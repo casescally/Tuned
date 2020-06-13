@@ -206,15 +206,16 @@ namespace Tuned.Controllers.V1
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Events (Name, Location, Date, Description, ImagePath)
+                    cmd.CommandText = @"INSERT INTO Events (Name, Location, Date, Description, ImagePath, UserId)
                                         OUTPUT INSERTED.Id
-                                        VALUES (@name, @location, @date, @description, @imagePath)";
+                                        VALUES (@name, @location, @date, @description, @imagePath, @userId)";
 
                     cmd.Parameters.Add(new SqlParameter("@name", newEvent.Name));
                     cmd.Parameters.Add(new SqlParameter("@location", newEvent.Location));
                     cmd.Parameters.Add(new SqlParameter("@date", newEvent.Date));
                     cmd.Parameters.Add(new SqlParameter("@description", newEvent.Description));
                     cmd.Parameters.Add(new SqlParameter("@imagePath", newEvent.ImagePath));
+                    cmd.Parameters.Add(new SqlParameter("@userId", newEvent.UserId));
 
                     int newId = (int)cmd.ExecuteScalar();
                     newEvent.Id = newId;

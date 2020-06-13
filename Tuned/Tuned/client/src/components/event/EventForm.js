@@ -9,45 +9,52 @@ export default props => {
  
     const user = getUser();
 
-    // const { likedEvents } = useContext(LikedEventContext)
-
     const { events, addEvent, saveImages, updateEvent } = useContext(EventContext)
 
-    const [event, setEvent] = useState({})
+    const [createdEvent, setCreatedEvent] = useState({})
+
+    const [eventImage, setEventImage] = useState("")
 
     const editMode = props.match.params.hasOwnProperty("eventId")
 
     const handleControlledInputChange = (event) => {
+
         /*
             When changing a state object or array, always create a new one
             and change state instead of modifying current one
         */
-        const newEvent = Object.assign({}, event)
+
+        const newEvent = Object.assign({}, createdEvent)
         newEvent[event.target.name] = event.target.value
-        setEvent(newEvent)
+        setCreatedEvent(newEvent)
     }
 
     const imageFileChanged = async (event) => {
-        console.log(event.target.files);
-        const filePaths = await saveImages(event.target.files);
-        event['imageFilePaths'] = filePaths;
 
-        //for loop  filePaths.split(','); => arrray of base64 images.
-        console.log(event);
-        setEvent(event);
-        setEvent({
-            imageSrc: filePaths
-         })
-        // const newEvent = Object.assign({}, event)
-        // newEvent['imageFile'] = event.target.files[0];
-        // setEvent(newEvent);
+        const eventImageURL = URL.createObjectURL(event.target.files[0])
+
+        setEventImage(eventImageURL)
+
+        //console.log(event.target.files);
+        const filePaths = await saveImages(event.target.files);
+
+        console.log(filePaths);
+
+        const newEvent = Object.assign({
+
+            imagePath: filePaths,
+            eventPageCoverUrl: filePaths.split(',')[0]
+
+        }, createdEvent)
+
+        setCreatedEvent(newEvent);
     }
 
     const setDefaults = () => {
         if (editMode) {
             const eventId = parseInt(props.match.params.eventId)
             const selectedEvent = events.find(a => a.id === eventId) || {}
-            setEvent(selectedEvent)
+            setCreatedEvent(selectedEvent)
         }
     }
 
@@ -56,12 +63,19 @@ export default props => {
     }, [events])
 
     const getImageSrc = () => {
-    //console.log('Called');
-    //console.log(event.imageFilePaths);
 
-     return 'data:image/jpeg;base64,' + event.imageFilePaths;  //event.imageFilePaths[index]
-     //event.defaultImage = event.imageFilePaths[0];
-    };
+            if (createdEvent.imagePath) {
+
+                console.log(JSON.parse(createdEvent.imagePath)[0].split("/"))
+                fetch(`https://localhost:5001/api/EventImages/image/get?imageName=${JSON.parse(createdEvent.imagePath)[0].split("/")}`).then(setEventImage('url'))
+            }
+
+        };
+
+        /*
+        React relies on data flow, you should always update your "state" based on the state of the information of the app.
+        server call > response from server > update the state with data from server > view is re-rendered with new data.
+        */
 
     const constructNewEvent = () => {
 
@@ -69,75 +83,36 @@ export default props => {
 
             updateEvent({
 
-                id: event.id,
-                name: event.name,
-                locaiton: event.location,
-                date: event.date,
-                description: event.description,
-                imagePath: event.imagePath,
-                activeEvent: event.activeEvent,
-                userId: event.userId,
-                adminUser: event.adminUser
+                name: createdEvent.name,
+                location: createdEvent.location,
+                date: createdEvent.date,
+                description: createdEvent.description,
+                userId: user.id,
+                activeEvent: true
 
             })
 
-                .then(() => props.history.push("/events"))
+                .then(data => {
+                    getImageSrc()
+                    props.history.push("/events")
+                })
 
         } else {
 
             addEvent({
 
-                id: event.id,
-                name: event.name,
-                locaiton: event.location,
-                date: event.date,
-                description: event.description,
-                imagePath: event.imagePath,
-                activeEvent: event.activeEvent,
-                userId: event.userId,
-                adminUser: event.adminUser,
-                imageFile: event.imageFile
-            })
-                //console.log(event)
+                name: createdEvent.eventName,
+                location: createdEvent.location,
+                date: "2020-06-13T00:30:49.339Z",
+                description: createdEvent.description,
+                imagePath: createdEvent.imagePath,
+                activeEvent: true,
+                userId: user.id
 
+            })
                 .then(() => props.history.push("/events"))
         }
     }
-
-    // async function sendImage(event) {
-    //     event.preventDefault();
-    //     console.log(this.state.file);
-    //     await this.addImage(this.state.file);
-    //     console.log('it works');
-    // };
-    // async function addImage(image) {
-    //     const authHeader = createAuthHeaders();
-    //     await fetch('https://localhost:44385/api/events',
-
-    //         {
-
-    //             method: 'POST',
-    //             mode: 'cors',
-    //             headers: {
-    //                 //'Accept': 'application/json',
-    //                 //'Authorization': 'Bearer ' + sessionStorage.tokenKey
-    //                 headers: authHeader
-    //             },
-    //             body: this.state.file
-    //         }
-    //     )
-    // }
-
-    // async function handleImageChange(e) {
-    //     e.preventDefault();
-    //     let form = new FormData();
-    //     for (var index = 0; index < e.target.files.length; index++) {
-    //         var element = e.target.files[index];
-    //         form.append('image', element);
-    //     }
-    //     form.append('fileName', "Img");
-    //     this.setState({ file: form });
-    // };
 
     return (
         <form className="eventForm">
@@ -145,65 +120,43 @@ export default props => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="name">Event name: </label>
-                    <input type="text" name="name" required autoFocus className="form-control"
+                    <input type="text" name="eventName" required autoFocus className="form-control"
                         proptype="varchar"
                         placeholder="Event name"
-                        defaultValue={event.name}
+                        defaultValue={createdEvent.name}
                         onChange={handleControlledInputChange}
                     />
                 </div>
             </fieldset>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="make">Event make: </label>
-                    <input type="text" name="make" required className="form-control"
+                    <label htmlFor="location">Event location: </label>
+                    <input type="text" name="location" required className="form-control"
                         proptype="varchar"
-                        placeholder="Event make"
-                        defaultValue={event.make}
+                        placeholder="Event location"
+                        defaultValue={createdEvent.location}
                         onChange={handleControlledInputChange}
                     />
                 </div>
             </fieldset>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="model">Event model: </label>
-                    <input type="text" name="model" required className="form-control"
+                    <label htmlFor="description">Event description: </label>
+                    <input type="text" name="description" required className="form-control"
                         proptype="varchar"
-                        placeholder="Event model"
-                        defaultValue={event.model}
+                        placeholder="Event description"
+                        defaultValue={createdEvent.description}
                         onChange={handleControlledInputChange}
                     />
                 </div>
             </fieldset>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="year">Event year: </label>
-                    <input type="text" name="year" required className="form-control"
+                    <label htmlFor="date">Event date: </label>
+                    <input type="text" name="date" required className="form-control"
                         proptype="varchar"
-                        placeholder="Event year"
-                        defaultValue={event.year}
-                        onChange={handleControlledInputChange}
-                    />
-                </div>
-            </fieldset>
-            <fieldset>
-                <div className="form-group">
-                    <label htmlFor="vehicleTypeId">Vehicle Type: </label>
-                    <input type="text" name="vehicleTypeId" required className="form-control"
-                        proptype="varchar"
-                        placeholder="Vehicle Type"
-                        defaultValue={event.vehicleTypeId}
-                        onChange={handleControlledInputChange}
-                    />
-                </div>
-            </fieldset>
-            <fieldset>
-                <div className="form-group">
-                    <label htmlFor="eventPageCoverUrl">Event Page Cover: </label>
-                    <input type="text" name="eventPageCoverUrl" required className="form-control"
-                        proptype="varchar"
-                        placeholder="Event Page Cover"
-                        defaultValue={event.eventPageCoverUrlId}
+                        placeholder="Event date"
+                        defaultValue={createdEvent.date}
                         onChange={handleControlledInputChange}
                     />
                 </div>
@@ -213,24 +166,11 @@ export default props => {
                     <label htmlFor="imageFile">Image File</label>
                     <input name="imageFile" type="file" multiple onChange={imageFileChanged} />
                     <div className="imagePreview" id="imagePreview">
-                        <img src={event.imageSrc} ></img>
+                        <img src={eventImage}/>
                        <span class="image-preview__default-text">Image Preview</span>
                     </div>
                 </div>
-                <div>
-                    <input type="submit" value="Submit" />
-                </div>
             </form>
-            <fieldset>
-                <div className="form-group">
-                    <label htmlFor="description">Description: </label>
-                    <textarea type="text" name="description" className="form-control"
-                        proptype="varchar"
-                        value={event.description}
-                        onChange={handleControlledInputChange}>
-                    </textarea>
-                </div>
-            </fieldset>
             <button type="submit"
                 onClick={evt => {
                     evt.preventDefault()

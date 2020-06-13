@@ -55,7 +55,7 @@ export default (props) => {
         })
     }
 
-    let foundProfile = users.find(user => user.id == currentUser.id)
+    let foundProfile = users.find(user => user.id == currentUser.id) //props match params - get user id from url for other users profile info
 
     let profileDescription = ""
 
