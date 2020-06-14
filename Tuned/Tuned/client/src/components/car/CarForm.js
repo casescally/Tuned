@@ -5,6 +5,7 @@ import { getUser } from "../../API/userManager"
 import { createAuthHeaders } from "../../API/userManager"
 import "./Cars.css"
 
+
 export default props => {
  
     const user = getUser();
@@ -196,7 +197,7 @@ export default props => {
                     <input name="imageFile" type="file" multiple onChange={imageFileChanged} />
                     <div className="imagePreview" id="imagePreview">
                         <img src={carImage}/>
-                       <span class="image-preview__default-text">Image Preview</span>
+                       <span className="image-preview__default-text">Image Preview</span>
                     </div>
                 </div>
                 <div>

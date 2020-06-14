@@ -1,6 +1,5 @@
 import React, { useContext } from "react"
 import { UserContext } from "../user/UserProvider"
-import { LikedEventContext } from "../likedEvent/LikedEventProvider"
 import { EventContext } from "./EventProvider"
 import "./Events.css"
 import { getUser } from "../../API/userManager"
@@ -8,14 +7,13 @@ import { getUser } from "../../API/userManager"
 export default (props) => {
 
     const { events, deleteEvent } = useContext(EventContext)
-    const { likedEvents } = useContext(LikedEventContext)
     const { users } = useContext(UserContext)
 
     const chosenEventId = parseInt(props.match.params.eventId, 10)
 
     const user = getUser()
     const event = events.find(c => c.id === chosenEventId) || {}
-    const likedEvent = likedEvents.find(l => l.likedEventId === event.id) || {}
+    //const likedEvent = likedEvents.find(l => l.likedEventId === event.id) || {}
     const eventUser = users.find(u => u.id === event.applicationUserId) || {}
     //const currentUsersEvents = events.filter(c => c.userId === user.id)
     let likedEventMode = Boolean

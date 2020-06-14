@@ -1,15 +1,18 @@
-import React, { useContext } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { UserContext } from "../user/UserProvider"
 import { LikedCarContext } from "../likedCar/LikedCarProvider"
 import { CarContext } from "./CarProvider"
 import "./Cars.css"
-import { getUser } from "../../API/userManager"
+import { getUser, createAuthHeaders } from "../../API/userManager"
+
 
 export default (props) => {
 
     const { cars, deleteCar } = useContext(CarContext)
+    const [carImages, setCarImages] = useState([])
     const { likedCars, addLikedCar, deleteLikedCar } = useContext(LikedCarContext)
     const { users } = useContext(UserContext)
+    
 
     const chosenCarId = parseInt(props.match.params.carId, 10)
 
@@ -48,8 +51,46 @@ export default (props) => {
 
     }
 
+    useEffect(() => {
+        const images = car.carPageCoverUrl;
+        if (images) setCarImages(JSON.parse(images))
+    }, [car])
+
+    
+
+    
+    //let imagePathName = JSON.parse(car.carPageCoverUrl)[0].slice(2)
+    
+    // let imagePathName = JSON.parse(car.carPageCoverUrl)[0].slice(2)
+    // const getCarImage = () => {
+    //     const authHeader = createAuthHeaders();
+    //     return fetch(`https://localhost:5001/api/CarImages/image/get?imageName=${imagePathName}`).then(setCarImage(), {
+
+    //         headers: authHeader
+    //     })
+
+    //         .then(res => res.json())
+
+    //         .then(setCarImage)
+
+    // }
+
+    // useEffect(() => {
+
+    //     getCarImage()
+
+    // }, [])
+
+    // useEffect(() => {
+
+    //     console.log("****  CAR APPLICATION STATE CHANGED  ****")
+    //     console.log(carImage)
+
+    // }, [carImage])
+
     return (
         <section className="car">
+            {carImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`} />)}
             <h3 className="car__name">{car.name}</h3>
             <div className="car__make">{car.make}</div>
             <div className="car__model">{car.model}</div>

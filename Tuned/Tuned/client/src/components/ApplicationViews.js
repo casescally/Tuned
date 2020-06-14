@@ -4,6 +4,7 @@ import Home from "./Home";
 import { CarProvider } from "./car/CarProvider"
 import { EventProvider } from "./event/EventProvider"
 import EventForm from "./event/EventForm"
+import EventDetails from "./event/EventDetails"
 import { UserProvider } from "./user/UserProvider"
 import Profile from "../components/profile/Profile"
 import CarForm from "./car/CarForm"
@@ -35,6 +36,10 @@ export default function ApplicationViews(props) {
 
               <Route path="/cars/:carId(\d+)" render={
                 props => <CarDetails {...props} />
+              } />
+
+              <Route path="/events/:eventId(\d+)" render={
+                props => <EventDetails {...props} />
               } />
 
               <Route path="/profile/:userId" render={
