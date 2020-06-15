@@ -24,7 +24,7 @@ namespace Tuned.Controllers.V1
 
         private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;
-         public static IWebHostEnvironment _environment;
+        public static IWebHostEnvironment _environment;
 
         public CarImagesController(IConfiguration config, UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
 

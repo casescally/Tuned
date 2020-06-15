@@ -18,14 +18,14 @@ export default (props) => {
 
     const user = getUser()
     const car = cars.find(c => c.id === chosenCarId) || {}
-    const likedCar = likedCars.find(l => l.likedCarId === car.id) || {}
+    //const likedCar = likedCars.find(l => l.likedCarId === car.id) || {}
     const carUser = users.find(u => u.id === car.applicationUserId) || {}
-    const currentUsersCars = cars.filter(c => c.userId === user.id)
+    //const currentUsersCars = cars.filter(c => c.userId === user.id)
     let likedCarMode = Boolean
 
     const constructNewLikedCar = (currentCar) => {
 
-        const alreadyLikedCarRel = likedCars.find(likedCar => likedCar.carId == currentCar.id && likedCar.user.id === user.id)
+        const alreadyLikedCarRel = likedCars.find(likedCar => likedCar.carId === currentCar.id && likedCar.user.id === user.id)
 
         //Don't allow duplicate liked cars
 
@@ -90,7 +90,7 @@ export default (props) => {
 
     return (
         <section className="car">
-            {carImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`} />)}
+            {carImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`} alt="Image of car"/>)}
             <h3 className="car__name">{car.name}</h3>
             <div className="car__make">{car.make}</div>
             <div className="car__model">{car.model}</div>

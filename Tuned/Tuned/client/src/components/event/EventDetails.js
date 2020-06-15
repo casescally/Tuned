@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { UserContext } from "../user/UserProvider"
 import { EventContext } from "./EventProvider"
 import "./Events.css"
@@ -7,6 +7,7 @@ import { getUser } from "../../API/userManager"
 export default (props) => {
 
     const { events, deleteEvent } = useContext(EventContext)
+    const [eventImages, setEventImages] = useState([])
     const { users } = useContext(UserContext)
 
     const chosenEventId = parseInt(props.match.params.eventId, 10)
@@ -17,9 +18,15 @@ export default (props) => {
     const eventUser = users.find(u => u.id === event.applicationUserId) || {}
     //const currentUsersEvents = events.filter(c => c.userId === user.id)
     let likedEventMode = Boolean
+    useEffect(() => {
+        const images = event.imagePath;
+        if (images) setEventImages(JSON.parse(images))
+    }, [event])
 
+console.log(event)
     return (
         <section className="event">
+                    {eventImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/EventImages/image/get?imageName=${image}`} alt="Image of event"/>)}
             <h3 className="event__name">{event.name}</h3>
 
             <button className="likeButton" value="Like" onClick={evt => {
@@ -46,6 +53,8 @@ export default (props) => {
                 Delete Event
 
             </button>
+
+            
 
             <button onClick={() => {
                 props.history.push(`/events/edit/${event.id}`)
