@@ -206,9 +206,9 @@ namespace Tuned.Controllers.V1
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO Events (Name, Location, Date, Description, ImagePath, UserId)
+                    cmd.CommandText = @"INSERT INTO Events (Name, Location, Date, Description, ImagePath, UserId, ActiveEvent)
                                         OUTPUT INSERTED.Id
-                                        VALUES (@name, @location, @date, @description, @imagePath, @userId)";
+                                        VALUES (@name, @location, @date, @description, @imagePath, @userId, @activeEvent)";
 
                     cmd.Parameters.Add(new SqlParameter("@name", newEvent.Name));
                     cmd.Parameters.Add(new SqlParameter("@location", newEvent.Location));
@@ -216,6 +216,7 @@ namespace Tuned.Controllers.V1
                     cmd.Parameters.Add(new SqlParameter("@description", newEvent.Description));
                     cmd.Parameters.Add(new SqlParameter("@imagePath", newEvent.ImagePath));
                     cmd.Parameters.Add(new SqlParameter("@userId", newEvent.UserId));
+                    cmd.Parameters.Add(new SqlParameter("@activeEvent", newEvent.ActiveEvent));
 
                     int newId = (int)cmd.ExecuteScalar();
                     newEvent.Id = newId;

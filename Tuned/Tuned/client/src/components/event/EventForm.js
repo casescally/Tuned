@@ -87,8 +87,9 @@ export default props => {
                 location: createdEvent.location,
                 date: createdEvent.date,
                 description: createdEvent.description,
-                userId: user.id,
-                activeEvent: true
+                adminUserId: user.id,
+                activeEvent: true,
+                userId: user.Id
 
             })
 
@@ -107,6 +108,7 @@ export default props => {
                 description: createdEvent.description,
                 imagePath: createdEvent.imagePath,
                 activeEvent: true,
+                //adminUserId: user.id
                 userId: user.id
 
             })
