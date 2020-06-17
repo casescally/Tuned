@@ -236,6 +236,7 @@ namespace Tuned.Controllers.V1
                                             CarPageCoverUrl = @carPageCoverUrl,
                                             CarDescription = @carDescription,
                                             ActiveCar = @activeCar
+                                            ImageFileNames = @imageFileNames,
                                             WHERE Id = @id";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
@@ -248,6 +249,7 @@ namespace Tuned.Controllers.V1
                     cmd.Parameters.Add(new SqlParameter("@carPageCoverUrl", updatedCar.CarPageCoverUrl));
                     cmd.Parameters.Add(new SqlParameter("@carDescription", updatedCar.CarDescription));
                     cmd.Parameters.Add(new SqlParameter("@activeCar", updatedCar.ActiveCar));
+                    cmd.Parameters.Add(new SqlParameter("@imageFileNames", updatedCar.ImageFileNames));
 
                         int rowsAffected = cmd.ExecuteNonQuery();
                         if (rowsAffected > 0)

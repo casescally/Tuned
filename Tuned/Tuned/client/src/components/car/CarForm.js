@@ -83,15 +83,16 @@ export default props => {
 
             updateCar({
 
-                id: car.id,
                 name: car.name,
                 make: car.make,
                 model: car.model,
-                year: parseInt(car.year),
+                year: car.year,
+                applicationUserId: user.id,
                 vehicleTypeId: parseInt(car.vehicleTypeId),
                 carPageCoverUrl: car.carPageCoverUrl,
+                imageFileNames: car.imageFileNames,
                 carDescription: car.description,
-                applicationUserId: user.id,
+                activeCar: true
 
             })
 
@@ -172,15 +173,33 @@ export default props => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="vehicleTypeId">Vehicle Type: </label>
-                    <input type="text" name="vehicleTypeId" required className="form-control"
+                    <select name="vehicleTypeId" required className="form-control"
                         proptype="varchar"
                         placeholder="Vehicle Type"
                         defaultValue={car.vehicleTypeId}
-                        onChange={handleControlledInputChange}
-                    />
+                        onChange={handleControlledInputChange}>
+                              <option value="1">Sports Car</option>
+                              <option value="2">Utility Vehicle</option>
+                              <option value="3">Sport Utility Vehicle</option>
+                              <option value="4">Sedan</option>
+                              <option value="5">Truck</option>
+                              <option value="6">Hatchback</option>
+                              <option value="7">Coupe</option>
+                              <option value="8">Minivan</option>
+                              <option value="9">Convertible</option>
+                              <option value="10">Compact Car</option>
+                              <option value="11">Subcompact Car</option>
+                              <option value="12">Crossover</option>
+                              <option value="13">Station Wagon</option>
+                              <option value="14">Van</option>
+                              <option value="15">Motorcycle</option>
+                              <option value="16">Supercar</option>
+                        </select>
+                        
+                    
                 </div>
             </fieldset>
-            <fieldset>
+            {/* <fieldset>
                 <div className="form-group">
                     <label htmlFor="carPageCoverUrl">Car Page Cover: </label>
                     <input type="text" name="carPageCoverUrl" required className="form-control"
@@ -190,7 +209,7 @@ export default props => {
                         onChange={handleControlledInputChange}
                     />
                 </div>
-            </fieldset>
+            </fieldset> */}
             <form method="post" encType="multipart/form-data" action="https://localhost:5001/api/cars" required className="form-control">
                 <div>
                     <label htmlFor="imageFile">Image File</label>
@@ -216,8 +235,13 @@ export default props => {
             </fieldset>
             <button type="submit"
                 onClick={evt => {
+                    if (editMode) {
                     evt.preventDefault()
                     constructNewCar()
+                    } else {
+                        evt.preventDefault()
+                        updateCar()
+                    }
                 }}
                 className="btn btn-primary">
                 {editMode ? "Save Updates" : "Add Car"}

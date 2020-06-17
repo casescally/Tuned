@@ -32,6 +32,11 @@ export default function ApplicationViews(props) {
                 props => <CarForm {...props} />
               } />
 
+              <Route exact path="/cars/edit/:carId(\d+)" render={
+                props => <CarForm {...props} />
+              } />
+
+
               <Route exact path="/events/create" render={
                 props => <EventForm {...props} />
               } />

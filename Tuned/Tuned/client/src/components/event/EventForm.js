@@ -104,11 +104,11 @@ export default props => {
 
                 name: createdEvent.eventName,
                 location: createdEvent.location,
-                date: "2020-06-13T00:30:49.339Z",
+                date: createdEvent.date,
                 description: createdEvent.description,
                 imagePath: createdEvent.imagePath,
                 activeEvent: true,
-                //adminUserId: user.id
+                adminUserId: user.id,
                 userId: user.id
 
             })
@@ -155,7 +155,7 @@ export default props => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="date">Event date: </label>
-                    <input type="text" name="date" required className="form-control"
+                    <input type="date" name="date" required className="form-control"
                         proptype="varchar"
                         placeholder="Event date"
                         defaultValue={createdEvent.date}

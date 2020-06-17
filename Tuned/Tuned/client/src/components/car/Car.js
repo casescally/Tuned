@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState, useEffect } from "react"
 
 import { Link } from "react-router-dom"
 
@@ -13,6 +13,8 @@ import { getUser } from "../../API/userManager"
 
 export default ({ car }) => {
 
+
+    const [carImages, setCarImages] = useState([])
     const { users } = useContext(UserContext)
 
     const { likedCars, addLikedCar, deleteLikedCar } = useContext(LikedCarContext)
@@ -53,6 +55,12 @@ export default ({ car }) => {
 
     let likedCarMode = Boolean
 
+    useEffect(() => {
+        const images = car.carPageCoverUrl;
+        if (images) setCarImages(JSON.parse(images))
+    }, [car])
+
+    
     return (
 
         //car information
@@ -62,7 +70,7 @@ export default ({ car }) => {
             <div className="carInfo">
 
 
-                <img className="coverImage" src={car.carCoverUrl}></img>
+            {carImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`} alt="Image of car"/>)}
 
                 <div className="carUploader">
 
