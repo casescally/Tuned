@@ -48,7 +48,7 @@ namespace Tuned.Controllers.V1
                 {
                     cmd.CommandText =
 
-                        @"SELECT ue.Id AS Id, ue.UserId AS UserId, ue.Eventd AS EventId
+                        @"SELECT ue.Id AS Id, ue.UserId AS UserId, ue.EventId AS EventId
                           FROM UserEvent ue
                           LEFT JOIN AspNetUsers a
                           ON ue.UserId = a.Id
@@ -98,7 +98,7 @@ namespace Tuned.Controllers.V1
             }
         }
 
-        // GET: api/UserEvents/5
+        // GET: api/UserEvent/5
         [HttpGet("{id}", Name = "GetUserEvent")]
         public async Task<IActionResult> Get([FromRoute] int id)
         {
@@ -107,7 +107,7 @@ namespace Tuned.Controllers.V1
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText =  @"SELECT ue.Id AS Id, ue.UserId AS UserId, ue.Eventd AS EventId
+                    cmd.CommandText =  @"SELECT ue.Id AS Id, ue.UserId AS UserId, ue.EventId AS EventId
                                         FROM UserEvent ue
                                         LEFT JOIN AspNetUsers a
                                         ON ue.UserId = a.Id
@@ -167,7 +167,7 @@ namespace Tuned.Controllers.V1
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO UserEvents (UserId, EventId)
+                    cmd.CommandText = @"INSERT INTO UserEvent (UserId, EventId)
                                         OUTPUT INSERTED.Id
                                         VALUES (@userId, @eventId)";
 
