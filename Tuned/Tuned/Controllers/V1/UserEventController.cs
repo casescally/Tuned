@@ -107,7 +107,7 @@ namespace Tuned.Controllers.V1
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText =  @"SELECT ue.Id AS Id, ue.UserId AS UserId, ue.EventId AS EventId
+                    cmd.CommandText =  @"SELECT ue.Id AS UserEventId, ue.UserId AS UserId, ue.EventId AS EventId
                                         FROM UserEvent ue
                                         LEFT JOIN AspNetUsers a
                                         ON ue.UserId = a.Id
@@ -126,16 +126,18 @@ namespace Tuned.Controllers.V1
 
                             {
 
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Id = reader.GetInt32(reader.GetOrdinal("UserEventId")),
                             UserId = reader.GetString(reader.GetOrdinal("UserId")),
+                            EventId = reader.GetInt32(reader.GetOrdinal("EventId"))
 
                         };        
 
                             individualUserEvent.ApplicationUser = new ApplicationUserViewModel { 
 
-                                Id = reader.GetString(reader.GetOrdinal("Id")),
+                                Id = reader.GetString(reader.GetOrdinal("UserId")),
                                 FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
                                 LastName = reader.GetString(reader.GetOrdinal("LastName")),
+
 
                         };
 
