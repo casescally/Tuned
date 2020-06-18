@@ -98,70 +98,70 @@ namespace Tuned.Controllers.V1
             }
         }
 
-        // GET: api/UserEvent/5
-        [HttpGet("{id}", Name = "GetUserEvent")]
-        public async Task<IActionResult> Get([FromRoute] int id)
-        {
-            using (SqlConnection conn = Connection)
-            {
-                conn.Open();
-                using (SqlCommand cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText =  @"SELECT ue.Id AS UserEventId, ue.UserId AS UserId, ue.EventId AS EventId
-                                        FROM UserEvent ue
-                                        LEFT JOIN AspNetUsers a
-                                        ON ue.UserId = a.Id
-                                        LEFT JOIN Events e
-                                        ON ue.EventId = e.Id";
+        //// GET: api/UserEvent/5
+        //[HttpGet("{id}", Name = "GetUserEvent")]
+        //public async Task<IActionResult> Get([FromRoute] int id)
+        //{
+        //    using (SqlConnection conn = Connection)
+        //    {
+        //        conn.Open();
+        //        using (SqlCommand cmd = conn.CreateCommand())
+        //        {
+        //            cmd.CommandText =  @"SELECT ue.Id AS UserEventId, ue.UserId AS UserId, ue.EventId AS EventId
+        //                                FROM UserEvent ue
+        //                                LEFT JOIN AspNetUsers a
+        //                                ON ue.UserId = a.Id
+        //                                LEFT JOIN Events e
+        //                                ON ue.EventId = e.Id";
 
-                    cmd.Parameters.Add(new SqlParameter("@id", id));
-                    SqlDataReader reader = cmd.ExecuteReader();
+        //            cmd.Parameters.Add(new SqlParameter("@id", id));
+        //            SqlDataReader reader = cmd.ExecuteReader();
 
-                    UserEvent individualUserEvent = null;
+        //            UserEvent individualUserEvent = null;
 
-                    if (reader.Read())
-                    {
+        //            if (reader.Read())
+        //            {
                     
-                        individualUserEvent = new UserEvent
+        //                individualUserEvent = new UserEvent
 
-                            {
+        //                    {
 
-                            Id = reader.GetInt32(reader.GetOrdinal("UserEventId")),
-                            UserId = reader.GetString(reader.GetOrdinal("UserId")),
-                            EventId = reader.GetInt32(reader.GetOrdinal("EventId"))
+        //                    Id = reader.GetInt32(reader.GetOrdinal("UserEventId")),
+        //                    UserId = reader.GetString(reader.GetOrdinal("UserId")),
+        //                    EventId = reader.GetInt32(reader.GetOrdinal("EventId"))
 
-                        };        
+        //                };        
 
-                            individualUserEvent.ApplicationUser = new ApplicationUserViewModel { 
+        //                    individualUserEvent.ApplicationUser = new ApplicationUserViewModel { 
 
-                                Id = reader.GetString(reader.GetOrdinal("UserId")),
-                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
+        //                        Id = reader.GetString(reader.GetOrdinal("UserId")),
+        //                        FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+        //                        LastName = reader.GetString(reader.GetOrdinal("LastName")),
 
+        //                };
 
-                        };
-
-                            individualUserEvent.Event = new Event 
+        //                    individualUserEvent.Event = new Event 
                             
-                            {
+        //                    {
 
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Name = reader.GetString(reader.GetOrdinal("Name"))
-                        };
-                        reader.Close();
+        //                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+        //                    Name = reader.GetString(reader.GetOrdinal("Name"))
+        //                };
+        //                reader.Close();
 
-                        return Ok(individualUserEvent);
-                    }
-                    else
-                    {
-                        return NotFound();
-                    }
-                }
-            }
-        }
+        //                return Ok(individualUserEvent);
+        //            }
+        //            else
+        //            {
+        //                return NotFound();
+        //            }
+        //        }
+        //    }
+        //}
 
         // POST: api/UserEvents
         [HttpPost]
+        [Route("/api/UserEvent")]
         public async Task<IActionResult> Post([FromBody] UserEvent newUserEvent)
         {
             using (SqlConnection conn = Connection)
@@ -183,46 +183,46 @@ namespace Tuned.Controllers.V1
             }
         }
 
-        // PUT: api/UserEvents/5
-        //Update an event
-        [HttpPut("{id}")]
-        public async Task<IActionResult>Put([FromRoute]int id, [FromBody] UserEvent updatedUserEvent)
-        {
-            try
-            {
-                using (SqlConnection conn = Connection)
-                {
-                    conn.Open();
-                    using (SqlCommand cmd = conn.CreateCommand())
-                    {
-                        cmd.CommandText = @"UPDATE UserEvents
-                                            SET UserId = @userId,
-                                                EventId = @eventId
-                                            WHERE Id = @id";
+        //// PUT: api/UserEvents/5
+        ////Update an event
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult>Put([FromRoute]int id, [FromBody] UserEvent updatedUserEvent)
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection conn = Connection)
+        //        {
+        //            conn.Open();
+        //            using (SqlCommand cmd = conn.CreateCommand())
+        //            {
+        //                cmd.CommandText = @"UPDATE UserEvent
+        //                                    SET UserId = @userId,
+        //                                        EventId = @eventId
+        //                                    WHERE Id = @id";
 
-                    cmd.Parameters.Add(new SqlParameter("@userId", updatedUserEvent.UserId));
-                    cmd.Parameters.Add(new SqlParameter("@eventId", updatedUserEvent.EventId));
+        //            cmd.Parameters.Add(new SqlParameter("@userId", updatedUserEvent.UserId));
+        //            cmd.Parameters.Add(new SqlParameter("@eventId", updatedUserEvent.EventId));
 
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                        if (rowsAffected > 0)
-                        {
-                            return new StatusCodeResult(StatusCodes.Status204NoContent);
-                        }
-                        throw new Exception("No rows affected");
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                if (!UserEventExists(id))
-                { 
-                    return NotFound();
-                    } else
-                {
-                    throw;
-                }
-            }
-        }
+        //                int rowsAffected = cmd.ExecuteNonQuery();
+        //                if (rowsAffected > 0)
+        //                {
+        //                    return new StatusCodeResult(StatusCodes.Status204NoContent);
+        //                }
+        //                throw new Exception("No rows affected");
+        //            }
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        if (!UserEventExists(id))
+        //        { 
+        //            return NotFound();
+        //            } else
+        //        {
+        //            throw;
+        //        }
+        //    }
+        //}
 
         // DELETE: api/ApiWithActions/5
         // Soft delete - sets the active event boolean to 1

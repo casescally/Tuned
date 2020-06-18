@@ -3,6 +3,7 @@ import { EventContext } from "./EventProvider"
 import { getUser } from "../../API/userManager"
 //import { LikedEventContext } from "../likedEvent/LikedEventProvider"
 import { createAuthHeaders } from "../../API/userManager"
+
 import "./Events.css"
 
 export default props => {

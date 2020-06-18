@@ -9,18 +9,20 @@ import "./Profiles.css"
 import { getUser } from "../../API/userManager"
 import { EventContext } from "../event/EventProvider"
 import Event from "../event/Event"
+import { UserEventContext } from "../UserEvent/UserEventProvider"
 
 export default (props) => {
 
-    const { cars } = useContext(CarContext)
-    const { users } = useContext(UserContext)
-    const { events } = useContext(EventContext)
+    const { cars } = useContext(CarContext);
+    const { users } = useContext(UserContext);
+    const { events } = useContext(EventContext);
+    const { userEvents } = useContext(UserEventContext);
     const userId = JSON.parse(localStorage.getItem("user")).id
     const { likedCars } = useContext(LikedCarContext)
     const currentUser = getUser()
-    let currentUsersEvents = events.filter(event => event.UserId === props.match.params.Id)
-    let currentProfileUser = users.find(user => user.id === props.match.params.userId)
-console.log(currentProfileUser)
+    //let currentUsersEvents = events.filter(event => event.UserId === props.match.params.Id)
+    //let currentProfileUser = users.find(user => user.id === props.match.params.userId)
+
     let editProfileMode = Boolean
 
     if (userId !== props.match.params.userId) {
@@ -54,6 +56,26 @@ console.log(currentProfileUser)
             }
         })
     }
+
+    const currentUsersEvents = [];
+
+    {
+        userEvents.forEach(rel => {
+
+            // Find the user and car matching like
+            const foundEvent = events.find(
+                (event) => {
+                    return rel.userId === props.match.params.userId && rel.eventId === event.id
+                }
+            )
+            //if page is reloaded and no likes are found
+            if (foundEvent !== undefined) {
+                currentUsersEvents.push(foundEvent)
+            }
+        })
+    }
+
+    console.log(currentUsersEvents)
 
     let foundProfile = users.find(user => user.id == props.match.params.userId)
 
@@ -96,17 +118,20 @@ console.log(currentProfileUser)
 
                     <span id="profileInfo">
 
-                        {<h1 className="currentProfileName">{firstName + ' ' + lastName}</h1>}
+                        {
+                            <h1 className="currentProfileName">{firstName + ' ' + lastName}</h1>}
 
                         {
-                            <button className="followButton" onClick={evt => {
+                            <button className="edit/follow_Button" onClick={evt => {
 
                                 evt.preventDefault()
                                 props.history.push(`edit/${currentUser.userName}`)
 
-                            }}>{editProfileMode ? "Edit" : ""}
+                            } }>{editProfileMode ? "Edit" : "Follow"}
 
-                            </button>}
+                            </button>
+                            
+                        }
 
                         <div className="profile_description">{profileDescription}</div>
 
@@ -130,18 +155,13 @@ console.log(currentProfileUser)
 
                     </article>
 
+                    <article id="likedCars" className="profileLikedCarList">
 
+                        <h3>Liked Cars {currentUsersLikedCars.length}</h3>
 
+                        {currentUsersLikedCars.map(car => <Car key={car.id} car={car} {...props} />)}
 
-
-                        <article id="likedCars" className="profileLikedCarList">
-
-                            <h3>Liked Cars {currentUsersLikedCars.length}</h3>
-
-                            {currentUsersLikedCars.map(car => <Car key={car.id} car={car} {...props} />)}
-
-                        </article>
-
+                    </article>
 
                 </div>
             </section>

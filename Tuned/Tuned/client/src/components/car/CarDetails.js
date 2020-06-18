@@ -52,12 +52,12 @@ export default (props) => {
     }
 
     useEffect(() => {
-        const images = car.carPageCoverUrl;
+        const images = car.imageFileNames;
         if (images) setCarImages(JSON.parse(images))
     }, [car])
 
-    
 
+console.log(car)
     
     //let imagePathName = JSON.parse(car.carPageCoverUrl)[0].slice(2)
     

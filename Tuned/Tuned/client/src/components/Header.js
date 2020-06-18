@@ -5,13 +5,10 @@ import { getUser, removeUser } from "../API/userManager";
 function Header({ history }) {
   const user = getUser();
 
-
   const logout = () => {
     removeUser();
     history.push("/login");
   };
-
-
 
   return (
     <nav className="header">

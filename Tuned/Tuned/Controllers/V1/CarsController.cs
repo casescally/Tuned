@@ -76,6 +76,7 @@ namespace Tuned.Controllers.V1
                             ApplicationUserId = reader.GetString(reader.GetOrdinal("ApplicationUserId")),
                             VehicleTypeId = reader.GetInt32(reader.GetOrdinal("VehicleTypeId")),
                             CarPageCoverUrl = reader.GetString(reader.GetOrdinal("CarPageCoverUrl")),
+                            ImageFileNames = reader.GetString(reader.GetOrdinal("ImageFileNames")),
                             CarDescription = reader.GetString(reader.GetOrdinal("CarDescription"))
                         };
 
@@ -100,7 +101,7 @@ namespace Tuned.Controllers.V1
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT c.Id, c.Name, c.Make, c.Model, c.Year, c.ApplicationUserId, c.VehicleTypeId, c.CarPageCoverUrl, c.CarDescription, c.ActiveCar, a.FirstName, a.LastName, a.StreetAddress, a.ProfilePicturePath, a.ProfileBackgroundPicturePath, a.Description, a.ProfileHeader, a.ActiveUser
+                    cmd.CommandText = @"SELECT c.Id, c.Name, c.Make, c.Model, c.Year, c.ApplicationUserId, c.VehicleTypeId, c.CarPageCoverUrl, c.CarDescription, c.ImageFileNames, c.ActiveCar, a.FirstName, a.LastName, a.StreetAddress, a.ProfilePicturePath, a.ProfileBackgroundPicturePath, a.Description, a.ProfileHeader, a.ActiveUser
                                         FROM Cars c
                                         LEFT JOIN AspNetUsers a
                                         ON c.ApplicationUserId = a.Id
@@ -123,6 +124,7 @@ namespace Tuned.Controllers.V1
                             ApplicationUserId = reader.GetString(reader.GetOrdinal("ApplicationUserId")),
                             VehicleTypeId = reader.GetInt32(reader.GetOrdinal("VehicleTypeId")),
                             CarPageCoverUrl = reader.GetString(reader.GetOrdinal("CarPageCoverUrl")),
+                            ImageFileNames = reader.GetString(reader.GetOrdinal("ImageFileNames")),
                             CarDescription = reader.GetString(reader.GetOrdinal("CarDescription"))
                         };
                         reader.Close();
