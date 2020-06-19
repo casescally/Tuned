@@ -127,10 +127,10 @@ export default (props) => {
                                 evt.preventDefault()
                                 props.history.push(`edit/${currentUser.userName}`)
 
-                            } }>{editProfileMode ? "Edit" : "Follow"}
+                            }}>{editProfileMode ? "Edit" : "Follow"}
 
                             </button>
-                            
+
                         }
 
                         <div className="profile_description">{profileDescription}</div>
@@ -151,7 +151,7 @@ export default (props) => {
                     <article className="events">
                         <h3>Events {currentUsersEvents.length}</h3>
 
-                            {currentUsersEvents.map(event => <Event key={event.id} event={event} {...props} />)}
+                        {currentUsersEvents.map(event => <Event key={event.id} event={event} {...props} />)}
 
                     </article>
 

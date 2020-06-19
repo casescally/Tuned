@@ -20,6 +20,26 @@ const EventDetails = (props) => {
     //const likedEvent = likedEvents.find(l => l.likedEventId === event.id) || {}
     const eventUser = users.find(u => u.id === event.applicationUserId) || {}
     //const currentUsersEvents = events.filter(c => c.userId === user.id)
+    //const eventUsers = userEvents.filter(userEvent => userEvent.eventId === event.id && userEvent.applicationUser.id)
+    let currentEventUsers = []
+    
+    {
+        userEvents.forEach(rel => {
+
+            const foundUser = users.filter(
+                (singleUser) => {
+                    return rel.applicationUser.id === singleUser.id && rel.eventId === event.id
+                }
+            )[0]
+
+            if (foundUser) {
+            currentEventUsers.push(foundUser)
+
+            }
+
+        })
+    }
+    console.log('users==>>', currentEventUsers)
     const constructNewUserEvent = (currentEvent) => {
 
         const alreadyAddedEventRel = userEvents.find(userEvent => userEvent.eventId === currentEvent.id && userEvent.applicationUser.id === user.id)
@@ -41,7 +61,6 @@ const EventDetails = (props) => {
             setAddedUserEventMode(false);
         }            
     }
-
 
     useEffect(() => {
         const images = event.imagePath;
@@ -73,25 +92,25 @@ const onInfoWindowClose = () => {
 
     return (
         <section className="event">
-                    {eventImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/EventImages/image/get?imageName=${image}`} alt="Image of event"/>)}
+                    {eventImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/EventImages/image/get?imageName=${image}`} className="event_image" alt="Image of event"/>)}
 
 
-        <div style={{width: '600px', height: '600px'}}>
+        <div className="event_map">
                     {eventGeoLocation && <Map
                     initialCenter={eventGeoLocation}
           google={props.google}
           zoom={5}>
 
-<Marker position={eventGeoLocation} onClick={onMarkerClick}
-        name={'Current location'} />
+                <Marker position={eventGeoLocation} onClick={onMarkerClick}
+                        name={'Current location'} />
 
-{/*<InfoWindow onClose={onInfoWindowClose}>
-    <div>
-      <h1>{'yoo'}</h1>
-    </div>
-</InfoWindow>*/}
-</Map>}
-</div>
+                    {/*<InfoWindow onClose={onInfoWindowClose}>
+                    <div>
+                    <h1>{'yoo'}</h1>
+                    </div>
+                    </InfoWindow>*/}
+                </Map>}
+            </div>
 
             <h3 className="event__name">{event.name}</h3>
 
@@ -121,7 +140,6 @@ const onInfoWindowClose = () => {
 
             </button>
 
-            
 
             <button onClick={() => {
                 props.history.push(`/events/edit/${event.id}`)

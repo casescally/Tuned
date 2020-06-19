@@ -1,0 +1,13 @@
+.event {
+    display: flex;
+    flex-direction: column;
+}
+
+.event_image {
+    align-self: center;
+}
+
+/* .event_map {
+    width:50%;
+    height:300px !important;
+} */
