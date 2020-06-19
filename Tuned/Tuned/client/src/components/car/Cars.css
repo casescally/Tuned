@@ -5,3 +5,8 @@
     margin-top: 15px;
     display: inline-block
 }
+
+.car_image {
+    flex-basis: auto;
+    height: 500px;
+}

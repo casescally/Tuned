@@ -6,8 +6,10 @@ import "./Users.css"
 
 export default ({ UserCard }) => {
 
-    //const { users } = useContext(UserContext)
+    const { users } = useContext(UserContext)
     const user = getUser()
+    const currentEventUser = users.find(singleUser => singleUser.id === user.id)
+
 
     return (
 
@@ -19,7 +21,7 @@ export default ({ UserCard }) => {
 
                     <Link to={`/profile/${user.id}`}>
 
-                        <div className="car__user">{user.firstName + ' ' + user.lastName}</div>
+                        <div className="user__name">{currentEventUser.firstName + ' ' + currentEventUser.lastName}</div>
 
                     </Link>
 

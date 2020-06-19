@@ -18,9 +18,34 @@
     .map-container iframe,
     .map-container object,
     .map-container embed {
-    position: absolute;
+    /* position: absolute; */
+    align-content: center;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 50%;
     height: 100%;
+    }
+
+    .button {
+        background-color: #f44336; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
+
+      .event_image {
+        flex-basis: auto;
+        height: 500px;
+    }
+
+    .event {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
     }

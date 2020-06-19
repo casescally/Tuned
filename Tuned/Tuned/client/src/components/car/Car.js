@@ -34,7 +34,7 @@ export default ({ car }) => {
         if (alreadyLikedCarRel === undefined || null) {
 
             likedCarMode = false
-            
+
             addLikedCar({
 
                 carId: currentCar.id,
@@ -69,8 +69,8 @@ export default ({ car }) => {
 
             <div className="carInfo">
 
-            {carImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`} alt="Image of car"/>)}
-            {/* {carImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`} alt="Image of car"/>)} */}
+                {carImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`} className="car_image" alt="Image of car" />)}
+                {/* {carImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`} alt="Image of car"/>)} */}
 
                 <div className="carUploader">
 
@@ -96,9 +96,9 @@ export default ({ car }) => {
 
 
                     </h3>
-                       <div className="car_make">{car.make}</div>
+                    <div className="car_make">{car.make}</div>
 
-                        <div className="car_model">{car.model}</div>
+                    <div className="car_model">{car.model}</div>
                 </div>
 
             </div>

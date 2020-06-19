@@ -1,0 +1,4 @@
+.profileCarsList {
+    display: flex;
+    flex-direction: row;
+}

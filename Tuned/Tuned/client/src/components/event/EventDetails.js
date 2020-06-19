@@ -93,6 +93,7 @@ const onInfoWindowClose = () => {
 
     return (
         <section className="event">
+            
                     {eventImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/EventImages/image/get?imageName=${image}`} className="event_image" alt="Image of event"/>)}
 
 
@@ -116,6 +117,10 @@ const onInfoWindowClose = () => {
 
             <h3 className="event__name">{event.name}</h3>
 
+                <p className="event_description">
+                    {event.description}
+                </p>
+
             <button className="add/remove_Button" value="add/remove" onClick={evt => {
 
                 evt.preventDefault()
@@ -126,7 +131,7 @@ const onInfoWindowClose = () => {
 
             }>{addedUserEventMode ? "Add" : "Remove"}</button>
 
-            <div className="event_admin_user">Admin: {eventUser.username}</div>
+            <div className="event_admin_user">{eventUser.adminUser ? `Admin: ${eventUser.username}` : ""}</div>
 
             <article className="event_users">
                         <h3>Users: {currentEventUsers.length}</h3>
