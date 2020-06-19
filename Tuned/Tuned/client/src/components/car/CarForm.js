@@ -7,7 +7,7 @@ import "./Cars.css"
 
 
 export default props => {
- 
+
     const user = getUser();
 
     const { cars, addCar, saveImages, updateCar } = useContext(CarContext)
@@ -64,18 +64,18 @@ export default props => {
 
     const getImageSrc = () => {
 
-            if (car.imageFileNames) {
+        if (car.imageFileNames) {
 
-                console.log(JSON.parse(car.imageFileNames)[0].split("/"))
-                fetch(`https://localhost:5001/api/CarImages/image/get?imageName=${JSON.parse(car.imageFileNames)[0].split("/")}`).then(setCarImage('url'))
-            }
+            console.log(JSON.parse(car.imageFileNames)[0].split("/"))
+            fetch(`https://localhost:5001/api/CarImages/image/get?imageName=${JSON.parse(car.imageFileNames)[0].split("/")}`).then(setCarImage('url'))
+        }
 
-        };
+    };
 
-        /*
-        React relies on data flow, you should always update your "state" based on the state of the information of the app.
-        server call > response from server > update the state with data from server > view is re-rendered with new data.
-        */
+    /*
+    React relies on data flow, you should always update your "state" based on the state of the information of the app.
+    server call > response from server > update the state with data from server > view is re-rendered with new data.
+    */
 
     const constructNewCar = () => {
 
@@ -178,25 +178,25 @@ export default props => {
                         placeholder="Vehicle Type"
                         defaultValue={car.vehicleTypeId}
                         onChange={handleControlledInputChange}>
-                              <option value="1">Sports Car</option>
-                              <option value="2">Utility Vehicle</option>
-                              <option value="3">Sport Utility Vehicle</option>
-                              <option value="4">Sedan</option>
-                              <option value="5">Truck</option>
-                              <option value="6">Hatchback</option>
-                              <option value="7">Coupe</option>
-                              <option value="8">Minivan</option>
-                              <option value="9">Convertible</option>
-                              <option value="10">Compact Car</option>
-                              <option value="11">Subcompact Car</option>
-                              <option value="12">Crossover</option>
-                              <option value="13">Station Wagon</option>
-                              <option value="14">Van</option>
-                              <option value="15">Motorcycle</option>
-                              <option value="16">Supercar</option>
-                        </select>
-                        
-                    
+                        <option value="1">Sports Car</option>
+                        <option value="2">Utility Vehicle</option>
+                        <option value="3">Sport Utility Vehicle</option>
+                        <option value="4">Sedan</option>
+                        <option value="5">Truck</option>
+                        <option value="6">Hatchback</option>
+                        <option value="7">Coupe</option>
+                        <option value="8">Minivan</option>
+                        <option value="9">Convertible</option>
+                        <option value="10">Compact Car</option>
+                        <option value="11">Subcompact Car</option>
+                        <option value="12">Crossover</option>
+                        <option value="13">Station Wagon</option>
+                        <option value="14">Van</option>
+                        <option value="15">Motorcycle</option>
+                        <option value="16">Supercar</option>
+                    </select>
+
+
                 </div>
             </fieldset>
             {/* <fieldset>
@@ -215,8 +215,8 @@ export default props => {
                     <label htmlFor="imageFile">Image File</label>
                     <input name="imageFile" type="file" multiple onChange={imageFileChanged} />
                     <div className="imagePreview" id="imagePreview">
-                        <img src={carImage}/>
-                       <span className="image-preview__default-text">Image Preview</span>
+                        <img src={carImage} />
+                        <span className="image-preview__default-text">Image Preview</span>
                     </div>
                 </div>
                 <div>
@@ -236,11 +236,11 @@ export default props => {
             <button type="submit"
                 onClick={evt => {
                     if (editMode) {
-                    evt.preventDefault()
-                    constructNewCar()
-                    } else {
                         evt.preventDefault()
                         updateCar()
+                    } else {
+                        evt.preventDefault()
+                        constructNewCar()
                     }
                 }}
                 className="btn btn-primary">
