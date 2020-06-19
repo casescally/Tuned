@@ -5,6 +5,7 @@ import "./Events.css"
 import { getUser } from "../../API/userManager"
 import { UserEventContext } from "../UserEvent/UserEventProvider"
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import UserCard from "../user/User"
 
 const EventDetails = (props) => {
     const { events, deleteEvent } = useContext(EventContext)
@@ -95,11 +96,12 @@ const onInfoWindowClose = () => {
                     {eventImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/EventImages/image/get?imageName=${image}`} className="event_image" alt="Image of event"/>)}
 
 
-        <div className="event_map">
+        <div  className="map-container">
                     {eventGeoLocation && <Map
                     initialCenter={eventGeoLocation}
           google={props.google}
-          zoom={5}>
+          zoom={5}
+          ><iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ></iframe>
 
                 <Marker position={eventGeoLocation} onClick={onMarkerClick}
                         name={'Current location'} />
@@ -124,7 +126,14 @@ const onInfoWindowClose = () => {
 
             }>{addedUserEventMode ? "Add" : "Remove"}</button>
 
-            <div className="event__user">User: {eventUser.username}</div>
+            <div className="event_admin_user">Admin: {eventUser.username}</div>
+
+            <article className="event_users">
+                        <h3>Users: {currentEventUsers.length}</h3>
+
+                        {currentEventUsers.map(user => <UserCard key={user.id} user={user} {...props} />)}
+
+                    </article>
             
             <button onClick={
                 () => {

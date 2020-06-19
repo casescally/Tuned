@@ -107,7 +107,7 @@ console.log(car)
 
             }>{likedCarMode ? "Like" : "Unlike"}</button>
 
-            <div className="car__user">User: {carUser.username}</div>
+            <div className="car__user">User: {carUser.firstName + ' ' + carUser.lastName}</div>
             
             <button onClick={
                 () => {

@@ -10,6 +10,7 @@ function Header({ history }) {
     history.push("/login");
   };
 
+  console.log(user)
   return (
     <nav className="header">
       <ul className="nav-items">
@@ -17,7 +18,7 @@ function Header({ history }) {
           <>
             <li className="nav-item">
               <Link to={"/profile/" + user.id}>
-                Hello {user.username}
+                Profile
               </Link>
             </li>
             <li className="nav-item">
