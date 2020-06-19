@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useReducer } from "react"
+import React, { useContext, useState, useEffect, useReducer, createElement } from "react"
 import { EventContext } from "./EventProvider"
 import { getUser } from "../../API/userManager"
 //import { LikedEventContext } from "../likedEvent/LikedEventProvider"
@@ -29,6 +29,7 @@ export default props => {
         newEvent[event.target.name] = event.target.value
         setCreatedEvent(newEvent)
     }
+    
 
     const imageFileChanged = async (event) => {
 
@@ -39,7 +40,7 @@ export default props => {
         //console.log(event.target.files);
         const filePaths = await saveImages(event.target.files);
 
-        console.log(filePaths);
+        //console.log(filePaths);
 
         const newEvent = Object.assign({
 
@@ -56,6 +57,7 @@ export default props => {
             const eventId = parseInt(props.match.params.eventId)
             const selectedEvent = events.find(a => a.id === eventId) || {}
             setCreatedEvent(selectedEvent)
+            getImageSrc(selectedEvent)
         }
     }
 
@@ -63,12 +65,15 @@ export default props => {
         setDefaults()
     }, [events])
 
-    const getImageSrc = () => {
+    const getImageSrc = (currentEvent) => {
 
-            if (createdEvent.imagePath) {
+            if (currentEvent.imagePath) {
 
-                console.log(JSON.parse(createdEvent.imagePath)[0].split("/"))
-                fetch(`https://localhost:5001/api/EventImages/image/get?imageName=${JSON.parse(createdEvent.imagePath)[0].split("/")}`).then(setEventImage('url'))
+                //console.log(JSON.parse(currentEvent.imagePath)[0].split("/"))
+                fetch(`https://localhost:5001/api/EventImages/image/get?imageName=${JSON.parse(currentEvent.imagePath)[0].split("/")}`).then(res => res.blob()).then(a => {
+                    setEventImage(URL.createObjectURL(a))
+                    //console.log('a==>>', eventImageURL)
+            })
             }
 
         };
@@ -81,21 +86,21 @@ export default props => {
     const constructNewEvent = () => {
 
         if (editMode) {
-
+            console.log('creaedd==>>', createdEvent)
             updateEvent({
-
+                id: createdEvent.id,
                 name: createdEvent.name,
                 location: createdEvent.location,
                 date: createdEvent.date,
                 description: createdEvent.description,
                 adminUserId: user.id,
                 activeEvent: true,
-                userId: user.Id
-
+                userId: user.Id,
+                imagePath: createdEvent.imagePath,
             })
 
                 .then(data => {
-                    getImageSrc()
+                    getImageSrc(createdEvent)
                     props.history.push("/events")
                 })
 
@@ -123,10 +128,10 @@ export default props => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="name">Event name: </label>
-                    <input type="text" name="eventName" required autoFocus className="form-control"
+                    <input type="text" name="name" required autoFocus className="form-control"
                         proptype="varchar"
                         placeholder="Event name"
-                        defaultValue={createdEvent.name}
+                        value={createdEvent.name}
                         onChange={handleControlledInputChange}
                     />
                 </div>
@@ -137,7 +142,7 @@ export default props => {
                     <input type="text" name="location" required className="form-control"
                         proptype="varchar"
                         placeholder="Event location"
-                        defaultValue={createdEvent.location}
+                        value={createdEvent.location}
                         onChange={handleControlledInputChange}
                     />
                 </div>
@@ -148,7 +153,7 @@ export default props => {
                     <input type="text" name="description" required className="form-control"
                         proptype="varchar"
                         placeholder="Event description"
-                        defaultValue={createdEvent.description}
+                        value={createdEvent.description}
                         onChange={handleControlledInputChange}
                     />
                 </div>
@@ -159,12 +164,12 @@ export default props => {
                     <input type="date" name="date" required className="form-control"
                         proptype="varchar"
                         placeholder="Event date"
-                        defaultValue={createdEvent.date}
+                        value={createdEvent.date}
                         onChange={handleControlledInputChange}
                     />
                 </div>
             </fieldset>
-            <form method="post" encType="multipart/form-data" action="https://localhost:5001/api/events" required className="form-control">
+            <form method="post" required className="form-control">
                 <div>
                     <label htmlFor="imageFile">Image File</label>
                     <input name="imageFile" type="file" multiple onChange={imageFileChanged} />

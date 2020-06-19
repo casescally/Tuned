@@ -3,6 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import {GoogleApiWrapper} from 'google-maps-react';
+
+// export default GoogleApiWrapper(
+//     (props) => ({
+//       apiKey: props.apiKey,
+//       language: props.language,
+//     }
+//   ))(MapContainer)
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
