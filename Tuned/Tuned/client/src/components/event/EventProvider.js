@@ -33,22 +33,22 @@ export const EventProvider = (props) => {
     }
 
     const saveImages = async (files) => {
-        const authHeader = createAuthHeaders();  
+        const authHeader = createAuthHeaders();
         const formData = new FormData();
         if (files) {
-          Array.from(files).forEach(file => {
-            formData.append(file.name, file);
-          });
-        }      
-        
+            Array.from(files).forEach(file => {
+                formData.append(file.name, file);
+            });
+        }
+
         const response = await fetch('https://localhost:5001/api/events/files', {
-          // content-type header should not be specified!
-          method: 'POST',
-          headers: {
-            authHeader,
-          }, 
-          body: formData,
-          responseType: 'text'
+            // content-type header should not be specified!
+            method: 'POST',
+            headers: {
+                authHeader,
+            },
+            body: formData,
+            responseType: 'text'
         });
         return response.text();
         //   .then(response => response.text())
@@ -106,7 +106,7 @@ export const EventProvider = (props) => {
             body: JSON.stringify(event)
 
         })
-
+            .then(console.log('updates==>>', event))
             .then(getEvents)
 
     }

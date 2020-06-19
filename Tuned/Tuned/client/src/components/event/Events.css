@@ -49,3 +49,10 @@
         flex-direction: column;
         align-content: center;
     }
+
+
+    .imagePreview {
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+    }

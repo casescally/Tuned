@@ -7,7 +7,7 @@ import { createAuthHeaders } from "../../API/userManager"
 import "./Events.css"
 
 export default props => {
- 
+
     const user = getUser();
 
     const { events, addEvent, saveImages, updateEvent } = useContext(EventContext)
@@ -29,7 +29,7 @@ export default props => {
         newEvent[event.target.name] = event.target.value
         setCreatedEvent(newEvent)
     }
-    
+
 
     const imageFileChanged = async (event) => {
 
@@ -40,15 +40,15 @@ export default props => {
         //console.log(event.target.files);
         const filePaths = await saveImages(event.target.files);
 
-        //console.log(filePaths);
+        console.log(filePaths);
 
-        const newEvent = Object.assign({
 
+        const newEvent = {
+            ...createdEvent,
             imagePath: filePaths,
             eventPageCoverUrl: filePaths.split(',')[0]
-
-        }, createdEvent)
-
+        }
+        console.log('created evv11==>>', newEvent)
         setCreatedEvent(newEvent);
     }
 
@@ -67,26 +67,26 @@ export default props => {
 
     const getImageSrc = (currentEvent) => {
 
-            if (currentEvent.imagePath) {
+        if (currentEvent.imagePath) {
 
-                //console.log(JSON.parse(currentEvent.imagePath)[0].split("/"))
-                fetch(`https://localhost:5001/api/EventImages/image/get?imageName=${JSON.parse(currentEvent.imagePath)[0].split("/")}`).then(res => res.blob()).then(a => {
-                    setEventImage(URL.createObjectURL(a))
-                    //console.log('a==>>', eventImageURL)
+            //console.log(JSON.parse(currentEvent.imagePath)[0].split("/"))
+            fetch(`https://localhost:5001/api/EventImages/image/get?imageName=${JSON.parse(currentEvent.imagePath)[0].split("/")}`).then(res => res.blob()).then(a => {
+                setEventImage(URL.createObjectURL(a))
+                console.log('a==>>', currentEvent.imagePath)
             })
-            }
+        }
 
-        };
+    };
 
-        /*
-        React relies on data flow, you should always update your "state" based on the state of the information of the app.
-        server call > response from server > update the state with data from server > view is re-rendered with new data.
-        */
+    /*
+    React relies on data flow, you should always update your "state" based on the state of the information of the app.
+    server call > response from server > update the state with data from server > view is re-rendered with new data.
+    */
 
     const constructNewEvent = () => {
-
+        console.log('created evv22==>>', createdEvent)
         if (editMode) {
-            console.log('creaedd==>>', createdEvent)
+
             updateEvent({
                 id: createdEvent.id,
                 name: createdEvent.name,
@@ -95,8 +95,8 @@ export default props => {
                 description: createdEvent.description,
                 adminUserId: user.id,
                 activeEvent: true,
-                userId: user.Id,
-                imagePath: createdEvent.imagePath,
+                userId: user.id,
+                imagePath: createdEvent.imagePath
             })
 
                 .then(data => {
@@ -108,7 +108,7 @@ export default props => {
 
             addEvent({
 
-                name: createdEvent.eventName,
+                name: createdEvent.name,
                 location: createdEvent.location,
                 date: createdEvent.date,
                 description: createdEvent.description,
@@ -174,8 +174,8 @@ export default props => {
                     <label htmlFor="imageFile">Image File</label>
                     <input name="imageFile" type="file" multiple onChange={imageFileChanged} />
                     <div className="imagePreview" id="imagePreview">
-                        <img src={eventImage}/>
-                       <span class="image-preview__default-text">Image Preview</span>
+                        <img src={eventImage} />
+                        <span class="image-preview__default-text">Image Preview</span>
                     </div>
                 </div>
             </form>

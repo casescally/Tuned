@@ -218,6 +218,7 @@ namespace Tuned.Controllers.V1
                     cmd.Parameters.Add(new SqlParameter("@userId", newEvent.UserId));
                     cmd.Parameters.Add(new SqlParameter("@activeEvent", newEvent.ActiveEvent));
 
+
                     int newId = (int)cmd.ExecuteScalar();
                     newEvent.Id = newId;
                     return CreatedAtRoute("GetEvent", new { id = newId}, newEvent);
@@ -244,7 +245,7 @@ namespace Tuned.Controllers.V1
                                             Description = @Description,
                                             ImagePath = @ImagePath,
                                             ActiveEvent = @activeEvent,
-                                            UserId = @UserId
+                                            UserId = @userId
                                             WHERE Id = @id";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
