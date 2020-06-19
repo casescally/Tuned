@@ -90,7 +90,7 @@ const onMarkerClick = () => {
 const onInfoWindowClose = () => {
 
 }
-
+console.log("test", event)
     return (
         <section className="event">
             
@@ -142,7 +142,7 @@ const onInfoWindowClose = () => {
             
             <button onClick={
                 () => {
-                    if (event.applicationUserId === user.id) {
+                    if (event.adminUser.id === user.id) {
                     deleteEvent(event)
                         .then(() => {
                             props.history.push("/events")

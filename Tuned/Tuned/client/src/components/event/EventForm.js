@@ -174,7 +174,7 @@ export default props => {
                     <label htmlFor="imageFile">Image File</label>
                     <input name="imageFile" type="file" multiple onChange={imageFileChanged} />
                     <div className="imagePreview" id="imagePreview">
-                        <img src={eventImage} />
+                        <img className="previewImage" src={eventImage} />
                         <span class="image-preview__default-text">Image Preview</span>
                     </div>
                 </div>

@@ -291,7 +291,7 @@ namespace Tuned.Controllers.V1
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = @"UPDATE Events
-                                            SET ActiveEvent = 1
+                                            SET ActiveEvent = 0
                                             WHERE Id = @id";
 
                         cmd.Parameters.Add(new SqlParameter("@id", id));
