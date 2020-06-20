@@ -41,11 +41,11 @@ export default props => {
 
         console.log(filePaths);
 
-        const newCar = Object.assign({
-
+        const newCar = {
+            ...car,
             imageFileNames: filePaths,
             carPageCoverUrl: filePaths.split(',')[0]
-        }, car)
+        }
 
         setCar(newCar);
     }
@@ -55,6 +55,7 @@ export default props => {
             const carId = parseInt(props.match.params.carId)
             const selectedCar = cars.find(a => a.id === carId) || {}
             setCar(selectedCar)
+            getImageSrc(selectedCar)
         }
     }
 
@@ -62,14 +63,16 @@ export default props => {
         setDefaults()
     }, [cars])
 
-    const getImageSrc = () => {
+    const getImageSrc = (car) => {
 
         if (car.imageFileNames) {
 
             console.log(JSON.parse(car.imageFileNames)[0].split("/"))
-            fetch(`https://localhost:5001/api/CarImages/image/get?imageName=${JSON.parse(car.imageFileNames)[0].split("/")}`).then(setCarImage('url'))
+            fetch(`https://localhost:5001/api/CarImages/image/get?imageName=${JSON.parse(car.imageFileNames)[0].split("/")}`).then(res => res.blob()).then(a => {
+                setCarImage(URL.createObjectURL(a))
+                console.log('a==>>', car.imageFileNames)
+            })
         }
-
     };
 
     /*
@@ -82,7 +85,7 @@ export default props => {
         if (editMode) {
 
             updateCar({
-
+                id: car.id,
                 name: car.name,
                 make: car.make,
                 model: car.model,
@@ -97,7 +100,7 @@ export default props => {
             })
 
                 .then(data => {
-                    getImageSrc()
+                    getImageSrc(car)
                     props.history.push("/cars")
                 })
 
@@ -121,7 +124,7 @@ export default props => {
                 .then(() => props.history.push("/cars"))
         }
     }
-
+    console.log('current===>>>', car)
 
     return (
         <form className="carForm">
@@ -215,12 +218,9 @@ export default props => {
                     <label htmlFor="imageFile">Image File</label>
                     <input name="imageFile" type="file" multiple onChange={imageFileChanged} />
                     <div className="imagePreview" id="imagePreview">
-                        <img src={carImage} />
+                        <img className="car_image_preview" src={carImage} />
                         <span className="image-preview__default-text">Image Preview</span>
                     </div>
-                </div>
-                <div>
-                    <input type="submit" value="Submit" />
                 </div>
             </form>
             <fieldset>
@@ -235,11 +235,10 @@ export default props => {
             </fieldset>
             <button type="submit"
                 onClick={evt => {
+                    evt.preventDefault()
                     if (editMode) {
-                        evt.preventDefault()
-                        updateCar()
+                        constructNewCar()
                     } else {
-                        evt.preventDefault()
                         constructNewCar()
                     }
                 }}

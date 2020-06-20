@@ -48,7 +48,7 @@ export default props => {
             imagePath: filePaths,
             eventPageCoverUrl: filePaths.split(',')[0]
         }
-        console.log('created evv11==>>', newEvent)
+        //console.log('created evv11==>>', newEvent)
         setCreatedEvent(newEvent);
     }
 
@@ -84,7 +84,7 @@ export default props => {
     */
 
     const constructNewEvent = () => {
-        console.log('created evv22==>>', createdEvent)
+
         if (editMode) {
 
             updateEvent({
@@ -174,7 +174,7 @@ export default props => {
                     <label htmlFor="imageFile">Image File</label>
                     <input name="imageFile" type="file" multiple onChange={imageFileChanged} />
                     <div className="imagePreview" id="imagePreview">
-                        <img className="previewImage" src={eventImage} />
+                        <img className="event_preview_image" src={eventImage} />
                         <span class="image-preview__default-text">Image Preview</span>
                     </div>
                 </div>

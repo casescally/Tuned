@@ -36,22 +36,22 @@ export const CarProvider = (props) => {
     }
 
     const saveImages = async (files) => {
-        const authHeader = createAuthHeaders();  
+        const authHeader = createAuthHeaders();
         const formData = new FormData();
         if (files) {
-          Array.from(files).forEach(file => {
-            formData.append(file.name, file);
-          });
-        }      
-        
+            Array.from(files).forEach(file => {
+                formData.append(file.name, file);
+            });
+        }
+
         const response = await fetch('https://localhost:5001/api/cars/files', {
-          // content-type header should not be specified!
-          method: 'POST',
-          headers: {
-            authHeader,
-          }, 
-          body: formData,
-          responseType: 'text'
+            // content-type header should not be specified!
+            method: 'POST',
+            headers: {
+                authHeader,
+            },
+            body: formData,
+            responseType: 'text'
         });
         return response.text();
         //   .then(response => response.text())
@@ -68,10 +68,10 @@ export const CarProvider = (props) => {
         const authHeader = createAuthHeaders();
 
         var form_data = new FormData();
-        
+
         console.log(car);
 
-        for (var key in car ) {
+        for (var key in car) {
             form_data.append(key, car[key]);
         }
 
@@ -87,7 +87,7 @@ export const CarProvider = (props) => {
             headers: {
                 authHeader,
                 //"Content-Type": "application/json"
-            },         
+            },
 
             body: form_data
         })
@@ -110,6 +110,7 @@ export const CarProvider = (props) => {
     }
 
     const updateCar = car => {
+        console.log('updates====>', car)
         const authHeader = createAuthHeaders();
         return fetch(`https://localhost:5001/api/cars/${car.id}`, {
 

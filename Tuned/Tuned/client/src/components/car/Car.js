@@ -1,15 +1,9 @@
 import React, { useContext, useState, useEffect } from "react"
-
 import { Link } from "react-router-dom"
-
 import { LikedCarContext } from "../likedCar/LikedCarProvider"
-
 import { UserContext } from "../user/UserProvider"
-
-import "./Cars.css"
 import { getUser } from "../../API/userManager"
-
-
+import "./Cars.css"
 
 export default ({ car }) => {
 
@@ -66,7 +60,17 @@ export default ({ car }) => {
         //car information
 
         <section className="carSection">
+            <h3 className="car__name">
 
+                <Link to={`/cars/${car.id}`} className="carLink">
+
+                    {car.name}
+
+                </Link>
+
+
+
+            </h3>
             <div className="carInfo">
 
                 {carImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`} className="car_image" alt="Image of car" />)}
@@ -85,17 +89,7 @@ export default ({ car }) => {
 
                     </h3>
 
-                    <h3 className="car__name">
 
-                        <Link to={`/cars/${car.id}`} className="carLink">
-
-                            {car.name}
-
-                        </Link>
-
-
-
-                    </h3>
                     <div className="car_make">{car.make}</div>
 
                     <div className="car_model">{car.model}</div>

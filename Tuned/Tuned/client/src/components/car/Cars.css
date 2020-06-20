@@ -7,6 +7,12 @@
 }
 
 .car_image {
+    display: flex;
+    flex-basis: auto;
+    height: 500px;
+}
+
+.car_image_preview {
     flex-basis: auto;
     height: 500px;
 }

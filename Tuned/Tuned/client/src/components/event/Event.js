@@ -16,7 +16,15 @@ export default ({ event }) => {
         <section className="eventSection">
 
             <div className="eventInfo">
+                <h3 className="event__name">
 
+                    <Link to={`/events/${event.id}`} className="eventLink">
+
+                        {event.name}
+
+                    </Link>
+
+                </h3>
                 <img className="coverImage" src={event.eventCoverUrl}></img>
 
                 <div className="eventUploader">
@@ -32,15 +40,7 @@ export default ({ event }) => {
 
                     </h3>
 
-                    <h3 className="event__name">
 
-                        <Link to={`/events/${event.id}`} className="eventLink">
-
-                            {event.name}
-
-                        </Link>
-
-                    </h3>
 
                 </div>
             </div>
