@@ -4,7 +4,7 @@ import { LikedCarContext } from "../likedCar/LikedCarProvider"
 import { CarContext } from "./CarProvider"
 import "./Cars.css"
 import { getUser, createAuthHeaders } from "../../API/userManager"
-
+import ThumbnailGallery from '../thumbnail-gallery/Thumbnail-Gallery'
 
 export default (props) => {
 
@@ -12,12 +12,14 @@ export default (props) => {
     const [carImages, setCarImages] = useState([])
     const { likedCars, addLikedCar, deleteLikedCar } = useContext(LikedCarContext)
     const { users } = useContext(UserContext)
+
+    console.log('car images=s==>>', carImages)
     
 
     const chosenCarId = parseInt(props.match.params.carId, 10)
-
+    
     const user = getUser()
-    const car = cars.find(c => c.id === chosenCarId) || {}
+    const car = cars.find(c => c.id === chosenCarId) || {};
     //const likedCar = likedCars.find(l => l.likedCarId === car.id) || {}
     const carUser = users.find(u => u.id === car.applicationUserId) || {}
     //const currentUsersCars = cars.filter(c => c.userId === user.id)
@@ -90,12 +92,14 @@ console.log(car)
 
     return (
         <section className="car">
-            {carImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`} alt="Image of car"/>)}
+            {/*carImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`} alt="Image of car"/>)*/}
+            {car.id && <div>
             <h3 className="car__name">{car.name}</h3>
             <div className="car__make">{car.make}</div>
             <div className="car__model">{car.model}</div>
             <div className="car__year">{car.year}</div>
-            
+            <div className="car__description">{car.carDescription}</div>
+            <div><ThumbnailGallery images={carImages} /></div>
 
             <button className="likeButton" value="Like" onClick={evt => {
 
@@ -127,6 +131,8 @@ console.log(car)
             }}>Edit
             
             </button>
+            </div>}
         </section>
     )
 }
+

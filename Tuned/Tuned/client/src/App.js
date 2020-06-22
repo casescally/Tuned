@@ -12,6 +12,7 @@ import Profile from "./components/profile/Profile"
 function App() {
   return (
     <div className="App">
+
       <Router>
         <Header />
         <Route

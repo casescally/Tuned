@@ -237,8 +237,8 @@ namespace Tuned.Controllers.V1
                                             VehicleTypeId = @vehicleTypeId,
                                             CarPageCoverUrl = @carPageCoverUrl,
                                             CarDescription = @carDescription,
-                                            ActiveCar = @activeCar
-                                            ImageFileNames = @imageFileNames,
+                                            ActiveCar = @activeCar,
+                                            ImageFileNames = @imageFileNames
                                             WHERE Id = @id";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));

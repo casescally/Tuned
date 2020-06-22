@@ -110,7 +110,7 @@ export const CarProvider = (props) => {
     }
 
     const updateCar = car => {
-        console.log('updates====>', car)
+        //console.log('updates====>', car)
         const authHeader = createAuthHeaders();
         return fetch(`https://localhost:5001/api/cars/${car.id}`, {
 
@@ -118,7 +118,7 @@ export const CarProvider = (props) => {
 
             headers: {
                 authHeader,
-                //"Content-Type": "application/json"
+                "Content-Type": "application/json"
 
             },
 

@@ -5,6 +5,8 @@ import { UserContext } from "../user/UserProvider"
 import { getUser } from "../../API/userManager"
 import "./Cars.css"
 
+
+
 export default ({ car }) => {
 
 
@@ -51,15 +53,22 @@ export default ({ car }) => {
 
     useEffect(() => {
         const images = car.carPageCoverUrl;
+        console.log('car==>>>', car)
         if (images) setCarImages(JSON.parse(images))
     }, [car])
+
+
+
+
+
+
 
 
     return (
 
         //car information
 
-        <section className="carSection">
+        <section className="carSection" >
             <h3 className="car__name">
 
                 <Link to={`/cars/${car.id}`} className="carLink">
@@ -71,6 +80,7 @@ export default ({ car }) => {
 
 
             </h3>
+
             <div className="carInfo">
 
                 {carImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`} className="car_image" alt="Image of car" />)}

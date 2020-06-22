@@ -15,7 +15,6 @@ const EventDetails = (props) => {
     const [addedUserEventMode, setAddedUserEventMode] = useState(true);
     const { users } = useContext(UserContext)
     const chosenEventId = parseInt(props.match.params.eventId, 10)
-
     const user = getUser()
     const event = events.find(c => c.id === chosenEventId) || {}
     //const likedEvent = likedEvents.find(l => l.likedEventId === event.id) || {}

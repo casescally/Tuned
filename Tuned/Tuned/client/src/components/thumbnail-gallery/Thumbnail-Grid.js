@@ -1,16 +1,18 @@
 import React from 'react'
 import Thumbnail from './Thumbnail'
 
-const ThumbnailGrid = ({ thumbnails, handleClick }) => {
+const ThumbnailGrid = ({ thumbnails, handleClick, editMode, handleRemoveImage }) => {
     return (
         <div style={styles}>
             {
                 thumbnails.map((thumbnail, i) => {
                     return (
                         <Thumbnail
-                            key={thumbnail.imgUrl}
-                            imgUrl={thumbnail.imgUrl}
-                            handleClick={handleClick}
+                            editMode={editMode}
+                            key={i}
+                            imgUrl={thumbnail}
+                            handleClick={() => handleClick(i)}
+                            handleRemoveImage={handleRemoveImage}
                             index={i}
                         />
                     )
