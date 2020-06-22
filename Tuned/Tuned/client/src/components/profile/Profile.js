@@ -121,7 +121,7 @@ export default (props) => {
                         {
                             <h1 className="currentProfileName">{firstName + ' ' + lastName}</h1>}
 
-                        {
+                        {/* {
                             <button className="edit/follow_Button" onClick={evt => {
 
                                 evt.preventDefault()
@@ -131,7 +131,7 @@ export default (props) => {
 
                             </button>
 
-                        }
+                        } */}
 
                         <div className="profile_description">{profileDescription}</div>
 

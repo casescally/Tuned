@@ -81,6 +81,8 @@ export default props => {
 
             updateCar({
                 ...car,
+                vehicleTypeId: parseInt(car.vehicleTypeId),
+                year: parseInt(car.year),
                 applicationUserId: user.id,
                 carPageCoverUrl: JSON.stringify(carPageCoverUrl),
                 imageFileNames: JSON.stringify(existingImgs)
@@ -103,7 +105,7 @@ export default props => {
                 model: car.model,
                 year: car.year,
                 applicationUserId: user.id,
-                vehicleTypeId: parseInt(car.vehicleTypeId),
+                vehicleTypeId: car.vehicleTypeId,
                 carPageCoverUrl: JSON.stringify([filePaths[0]]),
                 imageFileNames: JSON.stringify(filePaths),
                 carDescription: car.carDescription,

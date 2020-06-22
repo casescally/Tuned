@@ -20,10 +20,10 @@ export default ({ event }) => {
 
                     <Link to={`/events/${event.id}`} className="eventLink">
 
-                        {event.name}
+                        {event.name + '    '}
 
                     </Link>
-
+                    {event.date.slice(0, 10)}
                 </h3>
                 <img className="coverImage" src={event.eventCoverUrl}></img>
 

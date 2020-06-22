@@ -10,9 +10,18 @@
     display: flex;
     flex-basis: auto;
     height: 500px;
+    align-self: center;
+    width: 850px;
+    border: 1px solid;
+    padding: 10px;
+    box-shadow: 5px 10px 8px #888888;
 }
 
 .car_image_preview {
     flex-basis: auto;
     height: 500px;
+}
+.carInfo {
+    display: flex;
+    flex-direction: column;
 }

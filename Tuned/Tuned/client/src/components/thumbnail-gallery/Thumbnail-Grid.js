@@ -26,7 +26,7 @@ const ThumbnailGrid = ({ thumbnails, handleClick, editMode, handleRemoveImage })
 const styles = {
     height: '35%',
     width: '100%',
-    background: 'yellow',
+    background: '',
     display: 'flex',
     flexWrap: 'wrap'
 }

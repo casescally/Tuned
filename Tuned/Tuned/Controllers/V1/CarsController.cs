@@ -56,7 +56,7 @@ namespace Tuned.Controllers.V1
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText =
-                        @"SELECT * FROM Cars";
+                        @"SELECT * FROM Cars WHERE ActiveCar = 'true'";
                 
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -77,7 +77,8 @@ namespace Tuned.Controllers.V1
                             VehicleTypeId = reader.GetInt32(reader.GetOrdinal("VehicleTypeId")),
                             CarPageCoverUrl = reader.GetString(reader.GetOrdinal("CarPageCoverUrl")),
                             ImageFileNames = reader.GetString(reader.GetOrdinal("ImageFileNames")),
-                            CarDescription = reader.GetString(reader.GetOrdinal("CarDescription"))
+                            CarDescription = reader.GetString(reader.GetOrdinal("CarDescription")),
+                            ActiveCar = reader.GetBoolean(reader.GetOrdinal("ActiveCar"))
                         };
 
                             cars.Add(foundCar);
@@ -105,7 +106,7 @@ namespace Tuned.Controllers.V1
                                         FROM Cars c
                                         LEFT JOIN AspNetUsers a
                                         ON c.ApplicationUserId = a.Id
-                                        WHERE c.Id = @id";
+                                        WHERE c.Id = @id AND c.activeCar = 'true'";
 
                     cmd.Parameters.Add(new SqlParameter("@id", id));
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -125,7 +126,8 @@ namespace Tuned.Controllers.V1
                             VehicleTypeId = reader.GetInt32(reader.GetOrdinal("VehicleTypeId")),
                             CarPageCoverUrl = reader.GetString(reader.GetOrdinal("CarPageCoverUrl")),
                             ImageFileNames = reader.GetString(reader.GetOrdinal("ImageFileNames")),
-                            CarDescription = reader.GetString(reader.GetOrdinal("CarDescription"))
+                            CarDescription = reader.GetString(reader.GetOrdinal("CarDescription")),
+                            ActiveCar = reader.GetBoolean(reader.GetOrdinal("ActiveCar"))
                         };
                         reader.Close();
 
@@ -286,7 +288,7 @@ namespace Tuned.Controllers.V1
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = @"UPDATE Cars
-                                            SET ActiveCar = 1
+                                            SET ActiveCar = 'false'
                                             WHERE Id = @id";
                         cmd.Parameters.Add(new SqlParameter("@id", id));
                         int rowsAffected = cmd.ExecuteNonQuery();

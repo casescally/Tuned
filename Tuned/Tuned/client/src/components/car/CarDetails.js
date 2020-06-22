@@ -113,7 +113,7 @@ console.log(car)
 
             <div className="car__user">User: {carUser.firstName + ' ' + carUser.lastName}</div>
             
-            <button onClick={
+            <button className="delete_button"onClick={
                 () => {
 
                     deleteCar(car)
@@ -126,7 +126,7 @@ console.log(car)
 
             </button>
 
-            <button onClick={() => {
+            <button className="edit_button" onClick={() => {
                 props.history.push(`/cars/edit/${car.id}`)
             }}>Edit
             

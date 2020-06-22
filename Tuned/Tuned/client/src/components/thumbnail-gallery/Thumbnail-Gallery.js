@@ -69,8 +69,8 @@ export default class ThumbnailGallery extends Component {
                 </div>
                 {/*Right Side*/}
                 <div style={{ flex: 1, padding: '40px' }}>
-                    Text Area
-            </div>
+                    {/* Text Area */}
+                </div>
 
             </div>
         )
