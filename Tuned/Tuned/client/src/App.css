@@ -5,20 +5,18 @@
 .header {
   background-color: white;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  /*align-items: center;*/
   font-size: calc(10px + 1vmin);
   color: black;
   padding: 0 20px;;
   border: 1px solid black;
+  justify-content: space-between;
 }
 
 .nav-items {
   list-style: none;
   display: flex;
   flex-direction: row;
-  justify-content: right;
-
 }
 
 .nav-item {
@@ -32,7 +30,7 @@
 }
 
 .nav-item:hover {
-  color: rgba(255, 255, 255, 1);
+  color: #f44336;
 }
 
 .App-link {
@@ -54,5 +52,6 @@
 
 .TUNED_logo {
   height: 50px;
-  left: 0px;
+  position: relative;
+  float: left;
 }

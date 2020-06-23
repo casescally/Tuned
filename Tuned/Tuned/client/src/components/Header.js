@@ -13,10 +13,10 @@ function Header({ history }) {
   console.log(user)
   return (
     <nav className="header">
+      <img src="https://localhost:5001/api/CarImages/image/get?imageName=C:\Users\casescally\source\repos\Tuned\Tuned\Tuned\wwwroot\Upload\TunedLogo.jpeg" alt="TUNED_logo" className="TUNED_logo" />
       <ul className="nav-items">
         {user ? (
           <>
-            <img src="https://localhost:5001/api/CarImages/image/get?imageName=C:\Users\casescally\source\repos\Tuned\Tuned\Tuned\wwwroot\Upload\TunedLogo.jpeg" alt="TUNED_logo" className="TUNED_logo" />
             <li className="nav-item">
               <Link to={"/profile/" + user.id}>
                 Profile

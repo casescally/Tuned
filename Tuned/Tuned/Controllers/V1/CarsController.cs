@@ -163,14 +163,7 @@ namespace Tuned.Controllers.V1
                     }
                 }
             }
-            //List<string> base64ImagaData = new List<string>();
-            //foreach (var savedFilePath in savedFilePaths)
-            //{
-            //    byte[] imageArray = System.IO.File.ReadAllBytes(savedFilePath);
-            //    string base64ImageRepresentation = Convert.ToBase64String(imageArray);
-            //    base64ImagaData.Add(base64ImageRepresentation);
-            //}
-            //return Ok(String.Join(",", base64ImagaData));
+
             return savedFilePaths;
         }
 
