@@ -1,23 +1,16 @@
 import React, { useContext, useState, useEffect, useReducer, createElement } from "react"
 import { EventContext } from "./EventProvider"
 import { getUser } from "../../API/userManager"
-//import { LikedEventContext } from "../likedEvent/LikedEventProvider"
-import { createAuthHeaders } from "../../API/userManager"
 
 import "./Events.css"
 
 export default props => {
 
     const user = getUser();
-
     const { events, addEvent, saveImages, updateEvent } = useContext(EventContext)
-
     const [createdEvent, setCreatedEvent] = useState({})
-
     const [eventImage, setEventImage] = useState("")
-
     const editMode = props.match.params.hasOwnProperty("eventId")
-
     const handleControlledInputChange = (event) => {
 
         /*
@@ -37,18 +30,13 @@ export default props => {
 
         setEventImage(eventImageURL)
 
-        //console.log(event.target.files);
         const filePaths = await saveImages(event.target.files);
-
-        console.log(filePaths);
-
-
         const newEvent = {
             ...createdEvent,
             imagePath: filePaths,
             eventPageCoverUrl: filePaths.split(',')[0]
         }
-        //console.log('created evv11==>>', newEvent)
+
         setCreatedEvent(newEvent);
     }
 
@@ -69,7 +57,6 @@ export default props => {
 
         if (currentEvent.imagePath) {
 
-            //console.log(JSON.parse(currentEvent.imagePath)[0].split("/"))
             fetch(`https://localhost:5001/api/EventImages/image/get?imageName=${JSON.parse(currentEvent.imagePath)[0].split("/")}`).then(res => res.blob()).then(a => {
                 setEventImage(URL.createObjectURL(a))
                 console.log('a==>>', currentEvent.imagePath)

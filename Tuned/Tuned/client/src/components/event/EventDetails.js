@@ -4,7 +4,7 @@ import { EventContext } from "./EventProvider"
 import "./Events.css"
 import { getUser } from "../../API/userManager"
 import { UserEventContext } from "../UserEvent/UserEventProvider"
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 import UserCard from "../user/User"
 
 const EventDetails = (props) => {
@@ -17,10 +17,7 @@ const EventDetails = (props) => {
     const chosenEventId = parseInt(props.match.params.eventId, 10)
     const user = getUser()
     const event = events.find(c => c.id === chosenEventId) || {}
-    //const likedEvent = likedEvents.find(l => l.likedEventId === event.id) || {}
     const eventUser = users.find(u => u.id === event.applicationUserId) || {}
-    //const currentUsersEvents = events.filter(c => c.userId === user.id)
-    //const eventUsers = userEvents.filter(userEvent => userEvent.eventId === event.id && userEvent.applicationUser.id)
     let currentEventUsers = []
     
     {
@@ -45,7 +42,6 @@ const EventDetails = (props) => {
         const alreadyAddedEventRel = userEvents.find(userEvent => userEvent.eventId === currentEvent.id && userEvent.applicationUser.id === user.id)
 
         //Don't allow duplicate added events
-    
         if (alreadyAddedEventRel) {
 
             deleteUserEvent(alreadyAddedEventRel)
@@ -73,9 +69,6 @@ const EventDetails = (props) => {
                 console.log('google maps geocode ress==>>', res);
                 setEventGeoLocation(res.results[0].geometry.location)
             }).catch(err =>console.log('errr==>>', err));
-            /*props.google.maps.Geocoder.geocode({location: event.location}, result => {
-                
-            })*/
         }
         
     }, [event])
@@ -106,11 +99,6 @@ console.log("test", event)
                 <Marker position={eventGeoLocation} onClick={onMarkerClick}
                         name={'Current location'} />
 
-                    {/*<InfoWindow onClose={onInfoWindowClose}>
-                    <div>
-                    <h1>{'yoo'}</h1>
-                    </div>
-                    </InfoWindow>*/}
                 </Map>}
             </div>
 

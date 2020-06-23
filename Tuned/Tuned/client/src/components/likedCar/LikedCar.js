@@ -1,38 +1,26 @@
 import React, { useContext } from "react"
-
 import { Link } from "react-router-dom"
-
 import { LikedCarContext } from "../likedCar/LikedCarProvider"
-
 import { UserContext } from "../user/UserProvider"
-
 import { getUser } from "../../API/userManager"
-
 import "../car/Cars.css"
-
 
 export default ({ car }) => {
 
     const { users } = useContext(UserContext)
-
     const { likedCars, addLikedCar, deleteLikedCar } = useContext(LikedCarContext)
-
     const carUser = users.find(u => u.id === car.userId) || {}
-
     const user = getUser()
-
-    //   const currentCarsLikedCars = likedcars.filter(likedcar => likedcar.carId === car.id)
 
     const constructNewLikedCar = (currentCar) => {
 
         const alreadyLikedCarRel = likedCars.find(likedCar => likedCar.carId == currentCar.id && likedCar.user.id === user.id)
 
         //Don't allow duplicate liked cars
-
         if (alreadyLikedCarRel === undefined || null) {
 
             likedCarMode = false
-            
+
             addLikedCar({
 
                 carId: currentCar.id,
@@ -54,8 +42,6 @@ export default ({ car }) => {
     let likedCarMode = Boolean
 
     return (
-
-        //car information
 
         <section className="carSection">
 

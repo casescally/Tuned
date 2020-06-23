@@ -1,11 +1,7 @@
-import React, { Component, useState, useContext, useEffect } from "react"
+import React, { Component } from "react"
 import Dropzone from 'react-dropzone'
 import ActiveThumbnailWindow from './Active-Thumbnail-Window'
 import ThumbnailGrid from './Thumbnail-Grid'
-import { CarContext } from "../car/CarProvider"
-import { createAuthHeaders } from "../../API/userManager"
-
-//const { cars, getCars } = useContext(CarContext)
 
 export default class ThumbnailGallery extends Component {
 
@@ -55,7 +51,6 @@ export default class ThumbnailGallery extends Component {
 
 
                 {/*Left Side*/}
-
                 <div style={{ flex: 1 }}>
                     {this.renderThumbnails()}
 
@@ -67,9 +62,10 @@ export default class ThumbnailGallery extends Component {
                     />}
 
                 </div>
+
                 {/*Right Side*/}
                 <div style={{ flex: 1, padding: '40px' }}>
-                    {/* Text Area */}
+
                 </div>
 
             </div>

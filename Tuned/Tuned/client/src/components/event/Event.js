@@ -8,8 +8,6 @@ export default ({ event }) => {
 
     const { users } = useContext(UserContext)
     const eventUser = users.find(u => u.id === event.userId) || {}
-    const user = getUser()
-
 
     return (
 
@@ -40,14 +38,10 @@ export default ({ event }) => {
 
                     </h3>
 
-
-
                 </div>
             </div>
 
             <div className="likedeventInfo">
-
-
 
             </div>
 

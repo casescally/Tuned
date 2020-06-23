@@ -30,7 +30,6 @@ export const CarProvider = (props) => {
         })
 
             .then(res => res.json())
-
             .then(setCars)
 
     }
@@ -45,6 +44,7 @@ export const CarProvider = (props) => {
         }
 
         const response = await fetch('https://localhost:5001/api/cars/files', {
+
             // content-type header should not be specified!
             method: 'POST',
             headers: {
@@ -54,13 +54,6 @@ export const CarProvider = (props) => {
             responseType: 'text'
         });
         return response.text();
-        //   .then(response => response.text())
-        //   .then(filePaths => {
-        //     // Do something with the successful response
-        //     return filePaths;
-        //   })
-        //   .catch(error => console.log(error)
-        // );
     }
 
     const addCar = car => {
@@ -85,8 +78,7 @@ export const CarProvider = (props) => {
             method: "POST",
 
             headers: {
-                authHeader,
-                //"Content-Type": "application/json"
+                authHeader
             },
 
             body: form_data
@@ -110,7 +102,7 @@ export const CarProvider = (props) => {
     }
 
     const updateCar = car => {
-        //console.log('updates====>', car)
+
         const authHeader = createAuthHeaders();
         return fetch(`https://localhost:5001/api/cars/${car.id}`, {
 
@@ -133,7 +125,6 @@ export const CarProvider = (props) => {
     /*
 
         Load all cars when the component is mounted. Ensure that
-
         an empty array is the second argument to avoid infinite loop.
 
     */

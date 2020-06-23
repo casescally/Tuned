@@ -4,7 +4,6 @@ import { createAuthHeaders } from "../../API/userManager"
 /*
 
     The context is imported and used by individual components
-
     that need data
 
 */
@@ -42,6 +41,7 @@ export const EventProvider = (props) => {
         }
 
         const response = await fetch('https://localhost:5001/api/events/files', {
+
             // content-type header should not be specified!
             method: 'POST',
             headers: {
@@ -51,13 +51,7 @@ export const EventProvider = (props) => {
             responseType: 'text'
         });
         return response.text();
-        //   .then(response => response.text())
-        //   .then(filePaths => {
-        //     // Do something with the successful response
-        //     return filePaths;
-        //   })
-        //   .catch(error => console.log(error)
-        // );
+
     }
 
     const addEvent = event => {
@@ -114,7 +108,6 @@ export const EventProvider = (props) => {
     /*
 
         Load all events when the component is mounted. Ensure that
-
         an empty array is the second argument to avoid infinite loop.
 
     */
@@ -128,7 +121,6 @@ export const EventProvider = (props) => {
     useEffect(() => {
 
         // console.log("****  EVENT APPLICATION STATE CHANGED  ****")
-
         // console.log(events)
 
     }, [events])

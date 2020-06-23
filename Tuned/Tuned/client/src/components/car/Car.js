@@ -5,28 +5,19 @@ import { UserContext } from "../user/UserProvider"
 import { getUser } from "../../API/userManager"
 import "./Cars.css"
 
-
-
 export default ({ car }) => {
-
 
     const [carImages, setCarImages] = useState([])
     const { users } = useContext(UserContext)
-
     const { likedCars, addLikedCar, deleteLikedCar } = useContext(LikedCarContext)
-
     const carUser = users.find(u => u.id === car.userId) || {}
-
     const user = getUser()
-
-    //   const currentCarsLikedCars = likedcars.filter(likedcar => likedcar.carId === car.id)
 
     const constructNewLikedCar = (currentCar) => {
 
         const alreadyLikedCarRel = likedCars.find(likedCar => likedCar.carId == currentCar.id && likedCar.user.id === user.id)
 
         //Don't allow duplicate liked cars
-
         if (alreadyLikedCarRel === undefined || null) {
 
             likedCarMode = false
@@ -57,17 +48,9 @@ export default ({ car }) => {
         if (images) setCarImages(JSON.parse(images))
     }, [car])
 
-
-
-
-
-
-
-
     return (
 
         //car information
-
         <section className="carSection" >
             <h3 className="car__name">
 
@@ -77,14 +60,11 @@ export default ({ car }) => {
 
                 </Link>
 
-
-
             </h3>
 
             <div className="carInfo">
 
                 {carImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`} className="car_image" alt="Image of car" />)}
-                {/* {carImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`} alt="Image of car"/>)} */}
 
                 <div className="carUploader">
 
@@ -126,7 +106,5 @@ export default ({ car }) => {
             </div>
 
         </section>
-
     )
-
 }

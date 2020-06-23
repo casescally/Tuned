@@ -20,8 +20,6 @@ export default (props) => {
     const userId = JSON.parse(localStorage.getItem("user")).id
     const { likedCars } = useContext(LikedCarContext)
     const currentUser = getUser()
-    //let currentUsersEvents = events.filter(event => event.UserId === props.match.params.Id)
-    //let currentProfileUser = users.find(user => user.id === props.match.params.userId)
 
     let editProfileMode = Boolean
 
@@ -78,20 +76,15 @@ export default (props) => {
     console.log(currentUsersEvents)
 
     let foundProfile = users.find(user => user.id == props.match.params.userId)
-
     let profileDescription = ""
-
     let profileHeader = ""
-
     let profileBackgroundPicturePath = ""
-
     let profilePicturePath = ""
-
     let firstName = ""
-
     let lastName = ""
 
     if (foundProfile !== undefined) {
+
         profileDescription = foundProfile.description
         profileHeader = foundProfile.profileHeader
         profileBackgroundPicturePath = foundProfile.profileBackgroundPicturePath
