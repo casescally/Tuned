@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useReducer, createElement } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import { EventContext } from "./EventProvider"
 import { getUser } from "../../API/userManager"
 

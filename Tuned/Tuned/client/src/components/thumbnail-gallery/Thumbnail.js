@@ -1,9 +1,9 @@
 import React from 'react'
 
 const Thumbnail = ({ imgUrl, handleClick, editMode, handleRemoveImage, index }) => {
-    console.log('edddd==>>', editMode)
+
     return (
-        <div style={styles}>
+        <div className="carThumbnail" style={styles}>
             <img
                 src={imgUrl.startsWith('blob') ? imgUrl : `https://localhost:5001/api/CarImages/image/get?imageName=${imgUrl}`}
                 style={{
@@ -12,10 +12,17 @@ const Thumbnail = ({ imgUrl, handleClick, editMode, handleRemoveImage, index }) 
                 }}
                 onClick={handleClick}
             />
-            {editMode && <button type="button" onClick={() => handleRemoveImage(index)}>Delete</button>}
+            {editMode && <button type="button" style={buttonStyle} className="thumbnailDeleteButton" onClick={() => handleRemoveImage(index)}>Delete</button>}
         </div>
     )
 
+}
+
+const buttonStyle = {
+    display: 'block',
+    position: 'relative',
+    bottom: '30px',
+    left: '5px'
 }
 
 const styles = {

@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { createAuthHeaders } from '../API/userManager';
-import { CarContext } from "./car/CarProvider"
-import Car from "./car/Car"
+import React, { useState } from 'react';
+// import { createAuthHeaders } from '../API/userManager';
+// import { CarContext } from "./car/CarProvider"
+// import Car from "./car/Car"
 
 function Home() {
   const [values, setValues] = useState([]);

@@ -2,13 +2,14 @@ import React, { Component } from "react"
 import Dropzone from 'react-dropzone'
 import ActiveThumbnailWindow from './Active-Thumbnail-Window'
 import ThumbnailGrid from './Thumbnail-Grid'
+import "../car/Cars.css"
+
 
 export default class ThumbnailGallery extends Component {
 
     state = {
         activeIndex: 0
     }
-
 
     renderThumbnails = () => {
         const { activeIndex } = this.state;
@@ -47,10 +48,8 @@ export default class ThumbnailGallery extends Component {
         const { images, handleRemoveImage, editMode } = this.props
 
         return (
-            <div style={thumbnailGalleryStyles}>
+            <div className="activeThumbnailWindow" style={thumbnailGalleryStyles}>
 
-
-                {/*Left Side*/}
                 <div style={{ flex: 1 }}>
                     {this.renderThumbnails()}
 
@@ -63,11 +62,6 @@ export default class ThumbnailGallery extends Component {
 
                 </div>
 
-                {/*Right Side*/}
-                <div style={{ flex: 1, padding: '40px' }}>
-
-                </div>
-
             </div>
         )
     }
@@ -75,7 +69,6 @@ export default class ThumbnailGallery extends Component {
 
 const thumbnailGalleryStyles = {
     background: '#ddd',
-    height: '500px',
     width: '1024px',
     margin: '40px auto',
     display: 'flex'

@@ -14,7 +14,7 @@ export default ({ car }) => {
 
     const constructNewLikedCar = (currentCar) => {
 
-        const alreadyLikedCarRel = likedCars.find(likedCar => likedCar.carId == currentCar.id && likedCar.user.id === user.id)
+        const alreadyLikedCarRel = likedCars.find(likedCar => likedCar.carId === currentCar.id && likedCar.user.id === user.id)
 
         //Don't allow duplicate liked cars
         if (alreadyLikedCarRel === undefined || null) {

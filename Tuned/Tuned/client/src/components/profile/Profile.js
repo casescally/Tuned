@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react"
+import React, { useContext } from "react"
 import { CarContext } from "../car/CarProvider"
 import Car from "../car/Car"
 import "../car/Cars.css"
 import { UserContext } from "../user/UserProvider"
 import { LikedCarContext } from "../likedCar/LikedCarProvider"
-import LikedCar from "../likedCar/LikedCar"
 import "./Profiles.css"
 import { getUser } from "../../API/userManager"
 import { EventContext } from "../event/EventProvider"
@@ -73,9 +72,7 @@ export default (props) => {
         })
     }
 
-    console.log(currentUsersEvents)
-
-    let foundProfile = users.find(user => user.id == props.match.params.userId)
+    let foundProfile = users.find(user => user.id === props.match.params.userId)
     let profileDescription = ""
     let profileHeader = ""
     let profileBackgroundPicturePath = ""

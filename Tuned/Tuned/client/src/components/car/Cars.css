@@ -25,3 +25,8 @@
     display: flex;
     flex-direction: column;
 }
+
+.carForm {
+    display: flex;
+    flex-direction: column;
+}

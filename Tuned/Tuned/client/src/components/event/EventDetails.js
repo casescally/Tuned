@@ -8,6 +8,7 @@ import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 import UserCard from "../user/User"
 
 const EventDetails = (props) => {
+
     const { events, deleteEvent } = useContext(EventContext)
     const { userEvents, addUserEvent, deleteUserEvent } = useContext(UserEventContext)
     const [eventImages, setEventImages] = useState([]);
@@ -36,7 +37,7 @@ const EventDetails = (props) => {
 
         })
     }
-    console.log('users==>>', currentEventUsers)
+
     const constructNewUserEvent = (currentEvent) => {
 
         const alreadyAddedEventRel = userEvents.find(userEvent => userEvent.eventId === currentEvent.id && userEvent.applicationUser.id === user.id)
@@ -61,32 +62,28 @@ const EventDetails = (props) => {
     useEffect(() => {
         const images = event.imagePath;
         if (images) setEventImages(JSON.parse(images))
-        console.log('google maps geocode==>>', props.google.maps.Geocoder)
+        //console.log('google maps geocode==>>', props.google.maps.Geocoder)
         if (event.location) {
             fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${event.location}&key=${process.env.REACT_APP_GOOGLE_API_KEY}`)
             .then(res => res.json())
             .then(res => {
-                console.log('google maps geocode ress==>>', res);
+            //console.log('google maps geocode ress==>>', res);
                 setEventGeoLocation(res.results[0].geometry.location)
-            }).catch(err =>console.log('errr==>>', err));
+            }).catch(err => console.log('Error:', err));
         }
         
     }, [event])
 
-console.log('event==>>', event)
+//console.log('event==>>', event)
 
 const onMarkerClick = () => {
 
 }
 
-const onInfoWindowClose = () => {
-
-}
-console.log("test", event)
     return (
         <section className="event">
             
-                    {eventImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/EventImages/image/get?imageName=${image}`} className="event_image" alt="Image of event"/>)}
+                    {eventImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/EventImages/image/get?imageName=${image}`} className="event_image" alt="Event"/>)}
 
 
         <div  className="map-container">
@@ -94,7 +91,7 @@ console.log("test", event)
                     initialCenter={eventGeoLocation}
           google={props.google}
           zoom={5}
-          ><iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ></iframe>
+          ><iframe title="eventLocationMapFrame" width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ></iframe>
 
                 <Marker position={eventGeoLocation} onClick={onMarkerClick}
                         name={'Current location'} />

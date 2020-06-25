@@ -15,7 +15,7 @@ export default ({ car }) => {
 
     const constructNewLikedCar = (currentCar) => {
 
-        const alreadyLikedCarRel = likedCars.find(likedCar => likedCar.carId == currentCar.id && likedCar.user.id === user.id)
+        const alreadyLikedCarRel = likedCars.find(likedCar => likedCar.carId === currentCar.id && likedCar.user.id === user.id)
 
         //Don't allow duplicate liked cars
         if (alreadyLikedCarRel === undefined || null) {
@@ -44,7 +44,7 @@ export default ({ car }) => {
 
     useEffect(() => {
         const images = car.carPageCoverUrl;
-        console.log('car==>>>', car)
+        //console.log('car==>>', car)
         if (images) setCarImages(JSON.parse(images))
     }, [car])
 
@@ -71,7 +71,6 @@ export default ({ car }) => {
                     <h3>
 
                         <Link to={`/users/${car.userId}`}>
-
 
                             <div className="car__user">{carUser.username}</div>
 
@@ -102,7 +101,7 @@ export default ({ car }) => {
             </div>
 
             <div className="uploaderInfo">
-
+                {carUser.username}
             </div>
 
         </section>
