@@ -1,14 +1,16 @@
 import React from 'react'
+import carThumbnail from './Thumbnail-Gallery'
 
 const Thumbnail = ({ imgUrl, handleClick, editMode, handleRemoveImage, index }) => {
 
     return (
         <div className="carThumbnail" style={styles}>
             <img
+                className="carThumbnailImage"
                 src={imgUrl.startsWith('blob') ? imgUrl : `https://localhost:5001/api/CarImages/image/get?imageName=${imgUrl}`}
                 style={{
-                    width: '100%',
-                    height: '100%'
+                    height: '100%',
+                    width: '100%'
                 }}
                 onClick={handleClick}
             />

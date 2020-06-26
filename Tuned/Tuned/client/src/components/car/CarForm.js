@@ -50,23 +50,22 @@ export default props => {
             let existingImgs = carImages.filter(car => !car.startsWith('blob'));
 
             if (newCarsFiles.length) {
-
                 const filePaths = JSON.parse(await saveImages(newCarsFiles));
                 existingImgs = existingImgs.concat(filePaths);
-
             }
 
             let carPageCoverUrl = JSON.parse(car.carPageCoverUrl);
             if (!carPageCoverUrl.length) carPageCoverUrl = [existingImgs[0]];
-
-
+            console.log(existingImgs)
             updateCar({
+
                 ...car,
                 vehicleTypeId: parseInt(car.vehicleTypeId),
                 year: parseInt(car.year),
                 applicationUserId: user.id,
-                carPageCoverUrl: JSON.stringify(carPageCoverUrl),
+                carPageCoverUrl: JSON.stringify([existingImgs[0]]),
                 imageFileNames: JSON.stringify(existingImgs)
+
             })
 
                 .then(() => {
@@ -94,7 +93,6 @@ export default props => {
                 activeCar: true
 
             })
-
                 .then(() => props.history.push("/cars"))
         }
     }
@@ -122,7 +120,7 @@ export default props => {
         }
         setCarImages(updatedImages);
     }
-
+    console.log(carImages)
     return (
         <form className="carForm">
             <h2 className="carForm__title">{editMode ? "Update Car" : "Add Car"}</h2>
@@ -198,7 +196,7 @@ export default props => {
                 </div>
             </fieldset>
 
-            <ThumbnailGallery editMode images={carImages} handleAddImages={handleAddImages} handleRemoveImage={handleRemoveImage} />
+            <ThumbnailGallery editMode images={carImages} handleAddImages={handleAddImages} handleRemoveImage={handleRemoveImage} setCarImages={setCarImages} />
 
             <fieldset>
                 <div className="form-group">

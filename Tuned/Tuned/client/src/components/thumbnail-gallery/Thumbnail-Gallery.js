@@ -2,8 +2,7 @@ import React, { Component } from "react"
 import Dropzone from 'react-dropzone'
 import ActiveThumbnailWindow from './Active-Thumbnail-Window'
 import ThumbnailGrid from './Thumbnail-Grid'
-import "../car/Cars.css"
-
+import "./Thumbnail-Gallery.css"
 
 export default class ThumbnailGallery extends Component {
 
@@ -12,19 +11,24 @@ export default class ThumbnailGallery extends Component {
     }
 
     renderThumbnails = () => {
+
         const { activeIndex } = this.state;
-        const { images, editMode, handleAddImages } = this.props
+        const { images, editMode, handleAddImages, setCarImages } = this.props
+        console.log(images[activeIndex])
 
         return (
             editMode ?
-                <Dropzone onDrop={handleAddImages}>
+                <Dropzone onDrop={handleAddImages}
+                >
                     {({ getRootProps, getInputProps }) => (
                         <section>
                             <div {...getRootProps()}>
                                 <input {...getInputProps()} />
 
                                 {images.length ? <ActiveThumbnailWindow
-                                    activeThumbnail={images[activeIndex]} /> : (
+                                    activeThumbnail={images[activeIndex]}
+
+                                /> : (
                                         <div>
                                             <p>Drop the files here ...</p> :
                                             <p>Drag 'n' drop some files here, or click to select files</p>
@@ -42,6 +46,7 @@ export default class ThumbnailGallery extends Component {
 
     handleClick = activeIndex => {
         this.setState({ activeIndex })
+
     }
 
     render() {
