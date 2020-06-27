@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { register } from "../API/userManager";
+import { register, updateUser, saveImages } from "../API/userManager";
+import Dropzone from 'react-dropzone'
 
 function Register({ history }) {
   const [username, setUsername] = useState();
@@ -15,30 +16,80 @@ function Register({ history }) {
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [errors, setErrors] = useState([]);
+  const [newUsersFiles, setNewUsersFiles] = useState([])
+  const [userImages, setUserImages] = useState([]);
+  const [user, setUser] = useState({})
   let activeUser = Boolean;
   activeUser = true;
+  const editMode = false
+  const handleAddImage = files => {
+    const newProfilePicturePath = files.map(file => URL.createObjectURL(file));
+    setProfilePicturePath(newProfilePicturePath);
+    setNewUsersFiles(newProfilePicturePath)
+  }
+
+
 
   const submit = (event) => {
-    event.preventDefault();
-    register({
-      username,
-      email,
-      firstName,
-      lastName,
-      streetAddress,
-      profilePicturePath,
-      profileBackgroundPicturePath,
-      description,
-      profileHeader,
-      password,
-      confirmPassword,
-      activeUser
-    })
-      .then((user) => history.push("/"))
-      .catch((err) => {
-        setErrors(err.messages || ["Whoops! Something unexpected happened..."]);
-      });
+    const newUser = Object.assign({}, user)
+    newUser[event.target.name] = event.target.value
+    setUser(newUser)
+    let filePaths = [];
+    if (editMode !== true) {
+      let existingImgs = userImages.filter(user => !user.startsWith('blob'));
+      event.preventDefault();
+      if (newUsersFiles.length) {
+
+        const filePaths = JSON.parse(saveImages(newUsersFiles));
+
+        console.log(filePaths)
+        existingImgs = existingImgs.concat(filePaths);
+      }
+      register({
+        username,
+        email,
+        firstName,
+        lastName,
+        streetAddress,
+        profilePicturePath: JSON.stringify(filePaths[0]),
+        profileBackgroundPicturePath,
+        description,
+        profileHeader,
+        password,
+        confirmPassword,
+        activeUser
+      })
+        .then((user) => history.push("/"))
+        .catch((err) => {
+          setErrors(err.messages || ["Whoops! Something unexpected happened..."]);
+        });
+    } else if (editMode) {
+      event.preventDefault();
+      updateUser({
+        username,
+        email,
+        firstName,
+        lastName,
+        streetAddress,
+        profilePicturePath,
+        profileBackgroundPicturePath,
+        description,
+        profileHeader,
+        password,
+        confirmPassword,
+        activeUser
+      })
+        .then((user) => history.push("/"))
+        .catch((err) => {
+          setErrors(err.messages || ["Whoops! Something unexpected happened..."]);
+        });
+    }
   };
+
+  useEffect(() => {
+    const images = user.profilePicturePath;
+    if (images) setUserImages(JSON.parse(images))
+  }, [user.profilePicturePath])
 
   return (
     <form onSubmit={submit}>
@@ -100,17 +151,16 @@ function Register({ history }) {
           onChange={(e) => setStreetAddress(e.target.value)}
         />
       </div>
-      <div>
-        <label htmlFor="profilePicturePath">Profile Picture</label>
-        <input
-          id="profilePicturePath"
-          name="profilePicturePath"
-          type="profilePicturePath"
-          required
-          placeholder="Profile Picture"
-          onChange={(e) => setProfilePicturePath(e.target.value)}
-        />
-      </div>
+      <Dropzone onDrop={handleAddImage}>
+        {({ getRootProps, getInputProps }) => (
+          <section>
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              <p>Drag 'n' drop some files here, or click to select files</p>
+            </div>
+          </section>
+        )}
+      </Dropzone>
       <div>
         <label htmlFor="profileBackgroundPicturePath">Profile Backround Picture</label>
         <input

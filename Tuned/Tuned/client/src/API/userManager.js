@@ -38,6 +38,41 @@ export const register = (user) => {
     .then(handleAuthResponse);
 };
 
+export const updateUser = (user) => {
+  return fetch(`${baseUrl}/auth/register`, {
+    method: "PUT",
+    body: JSON.stringify(user),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then(handleAuthResponse);
+};
+
+export const saveImages = async (files) => {
+  const authHeader = createAuthHeaders();
+  const formData = new FormData();
+  if (files) {
+    Array.from(files).forEach(file => {
+      formData.append(file.name, file);
+    });
+  }
+
+  const response = await fetch('https://localhost:5001/api/UserImages', {
+
+    // content-type header should not be specified!
+    method: 'POST',
+    headers: {
+      authHeader,
+    },
+    body: formData,
+    responseType: 'text'
+  });
+  return response.text();
+}
+
 const handleAuthResponse = (authResponse) => {
   if (!authResponse.success) {
     throw new AuthError(authResponse.errorMessages);

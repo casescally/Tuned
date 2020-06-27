@@ -63,7 +63,7 @@ export default props => {
                 vehicleTypeId: parseInt(car.vehicleTypeId),
                 year: parseInt(car.year),
                 applicationUserId: user.id,
-                carPageCoverUrl: JSON.stringify([existingImgs[0]]),
+                carPageCoverUrl: JSON.stringify(car.imageFileNames[0]),
                 imageFileNames: JSON.stringify(existingImgs)
 
             })
@@ -120,6 +120,12 @@ export default props => {
         }
         setCarImages(updatedImages);
     }
+
+    const setCarCoverImage = image => {
+        console.log("Cover Image=>", image)
+        setCarImages(image)
+    }
+
     console.log(carImages)
     return (
         <form className="carForm">
@@ -196,7 +202,7 @@ export default props => {
                 </div>
             </fieldset>
 
-            <ThumbnailGallery editMode images={carImages} handleAddImages={handleAddImages} handleRemoveImage={handleRemoveImage} setCarImages={setCarImages} />
+            <ThumbnailGallery editMode images={carImages} handleAddImages={handleAddImages} handleRemoveImage={handleRemoveImage} setCarCoverImage={setCarCoverImage} />
 
             <fieldset>
                 <div className="form-group">

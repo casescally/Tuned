@@ -67,7 +67,7 @@ namespace Tuned.Controllers.V1
                 {
                     cmd.CommandText = @"SELECT ui.Id, ui.UserId, ui.ProfileBackgroundImagePath
                                         FROM UserImages ui
-                                        LEFT JOIM ui.ApplicationUserId ON ui.Id
+                                        LEFT JOIN ui.ApplicationUserId ON ui.Id
                                         WHERE Active = 0";
                     cmd.Parameters.Add(new SqlParameter("@id", id));
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -104,11 +104,11 @@ namespace Tuned.Controllers.V1
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO UserImages (USerId, ImagePath, Active)
+                    cmd.CommandText = @"INSERT INTO UserImages (UserId, ImagePath, Active)
                                         OUTPUT INSERTED.Id
                                         VALUES (@userId, @imagePath, @active)";
 
-                    cmd.Parameters.Add(new SqlParameter("@carId", newUserImage.UserId));
+                    cmd.Parameters.Add(new SqlParameter("@userId", newUserImage.UserId));
                     cmd.Parameters.Add(new SqlParameter("@imagePath", newUserImage.ImagePath));
                     cmd.Parameters.Add(new SqlParameter("@active", newUserImage.Active));
 

@@ -171,7 +171,7 @@ namespace Tuned.Controllers.V1
         // DELETE: api/ApiWithActions/5
         // Soft delete - sets the active car image boolean to 1
         [HttpDelete("{id}")]
-        public async Task<IActionResult>Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             try
             {
