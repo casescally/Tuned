@@ -44,7 +44,7 @@ export default ({ car }) => {
 
     useEffect(() => {
         const images = car.carPageCoverUrl;
-        //console.log('car==>>', car)
+        console.log('car cover url', car.carPageCoverUrl)
         if (images) setCarImages(JSON.parse(images))
     }, [car])
 

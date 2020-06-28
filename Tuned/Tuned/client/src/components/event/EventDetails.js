@@ -1,11 +1,15 @@
 import React, { useContext, useState, useEffect } from "react"
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction';
 import { UserContext } from "../user/UserProvider"
 import { EventContext } from "./EventProvider"
-import "./Events.css"
 import { getUser } from "../../API/userManager"
 import { UserEventContext } from "../UserEvent/UserEventProvider"
 import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 import UserCard from "../user/User"
+import "./Events.css"
+import './EventDetails.css'
 
 const EventDetails = (props) => {
 
@@ -91,12 +95,20 @@ const onMarkerClick = () => {
                     initialCenter={eventGeoLocation}
           google={props.google}
           zoom={5}
-          ><iframe title="eventLocationMapFrame" width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ></iframe>
+          ><iframe title="eventLocationMapFrame" width="425" height="350" frameBorder="0" scrolling="no" marginHeight="0" marginWidth="0" ></iframe>
 
                 <Marker position={eventGeoLocation} onClick={onMarkerClick}
                         name={'Current location'} />
 
                 </Map>}
+            </div>
+
+            <div id="calendar">
+            <FullCalendar
+        plugins={[ dayGridPlugin ]}
+        defaultDate={event.date}
+        events={[{title: event.name, date: event.date}]}
+      />
             </div>
 
             <h3 className="event__name">{event.name}</h3>

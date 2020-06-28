@@ -1,4 +1,5 @@
 import React, { useContext } from "react"
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { CarContext } from "../car/CarProvider"
 import Car from "../car/Car"
 import "../car/Cars.css"
@@ -9,6 +10,7 @@ import { getUser } from "../../API/userManager"
 import { EventContext } from "../event/EventProvider"
 import Event from "../event/Event"
 import { UserEventContext } from "../UserEvent/UserEventProvider"
+import 'react-tabs/style/react-tabs.css';
 
 export default (props) => {
 
@@ -130,29 +132,44 @@ export default (props) => {
                     </span>
                 </div>
 
+
+
                 <div className="mainProfileSection">
-                    <article className="profileCarList">
-                        <h3>Cars: {currentUserCars.length}</h3>
 
-                        {currentUserCars.map(car => <Car key={car.id} car={car} {...props} />)}
+                    <Tabs>
+                        <TabList>
+                            <Tab>Cars</Tab>
+                            <Tab>Events</Tab>
+                            <Tab>Liked Cars</Tab>
+                        </TabList>
 
-                    </article>
+                        <TabPanel className="tabPanel">
+                            <article className="profileCarList">
+                                <h3>Cars: {currentUserCars.length}</h3>
 
-                    <article className="events">
-                        <h3>Events {currentUsersEvents.length}</h3>
+                                {currentUserCars.map(car => <Car key={car.id} car={car} {...props} />)}
 
-                        {currentUsersEvents.map(event => <Event key={event.id} event={event} {...props} />)}
+                            </article>
 
-                    </article>
+                        </TabPanel>
+                        <TabPanel>
+                            <article className="events">
+                                <h3>Events {currentUsersEvents.length}</h3>
 
-                    <article id="likedCars" className="profileLikedCarList">
+                                {currentUsersEvents.map(event => <Event key={event.id} event={event} {...props} />)}
 
-                        <h3>Liked Cars {currentUsersLikedCars.length}</h3>
+                            </article>
+                        </TabPanel>
+                        <TabPanel>
+                            <article id="likedCars" className="profileLikedCarList">
 
-                        {currentUsersLikedCars.map(car => <Car key={car.id} car={car} {...props} />)}
+                                <h3>Liked Cars {currentUsersLikedCars.length}</h3>
 
-                    </article>
+                                {currentUsersLikedCars.map(car => <Car key={car.id} car={car} {...props} />)}
 
+                            </article>
+                        </TabPanel>
+                    </Tabs>
                 </div>
             </section>
         </div>

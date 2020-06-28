@@ -10,6 +10,7 @@ export default props => {
     const { cars, addCar, saveImages, updateCar } = useContext(CarContext)
     const [car, setCar] = useState({})
     const [carImages, setCarImages] = useState([]);
+    const [carCoverImage, setCarCoverImage] = useState([]);
     const [newCarsFiles, setNewCarsFiles] = useState([])
     const editMode = props.match.params.hasOwnProperty("carId")
 
@@ -63,7 +64,7 @@ export default props => {
                 vehicleTypeId: parseInt(car.vehicleTypeId),
                 year: parseInt(car.year),
                 applicationUserId: user.id,
-                carPageCoverUrl: JSON.stringify([existingImgs[0]]),
+                carPageCoverUrl: JSON.stringify([carCoverImage]),
                 imageFileNames: JSON.stringify(existingImgs)
 
             })
@@ -87,7 +88,7 @@ export default props => {
                 year: car.year,
                 applicationUserId: user.id,
                 vehicleTypeId: car.vehicleTypeId,
-                carPageCoverUrl: JSON.stringify([filePaths[0]]),
+                carPageCoverUrl: JSON.stringify(carCoverImage),
                 imageFileNames: JSON.stringify(filePaths),
                 carDescription: car.carDescription,
                 activeCar: true
@@ -98,9 +99,18 @@ export default props => {
     }
 
     useEffect(() => {
+
+
+
         const images = car.imageFileNames;
         if (images) setCarImages(JSON.parse(images))
     }, [car.imageFileNames])
+
+    const updateCarsCoverImage = image => {
+        console.log("Cover Image Path", image)
+        setCarCoverImage(image)
+        console.log("Set Cover Image", carCoverImage)
+    }
 
     const handleAddImages = files => {
         const newImgs = files.map(file => URL.createObjectURL(file));
@@ -120,6 +130,11 @@ export default props => {
         }
         setCarImages(updatedImages);
     }
+
+
+
+
+
     console.log(carImages)
     return (
         <form className="carForm">
@@ -196,7 +211,7 @@ export default props => {
                 </div>
             </fieldset>
 
-            <ThumbnailGallery editMode images={carImages} handleAddImages={handleAddImages} handleRemoveImage={handleRemoveImage} setCarImages={setCarImages} />
+            <ThumbnailGallery editMode images={carImages} handleAddImages={handleAddImages} handleRemoveImage={handleRemoveImage} setCarImages={setCarImages} updateCarsCoverImage={updateCarsCoverImage} />
 
             <fieldset>
                 <div className="form-group">

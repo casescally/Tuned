@@ -13,8 +13,8 @@ export default class ThumbnailGallery extends Component {
     renderThumbnails = () => {
 
         const { activeIndex } = this.state;
-        const { images, editMode, handleAddImages, setCarImages } = this.props
-        console.log(images[activeIndex])
+        const { images, editMode, handleAddImages, updateCarsCoverImage } = this.props
+        //console.log(images[activeIndex])
 
         return (
             editMode ?
@@ -22,6 +22,7 @@ export default class ThumbnailGallery extends Component {
                 >
                     {({ getRootProps, getInputProps }) => (
                         <section>
+                            <button type="button" onClick={() => updateCarsCoverImage(images[activeIndex])}>Set Cover Image</button>
                             <div {...getRootProps()}>
                                 <input {...getInputProps()} />
 
