@@ -16,6 +16,7 @@ export default (props) => {
     const user = getUser()
     const car = cars.find(c => c.id === chosenCarId) || {};
     const carUser = users.find(u => u.id === car.applicationUserId) || {}
+    let numberOflikes = likedCars.filter(likedCar => likedCar.carId === chosenCarId).length
     let likedCarMode = Boolean
 
     const constructNewLikedCar = (currentCar) => {
@@ -54,6 +55,7 @@ export default (props) => {
         <section className="car">
             {car.id && <div>
             <h3 className="car__name">{car.name}</h3>
+            <div className="car__likes">{numberOflikes}</div>
             <div className="car__make">{car.make}</div>
             <div className="car__model">{car.model}</div>
             <div className="car__year">{car.year}</div>
