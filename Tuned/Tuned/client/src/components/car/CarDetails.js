@@ -5,7 +5,6 @@ import { CarContext } from "./CarProvider";
 import "./Cars.css";
 import { getUser } from "../../API/userManager";
 import ThumbnailGallery from "../thumbnail-gallery/Thumbnail-Gallery";
-import Modal from "react-bootstrap/Modal";
 import SimpleReactLightBox from "simple-react-lightbox";
 import { SRLWrapper } from "simple-react-lightbox";
 
@@ -24,9 +23,18 @@ export default (props) => {
         (likedCar) => likedCar.carId === chosenCarId
     ).length;
     let likedCarMode = Boolean;
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+
+        const [isOpened, setIsOpened] = useState(true);
+      
+        function toggle() {
+          setIsOpened(wasOpened => !wasOpened);
+        }
+
+        const [isOpened2, setIsOpened2] = useState(false);
+      
+        function toggle2() {
+          setIsOpened2(wasOpened => !wasOpened);
+        }
 
     const constructNewLikedCar = (currentCar) => {
         const alreadyLikedCarRel = likedCars.find(
@@ -65,25 +73,26 @@ export default (props) => {
                     <div className="car__model">{car.model}</div>
                     <div className="car__year">{car.year}</div>
                     <div className="car__description">{car.carDescription}</div>
-                    {/*<div onClick={handleShow}><ThumbnailGallery images={carImages}/></div>*/}
-                    <SimpleReactLightBox>
+                    <button className="showHideGallery" onClick={toggle && toggle2}>Gallery</button>
+                    {isOpened2 && (<ThumbnailGallery images={carImages}/>)}
+                    {isOpened && (<SimpleReactLightBox>
                         <SRLWrapper>
                             {carImages.map((image, i) => {
                                 return (
                                     <a key={i} href={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`} data-attribute="SRL">
                                         <img
                                             src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`}
-                                            className="event_image"
-                                            alt="Event"
+                                            className="car_image"
+                                            alt="Car"
                                         />
                                     </a>
                                 );
                             })}
                         </SRLWrapper>
-                    </SimpleReactLightBox>
-                    <Modal show={show} onHide={handleClose}>
+                    </SimpleReactLightBox>)}
+                    {/* <Modal show={show} onHide={handleClose}>
                         here is the modal
-          </Modal>
+          </Modal> */}
                     <button
                         className="likeButton"
                         value="Like"

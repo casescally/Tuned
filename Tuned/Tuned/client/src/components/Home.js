@@ -4,9 +4,11 @@ import { CarContext } from "./car/CarProvider";
 import { LikedCarContext } from "./likedCar/LikedCarProvider";
 // import Car from "./car/Car"
 //const { cars } = useContext(CarContext)
-const { likedCars } = useContext(LikedCarContext);
-let top5LikedCars = likedCars.sort((a, b) => b - a).slice(0, 5);
+
 function Home() {
+  const { likedCars } = useContext(LikedCarContext);
+  let top5LikedCars = likedCars.sort((a, b) => b - a).slice(0, 5);
+
   console.log(top5LikedCars);
   //const [values, setValues] = useState([]);
 

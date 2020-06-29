@@ -4,8 +4,6 @@ import ActiveThumbnailWindow from './Active-Thumbnail-Window'
 import ThumbnailGrid from './Thumbnail-Grid'
 import "./Thumbnail-Gallery.css"
 
-
-
 export default class ThumbnailGallery extends Component {
 
     state = {
