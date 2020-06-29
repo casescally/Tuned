@@ -216,13 +216,14 @@ export default props => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="carDescription">Description: </label>
-                    <textarea name="carDescription" className="form-control"
+                    <textarea name="carDescription" className="form-control" id="carDescriptionForm"
                         value={car.carDescription}
                         onChange={handleControlledInputChange}>
                     </textarea>
                 </div>
             </fieldset>
             <button type="submit"
+            id="addCarButton"
                 onClick={evt => {
 
                     evt.preventDefault()

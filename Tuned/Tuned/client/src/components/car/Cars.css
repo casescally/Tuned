@@ -7,19 +7,23 @@
 }
 
 .car_image {
-    display: flex;
     flex-basis: auto;
     height: 500px;
     align-self: center;
-    width: 850px;
     border: 1px solid;
     padding: 10px;
     box-shadow: 5px 10px 8px #888888;
 }
 
+.car__description {
+    text-align: left;
+    margin: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
 .car_image_preview {
     flex-basis: auto;
-    height: 500px;
 }
 .carInfo {
     display: flex;
@@ -29,4 +33,58 @@
 .carForm {
     display: flex;
     flex-direction: column;
+}
+
+
+button.showHideGallery {
+    left: 500px;
+}
+
+img {
+    max-width:100%;
+    height:auto;
+}
+
+.car__description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#carDescriptionForm {
+    width: 500px;
+    height: 400px;
+}
+
+.form-group {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
+.thumbnailDeleteButton {
+    width: 50%;
+    z-index: 10000;
+    height: 10%;
+    margin-bottom: 10px;
+}
+
+#addCarButton {
+    background-color: #f44336; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 20%;
+    text-align: center;
+    margin: auto;
+    margin-top: 1%;
+}
+
+.carForm {
+    margin: 10%;
+    display: flex;
+    justify-content: center;
 }

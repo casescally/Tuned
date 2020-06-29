@@ -60,3 +60,25 @@
     .previewImage {
         width: 500px;
     }
+
+    img {
+        height: 500px;
+    }
+
+#deleteEventButton {
+        margin: auto;
+        width: 5%;
+        margin-bottom: 30px;
+    }
+
+    .addRemove_Button {
+        margin: auto;
+        width: 5%;
+        margin-bottom: 1%;
+    }
+
+    .editEventButton {
+        margin: auto;
+        width: 5%;
+        margin-bottom: 1%;
+    }

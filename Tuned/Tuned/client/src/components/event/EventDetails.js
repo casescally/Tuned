@@ -117,7 +117,7 @@ const onMarkerClick = () => {
                     {event.description}
                 </p>
 
-            <button className="add/remove_Button" value="add/remove" onClick={evt => {
+            <button className="addRemove_Button" value="add/remove" onClick={evt => {
 
                 evt.preventDefault()
 
@@ -136,7 +136,7 @@ const onMarkerClick = () => {
 
                     </article>
             
-            <button onClick={
+            <button id="deleteEventButton" onClick={
                 () => {
                     if (event.adminUser.id === user.id) {
                     deleteEvent(event)
@@ -151,7 +151,7 @@ const onMarkerClick = () => {
             </button>
 
 
-            <button onClick={() => {
+            <button className="editEventButton" onClick={() => {
                 props.history.push(`/events/edit/${event.id}`)
             }}>Edit
             
