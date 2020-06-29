@@ -14,7 +14,7 @@ export function EventList(props) {
     }
 
     return (
-        <>
+        <div className="tabPanel">
             <h1>Events</h1>
 
             <button onClick={() => props.history.push("/events/create")}>
@@ -33,6 +33,6 @@ export function EventList(props) {
                     })
                 }
             </div>*/}
-        </>
+        </div>
     )
 }

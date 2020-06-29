@@ -85,7 +85,7 @@ const onMarkerClick = () => {
 }
 
     return (
-        <section className="event">
+        <section className="event top-space">
             
                     {eventImages.map((image, i) => <img key={i} src={`https://localhost:5001/api/EventImages/image/get?imageName=${image}`} className="event_image" alt="Event"/>)}
 

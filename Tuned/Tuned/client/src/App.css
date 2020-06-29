@@ -1,3 +1,7 @@
+*, html{
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
 }
@@ -11,6 +15,10 @@
   padding: 0 20px;;
   border: 1px solid black;
   justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 999;
 }
 
 .nav-items {
@@ -54,4 +62,13 @@
   height: 50px;
   position: relative;
   float: left;
+}
+
+.top-space{
+  position: relative;
+  top: 75px;
+}
+
+#SRLLightbox{
+  z-index: 99999 !important;
 }

@@ -1,8 +1,10 @@
-import React, { Component } from "react"
+import React, { Component, useState } from "react"
 import Dropzone from 'react-dropzone'
 import ActiveThumbnailWindow from './Active-Thumbnail-Window'
 import ThumbnailGrid from './Thumbnail-Grid'
 import "./Thumbnail-Gallery.css"
+
+
 
 export default class ThumbnailGallery extends Component {
 
@@ -18,6 +20,7 @@ export default class ThumbnailGallery extends Component {
 
         return (
             editMode ?
+
                 <Dropzone onDrop={handleAddImages}
                 >
                     {({ getRootProps, getInputProps }) => (
@@ -28,7 +31,6 @@ export default class ThumbnailGallery extends Component {
 
                                 {images.length ? <ActiveThumbnailWindow
                                     activeThumbnail={images[activeIndex]}
-
                                 /> : (
                                         <div>
                                             <p>Drop the files here ...</p> :
@@ -36,6 +38,7 @@ export default class ThumbnailGallery extends Component {
                                         </div>
                                     )}
                             </div>
+
                         </section>
                     )}
                 </Dropzone>

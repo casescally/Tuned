@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useContext } from "react";
 // import { createAuthHeaders } from '../API/userManager';
-// import { CarContext } from "./car/CarProvider"
+import { CarContext } from "./car/CarProvider";
+import { LikedCarContext } from "./likedCar/LikedCarProvider";
 // import Car from "./car/Car"
-
+//const { cars } = useContext(CarContext)
+const { likedCars } = useContext(LikedCarContext);
+let top5LikedCars = likedCars.sort((a, b) => b - a).slice(0, 5);
 function Home() {
-  const [values, setValues] = useState([]);
+  console.log(top5LikedCars);
+  //const [values, setValues] = useState([]);
 
   // useEffect(() => {
   //   const authHeader = createAuthHeaders();
@@ -19,7 +23,7 @@ function Home() {
     <>
       <h1>Welcome to my app</h1>
     </>
-  )
+  );
 }
 
 export default Home;
