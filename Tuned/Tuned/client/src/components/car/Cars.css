@@ -34,6 +34,8 @@
 .carForm {
     display: flex;
     flex-direction: column;
+    margin: 1%;
+    justify-content: center;
 }
 
 
@@ -64,11 +66,9 @@ img {
 }
 
 .thumbnailDeleteButton {
-    width: 25%;
     z-index: 10000;
-    height: 10%;
-    padding-bottom: 20px;
-    margin-bottom: 10px;
+    bottom: 35px;
+    left: 10px;
 }
 
 #addCarButton {
@@ -85,8 +85,20 @@ img {
     margin-top: 1%;
 }
 
-.carForm {
-    margin: 10%;
+#carDescription {
+    margin-top: 25%;
+}
+
+fieldset {
+    border: 0;
+}
+
+.carThumbnailImage {
+    object-fit: scale-down;
+}
+
+.carThumbnail {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
 }

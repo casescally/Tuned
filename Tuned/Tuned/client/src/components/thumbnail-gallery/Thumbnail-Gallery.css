@@ -1,0 +1,5 @@
+.activeThumbnailWindow {
+    max-width: 100%;
+    height: 800px;
+    object-fit: scale-down;
+}

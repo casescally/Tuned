@@ -23,7 +23,7 @@ export default function ApplicationViews(props) {
           <EventProvider>
             <LikedCarProvider>
               <UserEventProvider>
-                {/* <Route exact path="/" render={props => <Home {...props} />} /> */}
+                <Route exact path="/" render={props => <Home {...props} />} />
 
                 <Route exact path="/Cars" render={(props) => <CarList {...props} />} />
 

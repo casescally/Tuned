@@ -23,18 +23,13 @@ export default (props) => {
         (likedCar) => likedCar.carId === chosenCarId
     ).length;
     let likedCarMode = Boolean;
+    let detailMode = props.match.params.hasOwnProperty("carId")
+    // const [isOpened, setIsOpened] = useState(true);
 
-        const [isOpened, setIsOpened] = useState(true);
-      
-        function toggle() {
-          setIsOpened(wasOpened => !wasOpened);
-        }
+    // function toggle() {
+    //   setIsOpened(wasOpened => !wasOpened);
+    // }
 
-        const [isOpened2, setIsOpened2] = useState(false);
-      
-        function toggle2() {
-          setIsOpened2(wasOpened => !wasOpened);
-        }
 
     const constructNewLikedCar = (currentCar) => {
         const alreadyLikedCarRel = likedCars.find(
@@ -59,8 +54,10 @@ export default (props) => {
     };
 
     useEffect(() => {
+
         const images = car.imageFileNames;
         if (images) setCarImages(JSON.parse(images));
+
     }, [car]);
 
     return (
@@ -68,14 +65,14 @@ export default (props) => {
             {car.id && (
                 <div>
                     <h3 className="car__name">{car.name}</h3>
-                    <div className="car__likes">{numberOflikes}</div>
-                    <div className="car__make">{car.make}</div>
-                    <div className="car__model">{car.model}</div>
-                    <div className="car__year">{car.year}</div>
-                    <div className="car__description">{car.carDescription}</div>
-                    <button className="showHideGallery" onClick={toggle && toggle2}>Gallery</button>
-                    {isOpened2 && (<ThumbnailGallery images={carImages}/>)}
-                    {isOpened && (<SimpleReactLightBox>
+                    <div className="car__likes">Likes: {numberOflikes}</div>
+                    <div className="car__make">Make: {car.make}</div>
+                    <div className="car__model">Model: {car.model}</div>
+                    <div className="car__year">Year: {car.year}</div>
+                    <div className="car__description">Description: {car.carDescription}</div>
+                    {/*<button className="showHideGallery" onClick={toggle}>Gallery</button>*/}
+                    {detailMode !== true && (<ThumbnailGallery images={carImages} />)}
+                    {detailMode && (<SimpleReactLightBox>
                         <SRLWrapper>
                             {carImages.map((image, i) => {
                                 return (

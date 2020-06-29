@@ -46,11 +46,11 @@
   color: #09d3ac;
 }
 
-.button {
+button, .button {
   background-color: #f44336;
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 5px 15px;
   text-align: center;
   text-decoration: none;
   display: inline-block;

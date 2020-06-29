@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./Thumbnail-Gallery.css";
 
 const ActiveThumbnailWindow = ({ activeThumbnail }) => {
 
@@ -12,6 +12,7 @@ const ActiveThumbnailWindow = ({ activeThumbnail }) => {
                     alt="active__Thumbnail"
                     height="100%"
                     width="100%"
+                    className="activeThumbnailWindow"
                 />
             </div>
         )

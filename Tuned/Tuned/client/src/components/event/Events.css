@@ -62,25 +62,22 @@
         width: 500px;
     }
 
-    img {
+    /* img {
         height: 500px;
-    }
+    } */
 
     #deleteEventButton {
         margin: auto;
-        width: 5%;
         margin-bottom: 30px;
     }
 
     .addRemove_Button {
         margin: auto;
-        width: 5%;
         margin-bottom: 1%;
     }
 
     .editEventButton {
         margin: auto;
-        width: 5%;
         margin-bottom: 1%;
     }
 
@@ -88,6 +85,7 @@
         display: flex;
         flex-direction: row;
         align-items: flex-start;
-        padding-top: 30px;
+        padding-top: 5%;
+        left: 100px;
     }
 
