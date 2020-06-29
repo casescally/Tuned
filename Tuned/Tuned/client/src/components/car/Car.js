@@ -103,7 +103,7 @@ export default ({ car }) => {
             <div className="uploaderInfo">
                 {carUser.username}
             </div>
-
+            <div class="divider div-transparent"></div>
         </section>
     )
 }

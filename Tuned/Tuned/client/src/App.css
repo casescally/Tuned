@@ -19,6 +19,7 @@
   width: 100%;
   top: 0;
   z-index: 999;
+  font-family: 'Roboto', sans-serif;
 }
 
 .nav-items {
@@ -83,9 +84,22 @@ button, .button {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  margin: 1%;
+  border-radius: 4px;
+  
 }
 
 a {
   text-decoration: none;
 }
 
+.div-transparent {
+  margin: 1%;
+  content: "";
+  top: 0;
+  left: 5%;
+  right: 5%;
+  width: 90%;
+  height: 1px;
+  background-image: linear-gradient(to right, transparent, rgb(48,49,51), transparent);
+}

@@ -161,6 +161,7 @@ export default (props) => {
           </Tabs>
         </div>
       </section>
+      <div class="divider div-transparent"></div>
     </div>
   );
 };
