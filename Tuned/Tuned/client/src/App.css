@@ -1,3 +1,7 @@
+*, html{
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
 }
@@ -11,6 +15,11 @@
   padding: 0 20px;;
   border: 1px solid black;
   justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 999;
+  font-family: 'Roboto', sans-serif;
 }
 
 .nav-items {
@@ -37,21 +46,74 @@
   color: #09d3ac;
 }
 
-.button {
-  background-color: #f44336; /* Green */
+button, .button {
+  background-color: #f44336;
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 5px 15px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
+  border-radius: 12px;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
 .TUNED_logo {
   height: 50px;
   position: relative;
   float: left;
+}
+
+.top-space{
+  position: relative;
+  top: 75px;
+}
+
+#SRLLightbox{
+  z-index: 99999 !important;
+}
+
+button, .button {
+  background-color: #f44336; /* Green */
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 1%;
+  border-radius: 4px;
+  
+}
+
+a {
+  text-decoration: none;
+}
+
+.div-transparent {
+  margin: 1%;
+  content: "";
+  top: 0;
+  left: 5%;
+  right: 5%;
+  width: 90%;
+  height: 1px;
+  background-image: linear-gradient(to right, transparent, rgb(48,49,51), transparent);
+}
+
+.carousel {
+  margin-top: 3%;
+  display: flex;
+  align-items: center; 
+  align-content: center; 
+  justify-content: center;
+  background-color: #555;
+  box-shadow: 0 0 5px 10px #555;
+}
+
+.mainTitle {
+  margin: 1%;
 }

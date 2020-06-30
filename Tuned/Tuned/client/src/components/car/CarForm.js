@@ -214,15 +214,16 @@ export default props => {
             <ThumbnailGallery editMode images={carImages} handleAddImages={handleAddImages} handleRemoveImage={handleRemoveImage} setCarImages={setCarImages} updateCarsCoverImage={updateCarsCoverImage} />
 
             <fieldset>
-                <div className="form-group">
+                <div className="form-group" id="carDescription">
                     <label htmlFor="carDescription">Description: </label>
-                    <textarea name="carDescription" className="form-control"
+                    <textarea name="carDescription" className="form-control" id="carDescriptionForm"
                         value={car.carDescription}
                         onChange={handleControlledInputChange}>
                     </textarea>
                 </div>
             </fieldset>
             <button type="submit"
+            id="addCarButton"
                 onClick={evt => {
 
                     evt.preventDefault()

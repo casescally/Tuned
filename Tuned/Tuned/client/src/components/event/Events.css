@@ -5,14 +5,15 @@
 
 .event_image {
     align-self: center;
+    box-shadow: 5px 10px 8px #888888;
 }
 
 .map-container {
     position: relative;
     padding-bottom: 26.25%;
-    padding-top: 30px;
     height: 0;
     overflow: hidden;
+    width: 500px;
     }
     
     .map-container iframe,
@@ -60,3 +61,31 @@
     .previewImage {
         width: 500px;
     }
+
+    /* img {
+        height: 500px;
+    } */
+
+    #deleteEventButton {
+        margin: auto;
+        margin-bottom: 30px;
+    }
+
+    .addRemove_Button {
+        margin: auto;
+        margin-bottom: 1%;
+    }
+
+    .editEventButton {
+        margin: auto;
+        margin-bottom: 1%;
+    }
+
+    .eventLocationDate {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding-top: 5%;
+        left: 100px;
+    }
+
