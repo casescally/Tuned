@@ -103,3 +103,17 @@ a {
   height: 1px;
   background-image: linear-gradient(to right, transparent, rgb(48,49,51), transparent);
 }
+
+.carousel {
+  margin-top: 3%;
+  display: flex;
+  align-items: center; 
+  align-content: center; 
+  justify-content: center;
+  background-color: #555;
+  box-shadow: 0 0 5px 10px #555;
+}
+
+.mainTitle {
+  margin: 1%;
+}

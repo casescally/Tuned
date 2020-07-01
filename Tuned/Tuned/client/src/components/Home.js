@@ -1,49 +1,22 @@
-import React, { useState, useCallback, useContext, useEffect } from "react";
-// import { createAuthHeaders } from '../API/userManager';
+import React, { useState, useContext } from "react";
 import { CarContext } from "./car/CarProvider";
 import { LikedCarContext } from "./likedCar/LikedCarProvider";
-import Car from "./car/Car";
-import Carousel from "react-bootstrap/Carousel";
-import { render } from "react-dom";
+import Carousel from 'react-bootstrap/Carousel'
+
 function Home() {
-  const { cars } = useContext(CarContext);
-  const [carImages, setCarImages] = useState([]);
-  const { likedCars } = useContext(LikedCarContext);
-  let top5LikedCars = likedCars.sort((a, b) => b - a).slice(0, 5);
-  // let top5LikedCarsImages = cars.filter(
-  //   (car) => car.id === top5LikedCars.carId
-  // );
-  console.log("carObjIMAG====>>", cars);
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex, e) => {
     setIndex(selectedIndex);
   };
-
-  //const [values, setValues] = useState([]);
-
-  // useEffect(() => {
-  //   const authHeader = createAuthHeaders();
-  //   fetch('/api/v1/values', {
-  //     headers: authHeader
-  //   })
-  //     .then(response => response.json())
-  //     .then(setValues);
-  // }, []);
-  function ControlledCarousel() {
-    const [index, setIndex] = useState(0);
-
-    const handleSelect = (selectedIndex, e) => {
-      setIndex(selectedIndex);
-    };
-  }
+  const { cars } = useContext(CarContext);
+  const { likedCars } = useContext(LikedCarContext);
+  let top5LikedCars = likedCars.sort((a, b) => b - a).slice(0, 5);
+  // let top5LikedCarsImages = cars.filter(
+  //   (car) => car.id === top5LikedCars.carId
+  // );
   let imagesArray = [];
-
   cars.forEach((car) => imagesArray.push(car.imageFileNames));
-  //console.log("IMGZ", imagesArray);
-
-  //console.log(imagesArray.forEach(arr => arr.split(1,2(array.forEach(element => {element.split(','))
-
   let anotherArr = [];
   let finalArr = [];
   imagesArray.forEach((arr) => anotherArr.push(arr.split(",")));
@@ -52,25 +25,26 @@ function Home() {
   anotherArr.forEach((aoqs) =>
     aoqs.forEach((qs) => finalArr.push(qs.slice(1, -1)))
   );
-  console.log("array of all img paths=>", finalArr);
-  //console.log(imagesArray.forEach(arr => arr.split(1,2))
+
+//console.log("array of all img paths=>", finalArr);
+
   return (
     <>
-      <Carousel activeIndex={index} onSelect={handleSelect}>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src="holder.js/800x400?text=First slide&bg=373940"
-            alt="First slide"
-          />
-          <Carousel.Caption>
-            <h3>First slide label</h3>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
+       <Carousel alt="Most Liked Car Images" className="carousel" activeIndex={index} onSelect={handleSelect}>
+         {finalArr.map((image, i) => (
+          <Carousel.Item>
+             <img
+               key={i}
+               className="d-block w-100"
+               src={`https://localhost:5001/api/CarImages/image/get?imageName=${image}`}
+               alt="First slide"
+             />
+           </Carousel.Item>
+         ))}
+       </Carousel>
+       <h1 className="mainTitle">Hello and welcome to #TUNED! The social network for custom car enthusiasts to share pictures of your ride and see events in your area</h1>
     </>
-  );
+  )
 }
 
 export default Home;
