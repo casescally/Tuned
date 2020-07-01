@@ -8,7 +8,7 @@ export default ({ UserCard }) => {
 
     const { users } = useContext(UserContext)
     const user = getUser()
-    const currentEventUser = users.find(singleUser => singleUser.id === user.id)
+    const currentEventUser = users.find(singleUser => singleUser.id == user.id)
 
 
     return (
@@ -21,7 +21,7 @@ export default ({ UserCard }) => {
 
                     <Link to={`/profile/${user.id}`}>
 
-                        <div className="user__name">{currentEventUser.firstName + ' ' + currentEventUser.lastName}</div>
+                        <div className="user__name">{currentEventUser&&currentEventUser.firstName + ' ' + currentEventUser&&currentEventUser.lastName}</div>
 
                     </Link>
 

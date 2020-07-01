@@ -36,6 +36,8 @@
     flex-direction: column;
     margin: 1%;
     justify-content: center;
+    margin-top: 3.3%;
+    align-items: center;
 }
 
 
@@ -55,14 +57,16 @@ img {
 }
 
 #carDescriptionForm {
-    width: 500px;
-    height: 400px;
+    width: 700px;
+    height: 300px;
 }
 
 .form-group {
     display: flex;
     justify-content: center;
     align-items: start;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .thumbnailDeleteButton {
@@ -87,10 +91,12 @@ img {
 
 #carDescription {
     margin-top: 25%;
+    margin-top: 100px;
 }
 
 fieldset {
     border: 0;
+    width: 50%;
 }
 
 .carThumbnailImage {
@@ -101,4 +107,14 @@ fieldset {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+}
+
+.likeButton {
+    padding-top: 0%;
+    width: 24px;
+    height: 24px;
+}
+
+.carForm {
+    padding-top: 100px;
 }

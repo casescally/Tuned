@@ -60,6 +60,7 @@ export default (props) => {
 
     }, [car]);
 
+
     return (
         <section className="car top-space">
             {car.id && (
@@ -90,17 +91,19 @@ export default (props) => {
                     {/* <Modal show={show} onHide={handleClose}>
                         here is the modal
           </Modal> */}
-                    <button
+                    <img
+                        src="https://localhost:5001/api/CarImages/image/get?imageName=C:\Users\casescally\source\repos\Tuned\Tuned\Tuned\wwwroot\Upload\Thumbs-Up-Icon-red.png"
                         className="likeButton"
                         value="Like"
                         onClick={(evt) => {
+                            
                             evt.preventDefault();
 
                             constructNewLikedCar(car);
                         }}
                     >
-                        {likedCarMode ? "Like" : "Unlike"}
-                    </button>
+                        
+                    </img>
 
                     <div className="car__user">
                         User: {carUser.firstName + " " + carUser.lastName}
@@ -109,10 +112,11 @@ export default (props) => {
                     <button
                         className="delete_button"
                         onClick={() => {
+                            if (car.applicationUserId == user.id) {
                             deleteCar(car).then(() => {
                                 props.history.push("/cars");
                             });
-                        }}
+                        }}}
                     >
                         Delete Car
           </button>
@@ -120,8 +124,9 @@ export default (props) => {
                     <button
                         className="edit_button"
                         onClick={() => {
+                            if (car.applicationUserId == user.id) {
                             props.history.push(`/cars/edit/${car.id}`);
-                        }}
+                        }}}
                     >
                         Edit
           </button>

@@ -166,7 +166,7 @@ export default props => {
                     </div>
                 </div>
             </form>
-            <button type="submit"
+            <button id="eventSubmitButton" type="submit"
                 onClick={evt => {
                     evt.preventDefault()
                     constructNewEvent()

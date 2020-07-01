@@ -11,6 +11,7 @@ export default ({ car }) => {
   const { likedCars, addLikedCar, deleteLikedCar } = useContext(
     LikedCarContext
   );
+
   const carUser = users.find((u) => u.id === car.userId) || {};
   const user = getUser();
 
@@ -43,7 +44,7 @@ export default ({ car }) => {
     console.log("car cover url", car.carPageCoverUrl);
     if (images) setCarImages(JSON.parse(images));
   }, [car]);
-
+console.log('user====>>>>', car)
   return (
     //car information
     <section className="carSection">
@@ -78,17 +79,19 @@ export default ({ car }) => {
       </div>
 
       <div className="likedcarInfo">
-        <button
-          className="likedcarButton"
-          value="LikedCar"
-          onClick={(evt) => {
-            evt.preventDefault();
+      <img
+                        src="https://localhost:5001/api/CarImages/image/get?imageName=C:\Users\casescally\source\repos\Tuned\Tuned\Tuned\wwwroot\Upload\Thumbs-Up-Icon-red.png"
+                        className="likeButton"
+                        value="Like"
+                        onClick={(evt) => {
+                            
+                            evt.preventDefault();
 
-            constructNewLikedCar(car);
-          }}
-        >
-          {likedCarMode ? "Like" : "Unlike"}
-        </button>
+                            constructNewLikedCar(car);
+                        }}
+                    />
+                        
+                
       </div>
 
       <div className="uploaderInfo">{carUser.username}</div>

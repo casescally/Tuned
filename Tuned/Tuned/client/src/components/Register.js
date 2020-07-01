@@ -20,6 +20,8 @@ function Register({ history }) {
 
   const submit = (event) => {
     event.preventDefault();
+    setProfilePicturePath('none')
+    setProfileBackgroundPicturePath('none')
     register({
       username,
       email,
@@ -100,7 +102,7 @@ function Register({ history }) {
           onChange={(e) => setStreetAddress(e.target.value)}
         />
       </div>
-      <div>
+      {/* <div>
         <label htmlFor="profilePicturePath">Profile Picture</label>
         <input
           id="profilePicturePath"
@@ -121,7 +123,7 @@ function Register({ history }) {
           placeholder="Profile Background Picture"
           onChange={(e) => setProfileBackgroundPicturePath(e.target.value)}
         />
-      </div>
+      </div> */}
       <div>
         <label htmlFor="description">Profile Description</label>
         <input

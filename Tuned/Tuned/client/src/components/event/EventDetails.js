@@ -174,8 +174,9 @@ const EventDetails = (props) => {
       <button
         className="editEventButton"
         onClick={() => {
+            if (event.adminUser.id === user.id) {
           props.history.push(`/events/edit/${event.id}`);
-        }}
+        }}}
       >
         Edit
       </button>

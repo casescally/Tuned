@@ -85,7 +85,21 @@
         display: flex;
         flex-direction: row;
         align-items: flex-start;
-        padding-top: 5%;
-        left: 100px;
+        padding: 10%;
     }
 
+.eventForm {
+    display: flex;
+    flex-direction: column;
+    margin: 1%;
+    padding: 1%;
+    padding-top: 100px;
+    justify-content: center;
+    margin-top: 3.3%;
+    align-items: center;
+}
+
+#eventSubmitButton {
+    background-color: #f44336;
+    
+}
