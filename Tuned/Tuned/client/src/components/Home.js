@@ -42,7 +42,7 @@ function Home() {
            </Carousel.Item>
          ))}
        </Carousel>
-       <h1 className="mainTitle">Hello and welcome to #TUNED! The social network for custom car enthusiasts to share pictures of your ride and see events in your area</h1>
+       <h1 className="mainTitle">Welcome to TUNED, the social network for custom car enthusiasts to share pictures of your ride and see events in your area</h1>
     </>
   )
 }

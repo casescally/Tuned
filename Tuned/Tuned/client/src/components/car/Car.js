@@ -12,7 +12,8 @@ export default ({ car }) => {
     LikedCarContext
   );
 
-  const carUser = users.find((u) => u.id === car.userId) || {};
+  const carUser = users.find((u) => u.id == car.applicationUserId) || {};
+  //let userFirstName = carUser.firstName;
   const user = getUser();
 
   const constructNewLikedCar = (currentCar) => {
@@ -41,10 +42,10 @@ export default ({ car }) => {
 
   useEffect(() => {
     const images = car.carPageCoverUrl;
-    console.log("car cover url", car.carPageCoverUrl);
+    //console.log("car cover url", car.carPageCoverUrl);
     if (images) setCarImages(JSON.parse(images));
   }, [car]);
-console.log('user====>>>>', car)
+  console.log("user====>>>>", carUser);
   return (
     //car information
     <section className="carSection">
@@ -68,7 +69,9 @@ console.log('user====>>>>', car)
         <div className="carUploader">
           <h3>
             <Link to={`/users/${car.userId}`}>
-              <div className="car__user">{carUser.username}</div>
+              <div className="car__user">
+                {carUser && carUser.firstName + " " + carUser && carUser.lastName}
+              </div>
             </Link>
           </h3>
 
@@ -79,19 +82,16 @@ console.log('user====>>>>', car)
       </div>
 
       <div className="likedcarInfo">
-      <img
-                        src="https://localhost:5001/api/CarImages/image/get?imageName=C:\Users\casescally\source\repos\Tuned\Tuned\Tuned\wwwroot\Upload\Thumbs-Up-Icon-red.png"
-                        className="likeButton"
-                        value="Like"
-                        onClick={(evt) => {
-                            
-                            evt.preventDefault();
+        <img
+          src="https://localhost:5001/api/CarImages/image/get?imageName=C:\Users\casescally\source\repos\Tuned\Tuned\Tuned\wwwroot\Upload\Thumbs-Up-Icon-red.png"
+          className="likeButton"
+          value="Like"
+          onClick={(evt) => {
+            evt.preventDefault();
 
-                            constructNewLikedCar(car);
-                        }}
-                    />
-                        
-                
+            constructNewLikedCar(car);
+          }}
+        />
       </div>
 
       <div className="uploaderInfo">{carUser.username}</div>

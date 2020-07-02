@@ -18,7 +18,8 @@ export default (props) => {
     const chosenCarId = parseInt(props.match.params.carId, 10);
     const user = getUser();
     const car = cars.find((c) => c.id === chosenCarId) || {};
-    const carUser = users.find((u) => u.id === car.applicationUserId) || {};
+    const carUser = car && users.find((u) => u.id === car.applicationUserId);
+    console.log('caruu==>>>', carUser, 'carr==>>>', car);
     let numberOflikes = likedCars.filter(
         (likedCar) => likedCar.carId === chosenCarId
     ).length;
@@ -61,6 +62,7 @@ export default (props) => {
     }, [car]);
 
 
+
     return (
         <section className="car top-space">
             {car.id && (
@@ -96,27 +98,28 @@ export default (props) => {
                         className="likeButton"
                         value="Like"
                         onClick={(evt) => {
-                            
+
                             evt.preventDefault();
 
                             constructNewLikedCar(car);
                         }}
                     >
-                        
+
                     </img>
 
                     <div className="car__user">
-                        User: {carUser.firstName + " " + carUser.lastName}
+                        User: {carUser && carUser.firstName + ' ' + carUser && carUser.lastName}
                     </div>
 
                     <button
                         className="delete_button"
                         onClick={() => {
                             if (car.applicationUserId == user.id) {
-                            deleteCar(car).then(() => {
-                                props.history.push("/cars");
-                            });
-                        }}}
+                                deleteCar(car).then(() => {
+                                    props.history.push("/cars");
+                                });
+                            }
+                        }}
                     >
                         Delete Car
           </button>
@@ -125,8 +128,9 @@ export default (props) => {
                         className="edit_button"
                         onClick={() => {
                             if (car.applicationUserId == user.id) {
-                            props.history.push(`/cars/edit/${car.id}`);
-                        }}}
+                                props.history.push(`/cars/edit/${car.id}`);
+                            }
+                        }}
                     >
                         Edit
           </button>

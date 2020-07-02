@@ -8,7 +8,7 @@ export default ({ UserCard }) => {
 
     const { users } = useContext(UserContext)
     const user = getUser()
-    const currentEventUser = users.find(singleUser => singleUser.id == user.id)
+    const currentEventUser = users.find(singleUser => singleUser.id == user.applicationUserId)
 
 
     return (

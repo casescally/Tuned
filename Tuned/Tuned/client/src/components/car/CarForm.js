@@ -54,7 +54,7 @@ export default (props) => {
       let carPageCoverUrl = JSON.parse(car.carPageCoverUrl);
       if (!carPageCoverUrl.length) carPageCoverUrl = [existingImgs[0]];
       if (carCoverImage.length === 0) {
-        setCarCoverImage(existingImgs[0]);
+        updateCarsCoverImage(existingImgs[0]);
       }
 
       updateCar({
@@ -75,22 +75,27 @@ export default (props) => {
       //   existingCoverImg = existingCoverImg.concat(coverFilePath);
       // }
       let filePaths = [];
-      let coverIMG = ['https://localhost:5001/api/CarImages/image/get?imageName=C:\Users\casescally\source\repos\Tuned\Tuned\Tuned\wwwroot\Upload\TunedLogo.jpeg']
+      let coverIMG = [
+        "https://localhost:5001/api/CarImages/image/get?imageName=C:Userscasescallysource\reposTunedTunedTunedwwwrootUploadTunedLogo.jpeg",
+      ];
       if (newCarsFiles.length) {
-        filePaths = JSON.parse(await saveImages(newCarsFiles));
-        coverIMG = filePaths[0]
+        console.log("before uploadd upp===>>>", newCarsFiles);
+        const uploadedCarImages = await saveImages(newCarsFiles);
+        filePaths = JSON.parse(uploadedCarImages);
+        coverIMG = filePaths[0];
+        console.log("upp==>>>>>", JSON.stringify(filePaths));
       }
 
-    //   let coverImgPath = [];
-    //   if (!carCoverImage.length) {
-    //     coverImgPath = filePaths[0]
-    //     console.log('COVER=====>>>>', coverImgPath)
-    //   }
-    //   let carCover = [filePaths[0]]
-    //   if (carCoverImage.length) {
-    //   carCover = JSON.parse(await saveImages(carCoverImage));     
-    //      console.log('COVER=====>>>>', carCover)     
-    //   }
+      //   let coverImgPath = [];
+      //   if (!carCoverImage.length) {
+      //     coverImgPath = filePaths[0]
+      //     console.log('COVER=====>>>>', coverImgPath)
+      //   }
+      //   let carCover = [filePaths[0]]
+      //   if (carCoverImage.length) {
+      //   carCover = JSON.parse(await saveImages(carCoverImage));
+      //      console.log('COVER=====>>>>', carCover)
+      //   }
 
       addCar({
         name: car.name,
@@ -113,15 +118,14 @@ export default (props) => {
   }, [car.imageFileNames]);
 
   const updateCarsCoverImage = (image) => {
-
     setCarCoverImage(image);
-
   };
-    console.log("Set Cover Image", carCoverImage);
+  console.log("Set Cover Image", carCoverImage);
   const handleAddImages = (files) => {
+    console.log("heyyup==>>>", files);
     const newImgs = files.map((file) => URL.createObjectURL(file));
     setCarImages([...newImgs, ...carImages]);
-    setNewCarsFiles(files.concat(setNewCarsFiles));
+    setNewCarsFiles(files.concat(newCarsFiles));
   };
 
   const handleRemoveImage = (index) => {
@@ -233,7 +237,7 @@ export default (props) => {
           </select>
         </div>
       </fieldset>
-      <div class="divider div-transparent"></div>
+      <div className="divider div-transparent"></div>
       <ThumbnailGallery
         editMode
         images={carImages}
@@ -242,7 +246,7 @@ export default (props) => {
         setCarImages={setCarImages}
         updateCarsCoverImage={updateCarsCoverImage}
       />
-      <div class="divider div-transparent"></div>
+      <div className="divider div-transparent"></div>
       <fieldset>
         <div className="form-group" id="carDescription">
           <label htmlFor="carDescription">Description: </label>
