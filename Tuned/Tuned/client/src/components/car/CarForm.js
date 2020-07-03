@@ -44,25 +44,37 @@ export default (props) => {
   const constructNewCar = async () => {
     if (editMode) {
       //Filter the car images that are not blob data
-      let existingImgs = carImages.filter((car) => !car.startsWith("blob"));
 
+      let existingImgs = carImages.filter((car) => !car.startsWith("blob"));
+      let carPageCoverUrl = JSON.parse(car.carPageCoverUrl);
+      let existingCoverImg = carPageCoverUrl.filter(
+        (coverImg) => coverImg && coverImg.toString().startsWith("blob")
+      );
+      //let existingCoverImg = carPageCoverUrl
       if (newCarsFiles.length) {
         const filePaths = JSON.parse(await saveImages(newCarsFiles));
         existingImgs = existingImgs.concat(filePaths);
       }
 
-      let carPageCoverUrl = JSON.parse(car.carPageCoverUrl);
-      if (!carPageCoverUrl.length) carPageCoverUrl = [existingImgs[0]];
-      if (carCoverImage.length === 0) {
-        updateCarsCoverImage(existingImgs[0]);
+      if (existingCoverImg) {
+        const carCoverImage = JSON.parse(await saveImages(existingCoverImg));
+        existingCoverImg = carCoverImage;
       }
+
+      //if (!carPageCoverUrl.length) carPageCoverUrl = [existingImgs[0]];
+
+      //   if (carCoverImage.length === 0) {
+
+      //     updateCarsCoverImage(existingImgs[0]);
+
+      //   }
 
       updateCar({
         ...car,
         vehicleTypeId: parseInt(car.vehicleTypeId),
         year: parseInt(car.year),
         applicationUserId: user.id,
-        carPageCoverUrl: JSON.stringify([carCoverImage]),
+        carPageCoverUrl: JSON.stringify(carCoverImage),
         imageFileNames: JSON.stringify(existingImgs),
       }).then(() => {
         props.history.push("/cars");
@@ -117,10 +129,25 @@ export default (props) => {
     if (images) setCarImages(JSON.parse(images));
   }, [car.imageFileNames]);
 
-  const updateCarsCoverImage = (image) => {
-    setCarCoverImage(image);
+  const updateCarsCoverImage = async (file) => {
+    let blob = new Blob([file], {
+      type: "image/jpeg",
+    });
+
+    let newCoverImg = URL.createObjectURL(blob);
+    //    console.log("Cover Image=============>>>>>>", image);
+    // const newCoverImgThing = URL.createObjectURL(image)
+    // //const newCoverImg = new MediaStream;
+    // //newCoverImg.srcObject = newCoverImgThing
+    debugger;
+    if (newCoverImg) {
+newCoverImg = await saveImages(newCoverImg);
+
+    }
+    
+    setCarCoverImage(newCoverImg);
   };
-  console.log("Set Cover Image", carCoverImage);
+
   const handleAddImages = (files) => {
     console.log("heyyup==>>>", files);
     const newImgs = files.map((file) => URL.createObjectURL(file));
@@ -246,7 +273,6 @@ export default (props) => {
         setCarImages={setCarImages}
         updateCarsCoverImage={updateCarsCoverImage}
       />
-      <div className="divider div-transparent"></div>
       <fieldset>
         <div className="form-group" id="carDescription">
           <label htmlFor="carDescription">Description: </label>
@@ -264,6 +290,7 @@ export default (props) => {
         id="addCarButton"
         onClick={(evt) => {
           evt.preventDefault();
+          //console.log(carCoverImage)
           constructNewCar();
         }}
         className="btn btn-primary"

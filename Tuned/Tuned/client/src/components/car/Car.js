@@ -70,7 +70,7 @@ export default ({ car }) => {
           <h3>
             <Link to={`/users/${car.userId}`}>
               <div className="car__user">
-                {carUser && carUser.firstName + " " + carUser && carUser.lastName}
+                {carUser && carUser.firstName} {carUser && carUser.lastName}
               </div>
             </Link>
           </h3>

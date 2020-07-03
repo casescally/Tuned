@@ -19,7 +19,9 @@ const ThumbnailGrid = ({ thumbnails, handleClick, editMode, handleRemoveImage })
                 })
 
             }
+            <div className="divider div-transparent"></div>
         </div>
+        
     )
 }
 

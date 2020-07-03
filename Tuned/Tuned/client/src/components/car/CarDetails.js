@@ -108,7 +108,7 @@ export default (props) => {
                     </img>
 
                     <div className="car__user">
-                        User: {carUser && carUser.firstName + ' ' + carUser && carUser.lastName}
+                        User: {carUser && carUser.firstName} {carUser && carUser.lastName}
                     </div>
 
                     <button

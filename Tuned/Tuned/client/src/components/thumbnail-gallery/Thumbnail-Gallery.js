@@ -25,8 +25,10 @@ export default class ThumbnailGallery extends Component {
           <section>
             <button
               type="button"
-              onClick={() => updateCarsCoverImage(images[activeIndex])}
-            >
+              onClick={() =>{
+                console.log(images[activeIndex])
+                 updateCarsCoverImage(images[activeIndex])}
+              }>
               Set Cover Image
             </button>
             <div {...getRootProps()}>

@@ -78,7 +78,7 @@ const EventDetails = (props) => {
     }
   }, [event]);
 
-  //console.log('event==>>', event)
+  console.log('eventUUUU==>>', currentEventUsers)
 
   const onMarkerClick = () => {};
 
