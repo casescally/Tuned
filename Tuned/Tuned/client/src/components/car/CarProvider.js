@@ -56,6 +56,26 @@ export const CarProvider = (props) => {
         return response.text();
     }
 
+    const saveImage = async (file) => {
+        const authHeader = createAuthHeaders();
+        const formData = new FormData();
+        if (file) {
+            formData.append(file.name, file); 
+        }
+
+        const response = await fetch('https://localhost:5001/api/cars/files', {
+
+            // content-type header should not be specified!
+            method: 'POST',
+            headers: {
+                authHeader,
+            },
+            body: formData,
+            responseType: 'text'
+        });
+        return response.text();
+    }
+
     const addCar = car => {
 
         const authHeader = createAuthHeaders();
@@ -146,7 +166,7 @@ export const CarProvider = (props) => {
 
         <CarContext.Provider value={{
 
-            cars, addCar, deleteCar, updateCar, saveImages
+            cars, addCar, deleteCar, updateCar, saveImages, saveImage
 
         }}>
 

@@ -15,7 +15,7 @@ export default class ThumbnailGallery extends Component {
       images,
       editMode,
       handleAddImages,
-      updateCarsCoverImage,
+      updateCarsCoverImage
     } = this.props;
     //console.log(images[activeIndex])
 
@@ -23,19 +23,19 @@ export default class ThumbnailGallery extends Component {
       <Dropzone onDrop={handleAddImages}>
         {({ getRootProps, getInputProps }) => (
           <section>
-            <button
+            {/* <button
               type="button"
               onClick={() =>{
                 console.log(images[activeIndex])
                  updateCarsCoverImage(images[activeIndex])}
               }>
               Set Cover Image
-            </button>
+            </button> */}
             <div {...getRootProps()}>
               <input {...getInputProps()} />
 
               {images.length ? (
-                <ActiveThumbnailWindow activeThumbnail={images[activeIndex]} />
+                <ActiveThumbnailWindow activeThumbnail={images[activeIndex]} onChange={updateCarsCoverImage(images[activeIndex])} />
               ) : (
                 <div>
                   <p>Drop the files here ...</p> :
@@ -54,8 +54,11 @@ export default class ThumbnailGallery extends Component {
   };
 
   handleClick = (activeIndex) => {
+    
     this.setState({ activeIndex });
+
   };
+
 
   render() {
     const { images, handleRemoveImage, editMode } = this.props;
